@@ -7,7 +7,7 @@ import android.widget.EditText
 import suhockii.rxmusic.R
 import suhockii.rxmusic.business.vk.auth.AuthInteractorImpl
 
-class MainActivity : AppCompatActivity() {
+class StartActivity : AppCompatActivity() {
 
     private val authInteractor = AuthInteractorImpl()
 

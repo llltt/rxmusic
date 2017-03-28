@@ -29,5 +29,5 @@ internal interface AuthApi {
               @Query("grant_type") grantType: String,
               @Query("libverify_support") libverifySupport: String,
               @Query("username") username: String,
-              @Query("password") password: String): Single<Any>
+              @Query("password") password: String): Single<String>
 }

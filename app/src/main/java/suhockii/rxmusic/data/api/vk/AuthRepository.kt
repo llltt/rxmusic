@@ -6,5 +6,5 @@ import io.reactivex.Single
 
 interface AuthRepository {
     fun login(username: String,
-              password: String): Single<Any>
+              password: String): Single<String>
 }

@@ -32,13 +32,11 @@ class AuthRepositoryImpl : AuthRepository {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(OkHttpClient())
                 .build()
-
         token = retrofit.create(AuthApi::class.java)
         return retrofit
-
     }
 
-    override fun login(username: String, password: String): Single<Any> {
+    override fun login(username: String, password: String): Single<String> {
         return token.token(
                 SCOPE,
                 CLIENT_ID,

@@ -1,5 +1,5 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -15,7 +15,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
 }
@@ -29,21 +29,21 @@ dependencies {
 
     compile "io.reactivex.rxjava2:rxandroid:$rxjava"
     compile "io.reactivex.rxjava2:rxjava:$rxjava"
+    compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
     compile "com.tbruyelle.rxpermissions2:rxpermissions:$rxPermissionsVersion@aar"
 
-    compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
-
+    compile "com.android.support:support-v4:$supportVersion"
+    compile "com.android.support:appcompat-v7:$supportVersion"
     compile "com.android.support:appcompat-v7:$supportVersion"
     compile "com.android.support:recyclerview-v7:$supportVersion"
-    compile "com.android.support:support-v4:$supportVersion"
+    compile "com.android.support.constraint:constraint-layout:1.0.2"
 
+    compile "com.arello-mobile:moxy:$moxyVersion"
+    compile "com.arello-mobile:moxy-android:$moxyVersion"
+    compile "com.arello-mobile:moxy-app-compat:$moxyVersion"
+    annotationProcessor "com.arello-mobile:moxy-compiler:$moxyVersion"
+    kapt "com.arello-mobile:moxy-compiler:$moxyVersion"
 
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.arello-mobile:moxy:1.4.6'
-    compile 'com.arello-mobile:moxy-android:1.4.6'
-    compile 'com.arello-mobile:moxy-app-compat:1.4.6'
-    annotationProcessor 'com.arello-mobile:moxy-compiler:1.4.6'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    kapt 'com.arello-mobile:moxy-compiler:1.4.6'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile "com.github.liuguangqiang.swipeback:library:1.0.2@aar"
+    debugCompile "com.squareup.leakcanary:leakcanary-android:1.5"
 }
