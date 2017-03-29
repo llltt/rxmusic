@@ -1,4 +1,4 @@
-package suhockii.rxmusic.data.api.vk.errors
+package suhockii.rxmusic.data.repositories.auth.errors
 
 import com.google.gson.Gson
 import retrofit2.HttpException

@@ -1,4 +1,4 @@
-package suhockii.rxmusic.data.api.vk.errors
+package suhockii.rxmusic.data.repositories.auth.errors
 
 import io.reactivex.functions.Consumer
 

@@ -28,6 +28,5 @@ class StartActivity : AppCompatActivity() {
                     }
                     )
         }
-
     }
 }

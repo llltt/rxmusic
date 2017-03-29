@@ -1,4 +1,4 @@
-package suhockii.rxmusic.data.api.vk
+package suhockii.rxmusic.data.repositories.auth
 
 import io.reactivex.Single
 import retrofit2.http.GET
@@ -10,7 +10,6 @@ internal interface AuthApi {
 
     companion object {
         const val URL = "https://oauth.vk.com/"
-
         const val SCOPE = "nohttps,all"
         const val CLIENT_ID = "2274003"
         const val CLIENT_SECRET = "hHbZxrka2uZ6jB1inYsH"

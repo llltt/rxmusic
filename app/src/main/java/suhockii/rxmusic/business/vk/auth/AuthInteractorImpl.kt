@@ -3,8 +3,8 @@ package suhockii.rxmusic.business.vk.auth
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import suhockii.rxmusic.data.api.vk.AuthRepository
-import suhockii.rxmusic.data.api.vk.AuthRepositoryImpl
+import suhockii.rxmusic.data.repositories.auth.AuthRepository
+import suhockii.rxmusic.data.repositories.auth.AuthRepositoryImpl
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/
 class AuthInteractorImpl : AuthInteractor {

@@ -1,4 +1,4 @@
-package suhockii.rxmusic.data.api.vk
+package suhockii.rxmusic.data.repositories.auth
 
 import io.reactivex.Single
 
