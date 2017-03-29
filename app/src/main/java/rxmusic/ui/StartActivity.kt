@@ -13,7 +13,7 @@ class StartActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_start)
         val usernameEditText = findViewById(R.id.usernameEditText) as EditText
         val passwordEditText = findViewById(R.id.passwordEditText) as EditText
         val loginButton = findViewById(R.id.loginButton) as Button
