@@ -7,7 +7,7 @@ import java.io.IOException
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/
 
-class RetrofitException private constructor(message: String, val response: Response<*>?, val kind: RetrofitException.Kind, exception: Throwable) : RuntimeException(message, exception) {
+class RetrofitException private constructor(message: String, val response: Response<*>?, val kind: Kind, exception: Throwable) : RuntimeException(message, exception) {
 
     val serverError: ErrorsResponse?
         get() {
