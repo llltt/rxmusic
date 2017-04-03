@@ -1,32 +1,34 @@
 package suhockii.rxmusic.ui
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.widget.Button
-import android.widget.EditText
+import android.support.design.widget.Snackbar
+import com.arellomobile.mvp.MvpAppCompatActivity
+import com.arellomobile.mvp.presenter.InjectPresenter
+import kotlinx.android.synthetic.main.activity_start.*
 import suhockii.rxmusic.R
-import suhockii.rxmusic.business.vk.auth.AuthInteractorImpl
+import suhockii.rxmusic.extension.onClick
 
-class StartActivity : AppCompatActivity() {
+class StartActivity : MvpAppCompatActivity(), StartView {
 
-    private val authInteractor = AuthInteractorImpl()
+    @InjectPresenter
+    lateinit var presenter: StartPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
-        val usernameEditText = findViewById(R.id.usernameEditText) as EditText
-        val passwordEditText = findViewById(R.id.passwordEditText) as EditText
-        val loginButton = findViewById(R.id.loginButton) as Button
-        loginButton.setOnClickListener {
-            authInteractor
-                    .login(usernameEditText.text.toString(), passwordEditText.text.toString())
-                    .subscribe(
-                            {
-                                it
-                            }, {
-                        it.printStackTrace()
-                    }
-                    )
+
+        loginButton.onClick {
+            presenter.login(usernameEditText.text.toString(), passwordEditText.text.toString())
         }
+    }
+
+    override fun showSnackbar(text: String) {
+        Snackbar.make(startLayout, text, Snackbar.LENGTH_LONG)
+                .setAction("Очистить", { presenter.clean() })
+                .show()
+    }
+
+    override fun clean() {
+        passwordEditText.text.clear()
     }
 }

@@ -3,6 +3,7 @@ package suhockii.rxmusic.data.repositories.auth
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
+import suhockii.rxmusic.data.repositories.auth.models.Auth
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/
 
@@ -28,5 +29,5 @@ internal interface AuthApi {
               @Query("grant_type") grantType: String,
               @Query("libverify_support") libverifySupport: String,
               @Query("username") username: String,
-              @Query("password") password: String): Single<String>
+              @Query("password") password: String): Single<Auth>
 }

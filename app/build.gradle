@@ -1,5 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -27,22 +28,22 @@ dependencies {
     compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     compile "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
-    compile "io.reactivex.rxjava2:rxandroid:$rxjava"
     compile "io.reactivex.rxjava2:rxjava:$rxjava"
+    compile "io.reactivex.rxjava2:rxandroid:$rxjava"
     compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
     compile "com.tbruyelle.rxpermissions2:rxpermissions:$rxPermissionsVersion@aar"
 
     compile "com.android.support:support-v4:$supportVersion"
     compile "com.android.support:appcompat-v7:$supportVersion"
-    compile "com.android.support:appcompat-v7:$supportVersion"
     compile "com.android.support:recyclerview-v7:$supportVersion"
+    compile "com.android.support:design:$supportVersion"
     compile "com.android.support.constraint:constraint-layout:1.0.2"
 
     compile "com.arello-mobile:moxy:$moxyVersion"
     compile "com.arello-mobile:moxy-android:$moxyVersion"
     compile "com.arello-mobile:moxy-app-compat:$moxyVersion"
-    annotationProcessor "com.arello-mobile:moxy-compiler:$moxyVersion"
     kapt "com.arello-mobile:moxy-compiler:$moxyVersion"
+    annotationProcessor "com.arello-mobile:moxy-compiler:$moxyVersion"
 
     compile "com.facebook.stetho:stetho:$stethoVersion"
     compile "com.facebook.stetho:stetho-okhttp3:$stethoVersion"

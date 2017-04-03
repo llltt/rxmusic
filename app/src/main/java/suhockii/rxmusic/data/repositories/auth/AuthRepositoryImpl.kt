@@ -17,6 +17,7 @@ import suhockii.rxmusic.data.repositories.auth.AuthApi.Companion.LANG
 import suhockii.rxmusic.data.repositories.auth.AuthApi.Companion.LIBVERIFY_SUPPORT
 import suhockii.rxmusic.data.repositories.auth.AuthApi.Companion.SCOPE
 import suhockii.rxmusic.data.repositories.auth.AuthApi.Companion.TWO_FA_SUPPORTED
+import suhockii.rxmusic.data.repositories.auth.models.Auth
 import java.io.IOException
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/
@@ -57,7 +58,7 @@ class AuthRepositoryImpl : AuthRepository {
         return httpLoggingInterceptor
     }
 
-    override fun login(username: String, password: String): Single<String> {
+    override fun login(username: String, password: String): Single<Auth> {
         return token.token(
                 SCOPE,
                 CLIENT_ID,
