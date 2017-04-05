@@ -1,5 +1,6 @@
 package suhockii.rxmusic.data.repositories.auth
 
+import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -8,17 +9,6 @@ import suhockii.rxmusic.data.repositories.auth.models.Auth
 /** Created by Maksim Sukhotski on 3/27/2017.*/
 
 internal interface AuthApi {
-
-    companion object {
-        const val URL = "https://oauth.vk.com/"
-        const val SCOPE = "nohttps,all"
-        const val CLIENT_ID = "2274003"
-        const val CLIENT_SECRET = "hHbZxrka2uZ6jB1inYsH"
-        const val TWO_FA_SUPPORTED = "1"
-        const val LANG = "ru"
-        const val GRANT_TYPE = "password"
-        const val LIBVERIFY_SUPPORT = "1"
-    }
 
     @GET("token")
     fun token(@Query("scope") scope: String,
@@ -29,5 +19,15 @@ internal interface AuthApi {
               @Query("grant_type") grantType: String,
               @Query("libverify_support") libverifySupport: String,
               @Query("username") username: String,
-              @Query("password") password: String): Single<Auth>
+              @Query("password") password: String,
+              @Query("captcha_sid") captcha_sid: String?,
+              @Query("captcha_key") captcha: String?,
+              @Query("code") code: String?): Single<Auth>
+
+    @GET("auth.validatePhone")
+    fun validatePhone(@Query("v") v: String,
+                      @Query("lang") lang: String,
+                      @Query("https") https: String,
+                      @Query("sid") sid: String,
+                      @Query("api_id") api_id: String): Completable
 }

@@ -45,8 +45,10 @@ dependencies {
     kapt "com.arello-mobile:moxy-compiler:$moxyVersion"
     annotationProcessor "com.arello-mobile:moxy-compiler:$moxyVersion"
 
+    compile "com.github.liuguangqiang.swipeback:library:1.0.2@aar"
+    compile "com.github.bumptech.glide:glide:3.7.0"
+
     compile "com.facebook.stetho:stetho:$stethoVersion"
     compile "com.facebook.stetho:stetho-okhttp3:$stethoVersion"
-    compile "com.github.liuguangqiang.swipeback:library:1.0.2@aar"
     debugCompile "com.squareup.leakcanary:leakcanary-android:1.5"
 }

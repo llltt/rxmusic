@@ -1,5 +1,6 @@
 package suhockii.rxmusic.data.repositories.auth
 
+import io.reactivex.Completable
 import io.reactivex.Single
 import suhockii.rxmusic.data.repositories.auth.models.Auth
 
@@ -7,5 +8,10 @@ import suhockii.rxmusic.data.repositories.auth.models.Auth
 
 interface AuthRepository {
     fun login(username: String,
-              password: String): Single<Auth>
+              password: String,
+              captchaSid: String?,
+              captchaKey: String?,
+              code: String?): Single<Auth>
+
+    fun validatePhone(sid: String): Completable
 }
