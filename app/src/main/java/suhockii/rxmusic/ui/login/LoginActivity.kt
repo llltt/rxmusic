@@ -6,7 +6,7 @@ import android.view.View
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.activity_start.*
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.part_captcha.*
 import kotlinx.android.synthetic.main.part_login.*
 import kotlinx.android.synthetic.main.part_validate.*
@@ -22,7 +22,7 @@ class LoginActivity : MvpAppCompatActivity(), LoginView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_start)
+        setContentView(R.layout.activity_login)
         loginButton.onClick {
             presenter.login(usernameEditText.text.toString(), passwordEditText.text.toString())
         }

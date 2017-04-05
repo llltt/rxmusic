@@ -13,11 +13,12 @@ buildscript {
         moxyVersion = "1.4.6"
         stethoVersion = "1.4.2"
     }
+
     repositories {
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:2.3.0"
+        classpath 'com.android.tools.build:gradle:2.3.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
     }
@@ -32,3 +33,6 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+apply from: rootProject.file('dependencies.gradle')
+

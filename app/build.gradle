@@ -22,33 +22,26 @@ android {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-
-    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
-
-    compile "io.reactivex.rxjava2:rxjava:$rxjava"
-    compile "io.reactivex.rxjava2:rxandroid:$rxjava"
-    compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
-    compile "com.tbruyelle.rxpermissions2:rxpermissions:$rxPermissionsVersion@aar"
-
-    compile "com.android.support:support-v4:$supportVersion"
-    compile "com.android.support:appcompat-v7:$supportVersion"
-    compile "com.android.support:recyclerview-v7:$supportVersion"
-    compile "com.android.support:design:$supportVersion"
-    compile "com.android.support.constraint:constraint-layout:1.0.2"
-
-    compile "com.arello-mobile:moxy:$moxyVersion"
-    compile "com.arello-mobile:moxy-android:$moxyVersion"
-    compile "com.arello-mobile:moxy-app-compat:$moxyVersion"
-    kapt "com.arello-mobile:moxy-compiler:$moxyVersion"
-    annotationProcessor "com.arello-mobile:moxy-compiler:$moxyVersion"
-
-    compile "com.github.liuguangqiang.swipeback:library:1.0.2@aar"
-    compile "com.github.bumptech.glide:glide:3.7.0"
-
-    compile "com.facebook.stetho:stetho:$stethoVersion"
-    compile "com.facebook.stetho:stetho-okhttp3:$stethoVersion"
-    debugCompile "com.squareup.leakcanary:leakcanary-android:1.5"
+    compile rootProject.ext.kotlin
+    compile rootProject.ext.rxJava
+    compile rootProject.ext.rxAndroid
+    compile rootProject.ext.rxJavaAdapter
+    compile rootProject.ext.rxPermissions
+    compile rootProject.ext.retrofit
+    compile rootProject.ext.gsonConverter
+    compile rootProject.ext.moxy
+    compile rootProject.ext.moxyAndroid
+    compile rootProject.ext.moxyAppcompat
+    compile rootProject.ext.moxyCompiler
+    compile rootProject.ext.appcompat
+    compile rootProject.ext.recyclerview
+    compile rootProject.ext.support
+    compile rootProject.ext.design
+    compile rootProject.ext.constraint
+    compile rootProject.ext.glide
+    debugCompile rootProject.ext.stetho
+    debugCompile rootProject.ext.stethoOkhttp
+    debugCompile rootProject.ext.leakcanary
+    kapt rootProject.ext.moxyCompiler
+    annotationProcessor rootProject.ext.moxyCompiler
 }

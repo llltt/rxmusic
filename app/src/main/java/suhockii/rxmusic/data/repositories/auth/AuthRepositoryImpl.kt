@@ -4,8 +4,6 @@ import com.facebook.stetho.okhttp3.StethoInterceptor
 import io.reactivex.Completable
 import io.reactivex.Single
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import org.jetbrains.annotations.NotNull
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -43,8 +41,6 @@ class AuthRepositoryImpl : AuthRepository {
 
     private fun createHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
-//                .addInterceptor(HeaderInterceptor())
-                .addInterceptor(createHttpLoggingInterceptor())
                 .addNetworkInterceptor(StethoInterceptor())
                 .build()
     }
@@ -58,13 +54,6 @@ class AuthRepositoryImpl : AuthRepository {
                 .client(createHttpClient())
                 .build()
                 .create(AuthApi::class.java)
-    }
-
-    @NotNull
-    private fun createHttpLoggingInterceptor(): HttpLoggingInterceptor {
-        val httpLoggingInterceptor = HttpLoggingInterceptor()
-        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        return httpLoggingInterceptor
     }
 
     override fun login(username: String, password: String, captchaSid: String?, captchaKey: String?, code: String?): Single<Auth> {
@@ -88,17 +77,4 @@ class AuthRepositoryImpl : AuthRepository {
         changeApiBaseUrl(API_URL)
         return api.validatePhone(V, LANG, HTTPS, sid, CLIENT_ID)
     }
-//    internal class HeaderInterceptor : Interceptor {
-//        @Throws(IOException::class)
-//        override fun intercept(chain: Interceptor.Chain): Response {
-//            var request = chain.request()
-////            if (PreferencesRepository.TOKEN.isNotEmpty()) {
-////                request = request.newBuilder()
-////                        .addHeader("Authorization", "Bearer ${PreferencesRepository.TOKEN}")
-////                        .build()
-////            }
-//            val response = chain.proceed(request)
-//            return response
-//        }
-//    }
 }
