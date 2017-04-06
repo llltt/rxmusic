@@ -2,16 +2,34 @@ apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: 'kotlin-android-extensions'
 
-android {
-    compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion rootProject.buildToolsVersion
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+    }
+}
 
+android {
+    compileSdkVersion rootProject.compileSdkV
+    buildToolsVersion rootProject.buildToolsV
+
+    lintOptions {
+        abortOnError true
+        ignore 'UnusedResources'
+    }
     defaultConfig {
         applicationId "suhockii.rxmusic"
-        minSdkVersion rootProject.minSdkVersion
-        targetSdkVersion rootProject.targetSdkVersion
+        minSdkVersion rootProject.minSdkV
+        targetSdkVersion rootProject.targetSdkV
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
     }
     buildTypes {
         release {
@@ -19,29 +37,40 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
 }
 
 dependencies {
-    compile rootProject.ext.kotlin
-    compile rootProject.ext.rxJava
-    compile rootProject.ext.rxAndroid
-    compile rootProject.ext.rxJavaAdapter
-    compile rootProject.ext.rxPermissions
-    compile rootProject.ext.retrofit
-    compile rootProject.ext.gsonConverter
-    compile rootProject.ext.moxy
-    compile rootProject.ext.moxyAndroid
-    compile rootProject.ext.moxyAppcompat
-    compile rootProject.ext.moxyCompiler
-    compile rootProject.ext.appcompat
-    compile rootProject.ext.recyclerview
-    compile rootProject.ext.support
-    compile rootProject.ext.design
-    compile rootProject.ext.constraint
-    compile rootProject.ext.glide
+    kapt rootProject.ext.moxyCompiler
+    kapt rootProject.ext.moxyCompiler
+    kapt rootProject.daggerCompiler
+
+    compile rootProject.kotlin
+    compile rootProject.rxJava
+    compile rootProject.rxAndroid
+    compile rootProject.rxPermissions
+    compile rootProject.rxJavaAdapter
+    compile rootProject.retrofit
+    compile rootProject.gsonConverter
+    compile rootProject.moxy
+    compile rootProject.moxyAndroid
+    compile rootProject.moxyCompiler
+    compile rootProject.moxyAppcompat
+    compile rootProject.conductor
+    compile rootProject.conductorRxLifecycle
+    compile rootProject.conductorSupport
+    compile rootProject.dagger
+
+    compile rootProject.glide
+    compile rootProject.design
+    compile rootProject.support
+    compile rootProject.appcompat
+    compile rootProject.constraint
+    compile rootProject.recyclerview
+
     debugCompile rootProject.ext.stetho
     debugCompile rootProject.ext.stethoOkhttp
     debugCompile rootProject.ext.leakcanary
-    kapt rootProject.ext.moxyCompiler
-    annotationProcessor rootProject.ext.moxyCompiler
 }

@@ -5,7 +5,7 @@
     android:id="@+id/startLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="suhockii.rxmusic.ui.login.LoginActivity">
+    tools:context="suhockii.rxmusic.ui.login.LoginController">
 
     <ScrollView
         android:layout_width="0dp"
@@ -80,12 +80,10 @@
 
             <Button
                 android:id="@+id/loginButton"
-                android:layout_width="320dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:text="Вход"
                 app:layout_constraintLeft_toLeftOf="parent"

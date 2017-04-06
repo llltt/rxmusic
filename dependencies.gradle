@@ -1,40 +1,49 @@
 ext {
-    compileSdkVersion = 25
-    minSdkVersion = 19
-    targetSdkVersion = 23
-    buildToolsVersion = "25.0.2"
-    kotlin_version = "1.1.1"
-    supportVersion = "25.3.1"
-    retrofitVersion = "2.2.0"
-    okhttpVersion = "3.4.1"
+    compileSdkV = 25
+    minSdkV = 19
+    targetSdkV = 23
+    buildToolsV = "25.0.2"
+    kotlin_V = "1.1.1"
+    supportV = "25.3.1"
+    retrofitV = "2.2.0"
+    okhttpV = "3.4.1"
     rxjava = "2.0.1"
-    rxPermissionsVersion = "0.9.2"
-    moxyVersion = "1.4.6"
-    stethoVersion = "1.4.2"
+    rxPermissionsV = "0.9.2"
+    moxyV = "1.4.6"
+    stethoV = "1.4.2"
+    conductorV = "2.1.1"
+    constraintV = "2.1.1"
+    daggerV = "2.10"
+    glideV = "3.7.0"
+    leakcanaryV = "3.7.0"
 
-    //core
-    kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_V"
     rxJava = "io.reactivex.rxjava2:rxjava:$rxjava"
     rxAndroid = "io.reactivex.rxjava2:rxandroid:$rxjava"
-    rxJavaAdapter = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
-    rxPermissions = "com.tbruyelle.rxpermissions2:rxpermissions:$rxPermissionsVersion@aar"
-    retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    gsonConverter = "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    moxy = "com.arello-mobile:moxy:$moxyVersion"
-    moxyAndroid = "com.arello-mobile:moxy-android:$moxyVersion"
-    moxyAppcompat = "com.arello-mobile:moxy-app-compat:$moxyVersion"
-    moxyCompiler = "com.arello-mobile:moxy-compiler:$moxyVersion"
+    rxJavaAdapter = "com.squareup.retrofit2:adapter-rxjava2:$retrofitV"
+    rxPermissions = "com.tbruyelle.rxpermissions2:rxpermissions:$rxPermissionsV@aar"
+    retrofit = "com.squareup.retrofit2:retrofit:$retrofitV"
+    gsonConverter = "com.squareup.retrofit2:converter-gson:$retrofitV"
+    moxy = "com.arello-mobile:moxy:$moxyV"
+    moxyAndroid = "com.arello-mobile:moxy-android:$moxyV"
+    moxyAppcompat = "com.arello-mobile:moxy-app-compat:$moxyV"
+    moxyCompiler = "com.arello-mobile:moxy-compiler:$moxyV"
+    conductor = "com.bluelinelabs:conductor:$conductorV"
+    conductorRxLifecycle = "com.bluelinelabs:conductor-rxlifecycle2:$conductorV"
+    conductorSupport = "com.bluelinelabs:conductor-support:$conductorV"
+    dagger = "com.google.dagger:dagger:$daggerV"
+    daggerCompiler = "com.google.dagger:dagger-compiler:$daggerV"
+    kotterknife = "compile 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'"
 
-    //ui
-    appcompat = "com.android.support:appcompat-v7:$supportVersion"
-    recyclerview = "com.android.support:recyclerview-v7:$supportVersion"
-    support = "com.android.support:support-v4:$supportVersion"
-    design = "com.android.support:design:$supportVersion"
+    appcompat = "com.android.support:appcompat-v7:$supportV"
+    recyclerview = "com.android.support:recyclerview-v7:$supportV"
+    support = "com.android.support:support-v4:$supportV"
+    design = "com.android.support:design:$supportV"
     constraint = "com.android.support.constraint:constraint-layout:1.0.2"
     glide = "com.github.bumptech.glide:glide:3.7.0"
 
     //debug
-    stetho = "com.facebook.stetho:stetho:$stethoVersion"
-    stethoOkhttp = "com.facebook.stetho:stetho-okhttp3:$stethoVersion"
+    stetho = "com.facebook.stetho:stetho:$stethoV"
+    stethoOkhttp = "com.facebook.stetho:stetho-okhttp3:$stethoV"
     leakcanary = "com.squareup.leakcanary:leakcanary-android:1.5"
 }
