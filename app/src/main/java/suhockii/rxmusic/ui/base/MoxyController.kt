@@ -51,7 +51,10 @@ abstract class MoxyController : Controller {
             if (parentController is MoxyController && parentController.getTitle() != null) return
             parentController = parentController.parentController
         }
-        if (getTitle() != null) getActionBar().title = getTitle()
+
+        val title = getTitle()
+        val actionBar = getActionBar()
+        if (title != null) getActionBar().title = title
     }
 
     protected open fun getTitle(): String? {

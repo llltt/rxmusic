@@ -19,6 +19,11 @@ class FlipLayout : FrameLayout, Animation.AnimationListener {
     var view1: View? = null
     var view2: View? = null
 
+    fun showView(view: View) {
+        if (view == view2) thirdViewEnabled = true
+        if (view.visibility != View.VISIBLE) toggleUp()
+    }
+
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         init(context)
     }

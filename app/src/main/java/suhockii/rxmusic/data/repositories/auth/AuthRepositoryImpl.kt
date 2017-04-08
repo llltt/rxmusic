@@ -13,6 +13,8 @@ import suhockii.rxmusic.data.repositories.auth.models.Auth
 
 class AuthRepositoryImpl : AuthRepository {
 
+//    internal val api = Retrofit.build(ApiProfile::class.java)
+
     companion object {
         const val OAUTH_URL = "https://oauth.vk.com/"
         const val API_URL = "https://api.vk.com/method/"
@@ -34,30 +36,12 @@ class AuthRepositoryImpl : AuthRepository {
                 .baseUrl(OAUTH_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(createHttpClient())
-                .build()
-                .create(AuthApi::class.java)
-    }
-
-    private fun createHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder()
-                .addNetworkInterceptor(StethoInterceptor())
-                .build()
-    }
-
-    fun changeApiBaseUrl(url: String) {
-        api = Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(createHttpClient())
+                .client(OkHttpClient.Builder().addNetworkInterceptor(StethoInterceptor()).build())
                 .build()
                 .create(AuthApi::class.java)
     }
 
     override fun login(username: String, password: String, captchaSid: String?, captchaKey: String?, code: String?): Single<Auth> {
-        changeApiBaseUrl(OAUTH_URL)
         return api.token(
                 SCOPE,
                 CLIENT_ID,
@@ -74,7 +58,18 @@ class AuthRepositoryImpl : AuthRepository {
     }
 
     override fun validatePhone(sid: String): Completable {
-        changeApiBaseUrl(API_URL)
-        return api.validatePhone(V, LANG, HTTPS, sid, CLIENT_ID)
+        val validatePhoneApi = Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(OkHttpClient.Builder().addNetworkInterceptor(StethoInterceptor()).build())
+                .build()
+                .create(AuthApi::class.java)
+        return validatePhoneApi.validatePhone(V,
+                LANG,
+                HTTPS,
+                sid,
+                CLIENT_ID)
     }
 }

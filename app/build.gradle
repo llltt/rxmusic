@@ -1,6 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.frogermcs.androiddevmetrics'
 
 buildscript {
     repositories {
@@ -15,21 +16,13 @@ android {
     compileSdkVersion rootProject.compileSdkV
     buildToolsVersion rootProject.buildToolsV
 
-    lintOptions {
-        abortOnError true
-        ignore 'UnusedResources'
-    }
     defaultConfig {
-        applicationId "suhockii.rxmusic"
-        minSdkVersion rootProject.minSdkV
-        targetSdkVersion rootProject.targetSdkV
         versionCode 1
         versionName "1.0"
+        applicationId "suhockii.rxmusic"
         vectorDrawables.useSupportLibrary true
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        minSdkVersion rootProject.minSdkV
+        targetSdkVersion rootProject.targetSdkV
     }
     buildTypes {
         release {
@@ -37,14 +30,25 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    lintOptions {
+        abortOnError true
+        ignore 'UnusedResources'
+    }
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
+    }
+    dexOptions {
+        javaMaxHeapSize "8g"
     }
 }
 
 dependencies {
-    kapt rootProject.ext.moxyCompiler
-    kapt rootProject.ext.moxyCompiler
+    kapt rootProject.moxyCompiler
+    kapt rootProject.moxyCompiler
     kapt rootProject.daggerCompiler
 
     compile rootProject.kotlin
@@ -54,14 +58,14 @@ dependencies {
     compile rootProject.rxJavaAdapter
     compile rootProject.retrofit
     compile rootProject.gsonConverter
+    compile rootProject.dagger
     compile rootProject.moxy
     compile rootProject.moxyAndroid
     compile rootProject.moxyCompiler
     compile rootProject.moxyAppcompat
     compile rootProject.conductor
-    compile rootProject.conductorRxLifecycle
     compile rootProject.conductorSupport
-    compile rootProject.dagger
+    compile rootProject.conductorRxLifecycle
 
     compile rootProject.glide
     compile rootProject.design
@@ -70,7 +74,7 @@ dependencies {
     compile rootProject.constraint
     compile rootProject.recyclerview
 
-    debugCompile rootProject.ext.stetho
-    debugCompile rootProject.ext.stethoOkhttp
-    debugCompile rootProject.ext.leakcanary
+    debugCompile rootProject.stetho
+    debugCompile rootProject.stethoOkhttp
+    debugCompile rootProject.leakcanary
 }

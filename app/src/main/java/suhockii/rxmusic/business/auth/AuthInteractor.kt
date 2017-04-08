@@ -1,4 +1,4 @@
-package suhockii.rxmusic.business.vk.auth
+package suhockii.rxmusic.business.auth
 
 import io.reactivex.Completable
 import io.reactivex.Single

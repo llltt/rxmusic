@@ -8,7 +8,7 @@ interface PreferencesRepository {
         lateinit var SECRET: String internal set
     }
 
-    var access_token: String
+    var accessToken: String
     var secret: String
     fun clear()
 }
