@@ -7,16 +7,16 @@ import org.json.JSONObject
 import retrofit2.HttpException
 import suhockii.rxmusic.App
 import suhockii.rxmusic.business.auth.AuthInteractorImpl
+import suhockii.rxmusic.business.preferences.PreferencesInteractor
 import suhockii.rxmusic.data.repositories.auth.models.Captcha
 import suhockii.rxmusic.data.repositories.auth.models.Validation
-import suhockii.rxmusic.data.repositories.preferences.PreferencesRepository
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 4/1/2017.*/
 @InjectViewState
 class LoginPresenter : MvpPresenter<LoginView>() {
 
-    @Inject lateinit var preferencesRepository: PreferencesRepository
+    @Inject lateinit var preferencesInteractor: PreferencesInteractor
 
     init {
         App.appComponent.inject(this)
@@ -35,8 +35,8 @@ class LoginPresenter : MvpPresenter<LoginView>() {
             authInteractor.login(username, password, captchaSid, captchaKey, code)
                     .subscribe(
                             {
-                                preferencesRepository.accessToken = it.access_token
-                                preferencesRepository.secret = it.secret
+                                preferencesInteractor.saveCredentials(it)
+                                viewState.showNextController()
                             },
                             {
                                 if (it is HttpException) {

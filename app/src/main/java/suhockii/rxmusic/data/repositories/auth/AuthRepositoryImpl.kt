@@ -7,7 +7,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import suhockii.rxmusic.data.repositories.auth.models.Auth
+import suhockii.rxmusic.data.repositories.auth.models.Credentials
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/
 
@@ -41,7 +41,7 @@ class AuthRepositoryImpl : AuthRepository {
                 .create(AuthApi::class.java)
     }
 
-    override fun login(username: String, password: String, captchaSid: String?, captchaKey: String?, code: String?): Single<Auth> {
+    override fun login(username: String, password: String, captchaSid: String?, captchaKey: String?, code: String?): Single<Credentials> {
         return api.token(
                 SCOPE,
                 CLIENT_ID,

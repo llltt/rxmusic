@@ -4,7 +4,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
-import suhockii.rxmusic.data.repositories.auth.models.Auth
+import suhockii.rxmusic.data.repositories.auth.models.Credentials
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/
 
@@ -22,7 +22,7 @@ internal interface AuthApi {
               @Query("password") password: String,
               @Query("captcha_sid") captcha_sid: String?,
               @Query("captcha_key") captcha: String?,
-              @Query("code") code: String?): Single<Auth>
+              @Query("code") code: String?): Single<Credentials>
 
     @GET("auth.validatePhone")
     fun validatePhone(@Query("v") v: String,

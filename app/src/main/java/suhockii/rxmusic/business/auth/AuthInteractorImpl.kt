@@ -6,7 +6,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import suhockii.rxmusic.App
 import suhockii.rxmusic.data.repositories.auth.AuthRepository
-import suhockii.rxmusic.data.repositories.auth.models.Auth
+import suhockii.rxmusic.data.repositories.auth.models.Credentials
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/
@@ -18,7 +18,7 @@ class AuthInteractorImpl : AuthInteractor {
         App.appComponent.inject(this)
     }
 
-    override fun login(username: String, password: String, captchaSid: String?, captchaKey: String?, code: String?): Single<Auth> {
+    override fun login(username: String, password: String, captchaSid: String?, captchaKey: String?, code: String?): Single<Credentials> {
         return repository.login(username, password, captchaSid, captchaKey, code)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

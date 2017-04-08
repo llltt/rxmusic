@@ -6,8 +6,8 @@ import com.frogermcs.androiddevmetrics.AndroidDevMetrics
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
 import suhockii.rxmusic.data.dagger.AppComponent
-import suhockii.rxmusic.data.dagger.AppModule
 import suhockii.rxmusic.data.dagger.DaggerAppComponent
+import suhockii.rxmusic.data.dagger.RepositoriesModule
 
 /** Created by Maksim Sukhotski on 3/25/2017.*/
 
@@ -21,7 +21,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         appComponent = DaggerAppComponent.builder()
-                .appModule(AppModule(this))
+                .repositoriesModule(RepositoriesModule(this))
                 .build()
         if (BuildConfig.DEBUG) {
             AndroidDevMetrics.initWith(this)

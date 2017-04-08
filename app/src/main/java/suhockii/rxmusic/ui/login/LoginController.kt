@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.bluelinelabs.conductor.RouterTransaction
+import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.activity_login.view.*
+import kotlinx.android.synthetic.main.controller_login.view.*
 import kotlinx.android.synthetic.main.part_captcha.view.*
 import kotlinx.android.synthetic.main.part_login.view.*
 import kotlinx.android.synthetic.main.part_validate.view.*
@@ -14,6 +16,7 @@ import suhockii.rxmusic.R
 import suhockii.rxmusic.data.repositories.auth.models.Captcha
 import suhockii.rxmusic.data.repositories.auth.models.Validation
 import suhockii.rxmusic.extension.onClick
+import suhockii.rxmusic.ui.audio.AudioController
 import suhockii.rxmusic.ui.base.MoxyController
 
 
@@ -25,15 +28,13 @@ class LoginController : MoxyController(), LoginView {
     override fun getTitle(): String = "rxmusic"
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View {
-        return inflater.inflate(R.layout.activity_login, container, false)
+        return inflater.inflate(R.layout.controller_login, container, false)
     }
-
 
     override fun onAttach(view: View) {
         super.onAttach(view)
         view.loginButton.onClick {
-            presenter.login(view.usernameEditText.text.toString(),
-                    view.passwordEditText.text.toString())
+            presenter.login(view.usernameEditText.text.toString(), view.passwordEditText.text.toString())
         }
     }
 
@@ -78,5 +79,12 @@ class LoginController : MoxyController(), LoginView {
                         code = validateEditText.text.toString())
             }
         }
+    }
+
+    override fun showNextController() {
+        router.pushController(RouterTransaction.with(AudioController())
+                .pushChangeHandler(HorizontalChangeHandler())
+                .popChangeHandler(HorizontalChangeHandler()))
+//        router.setRoot()
     }
 }
