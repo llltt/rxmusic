@@ -8,5 +8,5 @@ import javax.inject.Inject
 class AudioPresenter : MvpPresenter<AudioView>() {
 
     @Inject lateinit var preferencesInteractor: PreferencesInteractor
-//    @Inject lateinit var preferencesInteractor: PreferencesInteractor
+
 }

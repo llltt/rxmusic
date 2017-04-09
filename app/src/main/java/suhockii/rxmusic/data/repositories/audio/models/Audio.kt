@@ -8,4 +8,5 @@ class Audio(val id: String,
             val duration: String,
             val date: String,
             val url: String,
+            val lyrics_id: String,
             val genre_id: String)

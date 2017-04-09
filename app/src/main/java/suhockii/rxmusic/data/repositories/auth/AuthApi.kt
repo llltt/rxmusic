@@ -10,19 +10,19 @@ import suhockii.rxmusic.data.repositories.auth.models.Credentials
 
 internal interface AuthApi {
 
-    @GET("token")
-    fun token(@Query("scope") scope: String,
-              @Query("client_id") clientId: String,
-              @Query("client_secret") clientSecret: String,
-              @Query("2fa_supported") twoFaSupported: String,
-              @Query("lang") lang: String,
-              @Query("grant_type") grantType: String,
-              @Query("libverify_support") libverifySupport: String,
-              @Query("username") username: String,
-              @Query("password") password: String,
-              @Query("captcha_sid") captcha_sid: String?,
-              @Query("captcha_key") captcha: String?,
-              @Query("code") code: String?): Single<Credentials>
+    @GET("getCredentials")
+    fun getCredentials(@Query("scope") scope: String,
+                       @Query("client_id") clientId: String,
+                       @Query("client_secret") clientSecret: String,
+                       @Query("2fa_supported") twoFaSupported: String,
+                       @Query("lang") lang: String,
+                       @Query("grant_type") grantType: String,
+                       @Query("libverify_support") libverifySupport: String,
+                       @Query("username") username: String,
+                       @Query("password") password: String,
+                       @Query("captcha_sid") captcha_sid: String?,
+                       @Query("captcha_key") captcha: String?,
+                       @Query("code") code: String?): Single<Credentials>
 
     @GET("auth.validatePhone")
     fun validatePhone(@Query("v") v: String,

@@ -7,32 +7,32 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import suhockii.rxmusic.data.net.ConstantFields.Companion.CLIENT_ID
+import suhockii.rxmusic.data.net.ConstantFields.Companion.CLIENT_SECRET
+import suhockii.rxmusic.data.net.ConstantFields.Companion.GRANT_TYPE
+import suhockii.rxmusic.data.net.ConstantFields.Companion.HTTPS
+import suhockii.rxmusic.data.net.ConstantFields.Companion.LANG
+import suhockii.rxmusic.data.net.ConstantFields.Companion.LIBVERIFY_SUPPORT
+import suhockii.rxmusic.data.net.ConstantFields.Companion.SCOPE
+import suhockii.rxmusic.data.net.ConstantFields.Companion.TWO_FA_SUPPORTED
+import suhockii.rxmusic.data.net.ConstantFields.Companion.V
+import suhockii.rxmusic.data.net.RetrofitObject
 import suhockii.rxmusic.data.repositories.auth.models.Credentials
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/
 
 class AuthRepositoryImpl : AuthRepository {
 
-//    internal val api = Retrofit.build(ApiProfile::class.java)
+    internal val api = RetrofitObject.build(AuthApi::class.java)
 
     companion object {
         const val OAUTH_URL = "https://oauth.vk.com/"
-        const val API_URL = "https://api.vk.com/method/"
-        const val V = "5.63"
-        const val SCOPE = "nohttps,all"
-        const val CLIENT_ID = "2274003"
-        const val CLIENT_SECRET = "hHbZxrka2uZ6jB1inYsH"
-        const val TWO_FA_SUPPORTED = "1"
-        const val LANG = "ru"
-        const val GRANT_TYPE = "password"
-        const val LIBVERIFY_SUPPORT = "1"
-        const val HTTPS = "1"
     }
 
-    private var api: AuthApi private set
+    private var authApi: AuthApi private set
 
     init {
-        api = Retrofit.Builder()
+        authApi = Retrofit.Builder()
                 .baseUrl(OAUTH_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -41,8 +41,12 @@ class AuthRepositoryImpl : AuthRepository {
                 .create(AuthApi::class.java)
     }
 
-    override fun login(username: String, password: String, captchaSid: String?, captchaKey: String?, code: String?): Single<Credentials> {
-        return api.token(
+    override fun login(username: String,
+                       password: String,
+                       captchaSid: String?,
+                       captchaKey: String?,
+                       code: String?): Single<Credentials> {
+        return authApi.getCredentials(
                 SCOPE,
                 CLIENT_ID,
                 CLIENT_SECRET,
@@ -58,18 +62,6 @@ class AuthRepositoryImpl : AuthRepository {
     }
 
     override fun validatePhone(sid: String): Completable {
-        val validatePhoneApi = Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(OkHttpClient.Builder().addNetworkInterceptor(StethoInterceptor()).build())
-                .build()
-                .create(AuthApi::class.java)
-        return validatePhoneApi.validatePhone(V,
-                LANG,
-                HTTPS,
-                sid,
-                CLIENT_ID)
+        return api.validatePhone(V, LANG, HTTPS, sid, CLIENT_ID)
     }
 }
