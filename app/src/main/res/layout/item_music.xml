@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/vk_logo" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/durationTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="16dp"
@@ -27,18 +27,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/loadedImageView"
+        android:id="@+id/isLoadedImageView"
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_marginBottom="0dp"
         android:layout_marginRight="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/textView"
+        app:layout_constraintRight_toLeftOf="@+id/durationTextView"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/loaded" />
 
     <TextView
-        android:id="@+id/audioNameTextView"
+        android:id="@+id/titleTextView"
         android:layout_width="0dp"
         android:layout_height="25dp"
         android:layout_marginLeft="16dp"
@@ -49,11 +49,11 @@
         android:maxLines="1"
         android:text="audioNameTextView  audioNameTextView "
         app:layout_constraintLeft_toRightOf="@+id/vizualizerImageView"
-        app:layout_constraintRight_toLeftOf="@+id/loadedImageView"
+        app:layout_constraintRight_toLeftOf="@+id/isLoadedImageView"
         app:layout_constraintTop_toTopOf="@+id/vizualizerImageView" />
 
     <TextView
-        android:id="@+id/audioArtistTextView"
+        android:id="@+id/artistTextView"
         android:layout_width="0dp"
         android:layout_height="25dp"
         android:layout_marginBottom="0dp"
@@ -65,5 +65,5 @@
         android:text="audioArtistTextViewaudioArtistTextView"
         app:layout_constraintBottom_toBottomOf="@+id/vizualizerImageView"
         app:layout_constraintLeft_toRightOf="@+id/vizualizerImageView"
-        app:layout_constraintRight_toLeftOf="@+id/loadedImageView" />
+        app:layout_constraintRight_toLeftOf="@+id/isLoadedImageView" />
 </android.support.constraint.ConstraintLayout>

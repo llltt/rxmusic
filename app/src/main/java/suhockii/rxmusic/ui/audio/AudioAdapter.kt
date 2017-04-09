@@ -8,6 +8,7 @@ import kotlinx.android.synthetic.main.item_music.view.*
 import suhockii.rxmusic.R
 import suhockii.rxmusic.data.repositories.audio.models.Audio
 import suhockii.rxmusic.extension.onClick
+import suhockii.rxmusic.extension.toTime
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
 class AudioAdapter(var items: MutableList<Audio> = arrayListOf(),
@@ -17,9 +18,10 @@ class AudioAdapter(var items: MutableList<Audio> = arrayListOf(),
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val vizualizerImageView = view.vizualizerImageView
-        val audioNameTextView = view.audioNameTextView
-        val audioArtistTextView = view.audioArtistTextView
-        val loadedImageView = view.loadedImageView
+        val titleTextView = view.titleTextView
+        val artistTextView = view.artistTextView
+        val isLoadedImageView = view.isLoadedImageView
+        val durationTextView = view.durationTextView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,8 +32,9 @@ class AudioAdapter(var items: MutableList<Audio> = arrayListOf(),
         val item = items[position]
 
         with(holder) {
-            audioNameTextView.text = item.title
-            audioArtistTextView.text = item.artist
+            titleTextView.text = item.title
+            artistTextView.text = item.artist
+            durationTextView.text = item.duration.toTime()
 //            check.visibility = if (position == pos) View.VISIBLE else View.INVISIBLE
 
             itemView.onClick {

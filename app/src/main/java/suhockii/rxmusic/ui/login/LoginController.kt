@@ -84,9 +84,8 @@ class LoginController : MoxyController(), LoginView {
 
     override fun showNextController() {
         view?.hideKeyboard()
-        router.pushController(RouterTransaction.with(AudioController())
+        router.setRoot(RouterTransaction.with(AudioController())
                 .pushChangeHandler(HorizontalChangeHandler())
                 .popChangeHandler(HorizontalChangeHandler()))
-//        router.setRoot()
     }
 }

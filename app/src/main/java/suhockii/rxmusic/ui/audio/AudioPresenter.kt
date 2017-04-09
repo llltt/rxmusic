@@ -20,15 +20,12 @@ class AudioPresenter : MvpPresenter<AudioView>() {
     }
 
     fun getAudio(ownerId: String = preferencesInteractor.getCredentials().user_id,
-                 count: String = "25",
+                 count: String = "30",
                  offset: String = "0") {
         audioInteractor.getAudio(ownerId, count, offset)
                 .subscribe({
                     viewState.showAudio(it.response)
-                },
-                        {
-
-                        })
+                }, { })
     }
 
     fun playAudio(audio: Audio) {
