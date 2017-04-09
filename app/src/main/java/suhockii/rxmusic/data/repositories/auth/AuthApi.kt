@@ -10,7 +10,7 @@ import suhockii.rxmusic.data.repositories.auth.models.Credentials
 
 internal interface AuthApi {
 
-    @GET("getCredentials")
+    @GET("token")
     fun getCredentials(@Query("scope") scope: String,
                        @Query("client_id") clientId: String,
                        @Query("client_secret") clientSecret: String,

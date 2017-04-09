@@ -2,6 +2,8 @@ package suhockii.rxmusic.data.dagger
 
 import dagger.Module
 import dagger.Provides
+import suhockii.rxmusic.business.audio.AudioInteractor
+import suhockii.rxmusic.business.audio.AudioInteractorImpl
 import suhockii.rxmusic.business.auth.AuthInteractor
 import suhockii.rxmusic.business.auth.AuthInteractorImpl
 import suhockii.rxmusic.business.preferences.PreferencesInteractor
@@ -21,4 +23,9 @@ class InteractorsModule {
         @Provides
         @Singleton
         get() = PreferencesInteractorImpl()
+
+    val audioInteractor: AudioInteractor
+        @Provides
+        @Singleton
+        get() = AudioInteractorImpl()
 }

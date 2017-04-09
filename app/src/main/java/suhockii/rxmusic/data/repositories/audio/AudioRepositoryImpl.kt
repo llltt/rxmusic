@@ -40,6 +40,6 @@ class AudioRepositoryImpl : AudioRepository {
                         "owner_id=$ownerId&" +
                         "count=$count&" +
                         "offset=$offset&" +
-                        "access_token=${repository.credentials.access_token}${repository.credentials.secret})"))
+                        "access_token=${repository.credentials.access_token}${repository.credentials.secret}"))
     }
 }

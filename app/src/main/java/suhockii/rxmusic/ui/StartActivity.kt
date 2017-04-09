@@ -7,8 +7,8 @@ import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import kotlinx.android.synthetic.main.activity_main.*
 import suhockii.rxmusic.R
+import suhockii.rxmusic.ui.audio.AudioController
 import suhockii.rxmusic.ui.base.ActionBarProvider
-import suhockii.rxmusic.ui.login.LoginController
 
 /** Created by Maksim Sukhotski on 4/6/2017. */
 class StartActivity : AppCompatActivity(), ActionBarProvider {
@@ -22,7 +22,7 @@ class StartActivity : AppCompatActivity(), ActionBarProvider {
 
         router = Conductor.attachRouter(this, controllerContainer, savedInstanceState)
         if (!router!!.hasRootController()) {
-            router!!.setRoot(RouterTransaction.with(LoginController()))
+            router!!.setRoot(RouterTransaction.with(AudioController()))
         }
     }
 

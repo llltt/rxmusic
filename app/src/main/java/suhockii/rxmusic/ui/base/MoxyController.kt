@@ -95,4 +95,6 @@ abstract class MoxyController : Controller {
         super.onAttach(view)
         mvpDelegate.onAttach()
     }
+
+
 }

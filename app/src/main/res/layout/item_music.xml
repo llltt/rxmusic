@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/loadedImageView"
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_marginBottom="0dp"
@@ -38,7 +38,7 @@
         app:srcCompat="@drawable/loaded" />
 
     <TextView
-        android:id="@+id/musicNameTextView"
+        android:id="@+id/audioNameTextView"
         android:layout_width="0dp"
         android:layout_height="25dp"
         android:layout_marginLeft="16dp"
@@ -47,13 +47,13 @@
         android:ellipsize="end"
         android:gravity="left|center_vertical"
         android:maxLines="1"
-        android:text="musicNameTextView  musicNameTextView "
+        android:text="audioNameTextView  audioNameTextView "
         app:layout_constraintLeft_toRightOf="@+id/vizualizerImageView"
-        app:layout_constraintRight_toLeftOf="@+id/imageView"
+        app:layout_constraintRight_toLeftOf="@+id/loadedImageView"
         app:layout_constraintTop_toTopOf="@+id/vizualizerImageView" />
 
     <TextView
-        android:id="@+id/musicArtistTextView"
+        android:id="@+id/audioArtistTextView"
         android:layout_width="0dp"
         android:layout_height="25dp"
         android:layout_marginBottom="0dp"
@@ -62,8 +62,8 @@
         android:ellipsize="end"
         android:gravity="left|center_vertical"
         android:maxLines="1"
-        android:text="musicArtistTextViewmusicArtistTextView"
+        android:text="audioArtistTextViewaudioArtistTextView"
         app:layout_constraintBottom_toBottomOf="@+id/vizualizerImageView"
         app:layout_constraintLeft_toRightOf="@+id/vizualizerImageView"
-        app:layout_constraintRight_toLeftOf="@+id/imageView" />
+        app:layout_constraintRight_toLeftOf="@+id/loadedImageView" />
 </android.support.constraint.ConstraintLayout>

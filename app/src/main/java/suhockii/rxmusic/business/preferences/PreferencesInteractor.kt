@@ -7,4 +7,5 @@ interface PreferencesInteractor {
 
     fun saveCredentials(credentials: Credentials)
     fun getCredentials(): Credentials
+    fun isEmpty(): Boolean
 }

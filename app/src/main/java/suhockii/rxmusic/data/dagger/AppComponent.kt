@@ -1,9 +1,11 @@
 package suhockii.rxmusic.data.dagger
 
 import dagger.Component
+import suhockii.rxmusic.business.audio.AudioInteractorImpl
 import suhockii.rxmusic.business.auth.AuthInteractorImpl
 import suhockii.rxmusic.business.preferences.PreferencesInteractorImpl
 import suhockii.rxmusic.data.repositories.audio.AudioRepositoryImpl
+import suhockii.rxmusic.ui.audio.AudioPresenter
 import suhockii.rxmusic.ui.login.LoginPresenter
 import javax.inject.Singleton
 
@@ -14,4 +16,6 @@ import javax.inject.Singleton
     fun inject(c: AuthInteractorImpl)
     fun inject(c: PreferencesInteractorImpl)
     fun inject(c: AudioRepositoryImpl)
+    fun inject(c: AudioInteractorImpl)
+    fun inject(c: AudioPresenter)
 }

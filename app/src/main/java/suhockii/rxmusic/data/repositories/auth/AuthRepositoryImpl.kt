@@ -41,11 +41,11 @@ class AuthRepositoryImpl : AuthRepository {
                 .create(AuthApi::class.java)
     }
 
-    override fun login(username: String,
-                       password: String,
-                       captchaSid: String?,
-                       captchaKey: String?,
-                       code: String?): Single<Credentials> {
+    override fun getCredentials(username: String,
+                                password: String,
+                                captchaSid: String?,
+                                captchaKey: String?,
+                                code: String?): Single<Credentials> {
         return authApi.getCredentials(
                 SCOPE,
                 CLIENT_ID,

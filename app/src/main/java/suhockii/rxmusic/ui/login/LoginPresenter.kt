@@ -6,7 +6,7 @@ import com.google.gson.Gson
 import org.json.JSONObject
 import retrofit2.HttpException
 import suhockii.rxmusic.App
-import suhockii.rxmusic.business.auth.AuthInteractorImpl
+import suhockii.rxmusic.business.auth.AuthInteractor
 import suhockii.rxmusic.business.preferences.PreferencesInteractor
 import suhockii.rxmusic.data.repositories.auth.models.Captcha
 import suhockii.rxmusic.data.repositories.auth.models.Validation
@@ -17,22 +17,15 @@ import javax.inject.Inject
 class LoginPresenter : MvpPresenter<LoginView>() {
 
     @Inject lateinit var preferencesInteractor: PreferencesInteractor
+    @Inject lateinit var authInteractor: AuthInteractor
 
     init {
         App.appComponent.inject(this)
     }
 
-
-    private val authInteractor = AuthInteractorImpl()
-
-    private fun validatePhone(validation: Validation?) {
-        authInteractor.validatePhone(validation!!.validation_sid).subscribe()
-        viewState.showValidate(validation)
-    }
-
     fun login(username: String, password: String, captchaSid: String? = null, captchaKey: String? = null, code: String? = null) {
         if (username.isNotEmpty() && password.isNotEmpty())
-            authInteractor.login(username, password, captchaSid, captchaKey, code)
+            authInteractor.getCredentials(username, password, captchaSid, captchaKey, code)
                     .subscribe(
                             {
                                 preferencesInteractor.saveCredentials(it)
@@ -47,7 +40,11 @@ class LoginPresenter : MvpPresenter<LoginView>() {
                                         "need_captcha" -> viewState.showCaptcha(Gson().fromJson(s, Captcha::class.java))
                                     }
                                 }
-                            }
-                    )
+                            })
+    }
+
+    private fun validatePhone(validation: Validation?) {
+        authInteractor.validatePhone(validation!!.validation_sid).subscribe()
+        viewState.showValidate(validation)
     }
 }

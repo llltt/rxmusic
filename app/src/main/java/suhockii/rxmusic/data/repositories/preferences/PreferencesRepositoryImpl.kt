@@ -14,6 +14,10 @@ class PreferencesRepositoryImpl(context: Context) : PreferencesRepository {
 
     private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
+    override var empty: Boolean
+        get() = prefs.getString(KEY_CREDENTIALS, "").isEmpty()
+        set(value) {}
+
     override var credentials: Credentials
         get() = Gson().fromJson(prefs.getString(KEY_CREDENTIALS, ""), Credentials::class.java)
         set(value) = prefs.edit().putString(KEY_CREDENTIALS, Gson().toJson(value)).apply()

@@ -3,6 +3,8 @@ package suhockii.rxmusic.data.dagger
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import suhockii.rxmusic.data.repositories.audio.AudioRepository
+import suhockii.rxmusic.data.repositories.audio.AudioRepositoryImpl
 import suhockii.rxmusic.data.repositories.auth.AuthRepository
 import suhockii.rxmusic.data.repositories.auth.AuthRepositoryImpl
 import suhockii.rxmusic.data.repositories.preferences.PreferencesRepository
@@ -22,4 +24,9 @@ class RepositoriesModule(val appContext: Context) {   //todo -> fix lifecycle in
         @Provides
         @Singleton
         get() = AuthRepositoryImpl()
+
+    val audioRepository: AudioRepository
+        @Provides
+        @Singleton
+        get() = AudioRepositoryImpl()
 }

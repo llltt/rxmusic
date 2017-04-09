@@ -8,11 +8,11 @@ import suhockii.rxmusic.data.repositories.auth.models.Credentials
 
 interface AuthRepository {
 
-    fun login(username: String,
-              password: String,
-              captchaSid: String?,
-              captchaKey: String?,
-              code: String?): Single<Credentials>
+    fun getCredentials(username: String,
+                       password: String,
+                       captchaSid: String?,
+                       captchaKey: String?,
+                       code: String?): Single<Credentials>
 
     fun validatePhone(sid: String): Completable
 }

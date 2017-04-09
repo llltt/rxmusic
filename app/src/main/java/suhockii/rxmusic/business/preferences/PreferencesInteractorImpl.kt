@@ -21,4 +21,8 @@ class PreferencesInteractorImpl : PreferencesInteractor {
     override fun getCredentials(): Credentials {
         return repository.credentials
     }
+
+    override fun isEmpty(): Boolean {
+        return repository.empty
+    }
 }

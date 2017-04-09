@@ -2,10 +2,10 @@ package suhockii.rxmusic.extension
 
 import android.app.Activity
 import android.content.Context
-import android.net.ConnectivityManager
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import suhockii.rxmusic.ui.base.MoxyController
 
 @Suppress("UNCHECKED_CAST")
@@ -31,5 +31,14 @@ fun View.onLongClick(l: (v: View?) -> Boolean) {
 inline val RecyclerView.ViewHolder.context
     get() = this.itemView.context!!
 
-fun Context.isNetworkConnected() = (this.getSystemService(android.content.Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo != null
+fun View.hideKeyboard() {
+    val im = this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    im.hideSoftInputFromWindow(this.windowToken, 0)
+}
+
+fun View.showKeyboard() {
+    val im = this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    im.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+}
+
 

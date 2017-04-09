@@ -18,8 +18,12 @@ class AuthInteractorImpl : AuthInteractor {
         App.appComponent.inject(this)
     }
 
-    override fun login(username: String, password: String, captchaSid: String?, captchaKey: String?, code: String?): Single<Credentials> {
-        return repository.login(username, password, captchaSid, captchaKey, code)
+    override fun getCredentials(username: String,
+                                password: String,
+                                captchaSid: String?,
+                                captchaKey: String?,
+                                code: String?): Single<Credentials> {
+        return repository.getCredentials(username, password, captchaSid, captchaKey, code)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }

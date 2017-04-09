@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.part_validate.view.*
 import suhockii.rxmusic.R
 import suhockii.rxmusic.data.repositories.auth.models.Captcha
 import suhockii.rxmusic.data.repositories.auth.models.Validation
+import suhockii.rxmusic.extension.hideKeyboard
 import suhockii.rxmusic.extension.onClick
 import suhockii.rxmusic.ui.audio.AudioController
 import suhockii.rxmusic.ui.base.MoxyController
@@ -82,6 +83,7 @@ class LoginController : MoxyController(), LoginView {
     }
 
     override fun showNextController() {
+        view?.hideKeyboard()
         router.pushController(RouterTransaction.with(AudioController())
                 .pushChangeHandler(HorizontalChangeHandler())
                 .popChangeHandler(HorizontalChangeHandler()))

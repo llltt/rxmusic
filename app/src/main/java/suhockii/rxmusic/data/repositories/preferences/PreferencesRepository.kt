@@ -6,5 +6,7 @@ import suhockii.rxmusic.data.repositories.auth.models.Credentials
 interface PreferencesRepository {
 
     var credentials: Credentials
+    var empty: Boolean
+
     fun clear()
 }
