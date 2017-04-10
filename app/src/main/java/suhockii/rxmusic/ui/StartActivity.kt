@@ -12,7 +12,6 @@ import suhockii.rxmusic.ui.base.ActionBarProvider
 
 /** Created by Maksim Sukhotski on 4/6/2017. */
 class StartActivity : AppCompatActivity(), ActionBarProvider {
-
     private var router: Router? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

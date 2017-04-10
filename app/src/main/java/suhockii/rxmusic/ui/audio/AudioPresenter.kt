@@ -12,8 +12,8 @@ import javax.inject.Inject
 @InjectViewState
 class AudioPresenter : MvpPresenter<AudioView>() {
 
-    @Inject lateinit var audioInteractor: AudioInteractor
     @Inject lateinit var preferencesInteractor: PreferencesInteractor
+    @Inject lateinit var audioInteractor: AudioInteractor
 
     init {
         App.appComponent.inject(this)

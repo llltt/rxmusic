@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
 @Module
-class RepositoriesModule(val appContext: Context) {   //todo -> fix lifecycle in dagger for RepositoriesModule
+class RepositoriesModule(val appContext: Context) {
 
     val preferencesRepository: PreferencesRepository
         @Provides

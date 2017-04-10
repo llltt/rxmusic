@@ -1,4 +1,4 @@
-package suhockii.rxmusic.data.repositories.audio
+package suhockii.rxmusic.data.net
 
 import io.reactivex.Single
 import retrofit2.http.GET

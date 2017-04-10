@@ -46,6 +46,10 @@ android {
     }
 }
 
+kapt {
+    generateStubs = true
+}
+
 dependencies {
     kapt rootProject.moxyCompiler
     kapt rootProject.moxyCompiler

@@ -3,10 +3,14 @@ package suhockii.rxmusic.ui.audio
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_music.view.*
 import suhockii.rxmusic.R
 import suhockii.rxmusic.data.repositories.audio.models.Audio
+import suhockii.rxmusic.extension.context
 import suhockii.rxmusic.extension.onClick
 import suhockii.rxmusic.extension.toTime
 
@@ -14,7 +18,7 @@ import suhockii.rxmusic.extension.toTime
 class AudioAdapter(var items: MutableList<Audio> = arrayListOf(),
                    val onClick: (position: Audio) -> Unit = { }) : RecyclerView.Adapter<AudioAdapter.ViewHolder>() {
 
-    var pos = -1
+    var selectedItem = 0
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val vizualizerImageView = view.vizualizerImageView
@@ -32,13 +36,16 @@ class AudioAdapter(var items: MutableList<Audio> = arrayListOf(),
         val item = items[position]
 
         with(holder) {
+            itemView.vizualizerImageView.visibility = (if (position == selectedItem) VISIBLE else GONE)
             titleTextView.text = item.title
             artistTextView.text = item.artist
             durationTextView.text = item.duration.toTime()
-//            check.visibility = if (position == pos) View.VISIBLE else View.INVISIBLE
+            Glide.with(context)
+                    .load(R.drawable.audio_visualizer)
+                    .into(itemView.vizualizerImageView)
 
             itemView.onClick {
-                pos = position
+                selectedItem = position
                 notifyDataSetChanged()
                 onClick.invoke(item)
             }

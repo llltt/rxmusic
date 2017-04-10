@@ -1,4 +1,4 @@
-package suhockii.rxmusic.data.repositories.auth
+package suhockii.rxmusic.data.net
 
 import io.reactivex.Completable
 import io.reactivex.Single

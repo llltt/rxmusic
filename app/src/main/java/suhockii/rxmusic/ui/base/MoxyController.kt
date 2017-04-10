@@ -11,6 +11,7 @@ import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.ControllerChangeType
 import suhockii.rxmusic.App
 
+
 /** Created by Maksim Sukhotski on 4/6/2017. */
 abstract class MoxyController : Controller {
 
@@ -18,7 +19,7 @@ abstract class MoxyController : Controller {
     var isStateSaved = false
     private var hasExited: Boolean = false
     protected abstract fun inflateView(inflater: LayoutInflater, container: ViewGroup): View
-    protected fun onViewBound(view: View) {}
+    abstract fun onViewBound(view: View)
 
     constructor() : super() {
         this.mvpDelegate.onCreate()

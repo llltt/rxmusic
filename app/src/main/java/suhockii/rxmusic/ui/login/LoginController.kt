@@ -22,6 +22,11 @@ import suhockii.rxmusic.ui.base.MoxyController
 
 
 class LoginController : MoxyController(), LoginView {
+    override fun onViewBound(view: View) {
+        view.loginButton.onClick {
+            presenter.login(view.usernameEditText.text.toString(), view.passwordEditText.text.toString())
+        }
+    }
 
     @InjectPresenter
     lateinit var presenter: LoginPresenter
@@ -30,13 +35,6 @@ class LoginController : MoxyController(), LoginView {
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View {
         return inflater.inflate(R.layout.controller_login, container, false)
-    }
-
-    override fun onAttach(view: View) {
-        super.onAttach(view)
-        view.loginButton.onClick {
-            presenter.login(view.usernameEditText.text.toString(), view.passwordEditText.text.toString())
-        }
     }
 
     override fun showSnackbar(text: String) {

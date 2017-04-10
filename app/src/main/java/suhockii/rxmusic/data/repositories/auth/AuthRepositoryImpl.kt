@@ -7,6 +7,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import suhockii.rxmusic.data.net.AuthApi
 import suhockii.rxmusic.data.net.ConstantFields.Companion.CLIENT_ID
 import suhockii.rxmusic.data.net.ConstantFields.Companion.CLIENT_SECRET
 import suhockii.rxmusic.data.net.ConstantFields.Companion.GRANT_TYPE

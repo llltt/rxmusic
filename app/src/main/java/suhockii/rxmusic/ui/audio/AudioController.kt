@@ -1,7 +1,6 @@
 package suhockii.rxmusic.ui.audio
 
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,15 +10,33 @@ import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import kotlinx.android.synthetic.main.controller_audio.view.*
 import suhockii.rxmusic.R
 import suhockii.rxmusic.data.repositories.audio.models.AudioResponse
-import suhockii.rxmusic.extension.EndlessRecyclerViewScrollListener
+import suhockii.rxmusic.extension.InfiniteScrollListener
 import suhockii.rxmusic.ui.base.MoxyController
 import suhockii.rxmusic.ui.login.LoginController
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
 class AudioController : MoxyController(), AudioView {
 
+    override fun onViewBound(view: View) {
+        with(view) {
+            presenter.validateCredentials()
+            audioRecyclerView.layoutManager = linearLayoutManager
+            adapter = AudioAdapter(kotlin.collections.arrayListOf(), { presenter.playAudio(it) })
+            audioRecyclerView.adapter = adapter
+            audioRecyclerView.addOnScrollListener(
+                    InfiniteScrollListener({
+                        offset += 30
+                        presenter.getAudio(offset = offset.toString())
+                    }, linearLayoutManager)
+            )
+        }
+    }
+
     @InjectPresenter
     lateinit var presenter: AudioPresenter
+
+    private var adapter: AudioAdapter = AudioAdapter()
+    var offset: Int = 0
 
     override fun getTitle(): String = "AudioController"
 
@@ -27,35 +44,12 @@ class AudioController : MoxyController(), AudioView {
         return inflater.inflate(R.layout.controller_audio, container, false)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        return super.onCreateView(inflater, container)
-    }
-
-    override fun onAttach(view: View) {
-        super.onAttach(view)
-        presenter.validateCredentials()
-    }  МАКСИМ ДОЛБАЕБ
-    
-
-    private var adapter: AudioAdapter = AudioAdapter()
-
-    var page: Int = 0
-    private var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener? = null
-
     override fun showAudio(audioResponse: AudioResponse) {
-        with(view!!) {
-            audioRecyclerView.layoutManager = LinearLayoutManager(activity)
-            adapter = AudioAdapter(audioResponse.items, { presenter.playAudio(it) })
-            audioRecyclerView.adapter = adapter
-            endlessRecyclerViewScrollListener = object : EndlessRecyclerViewScrollListener(LinearLayoutManager(activity), page) {
-                override fun onLoadMore(newPage: Int, totalItemsCount: Int, view: RecyclerView) {
-                    page = newPageSuhockyMaximEtoJa;
-                    presenter.getAudio()
-                }
-            }
-            audioRecyclerView.addOnScrollListener(endlessRecyclerViewScrollListener)
-        }
+        adapter.items.addAll(audioResponse.items)
+        adapter.notifyDataSetChanged()
     }
+
+    private val linearLayoutManager = LinearLayoutManager(activity)
 
     override fun showLoginController() {
         router.setRoot(RouterTransaction.with(LoginController())
