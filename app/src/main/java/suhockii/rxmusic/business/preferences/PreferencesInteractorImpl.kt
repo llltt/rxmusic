@@ -1,18 +1,10 @@
 package suhockii.rxmusic.business.preferences
 
-import suhockii.rxmusic.App
 import suhockii.rxmusic.data.repositories.auth.models.Credentials
 import suhockii.rxmusic.data.repositories.preferences.PreferencesRepository
-import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
-class PreferencesInteractorImpl : PreferencesInteractor {
-
-    @Inject lateinit var repository: PreferencesRepository
-
-    init {
-        App.appComponent.inject(this)
-    }
+class PreferencesInteractorImpl(private val repository: PreferencesRepository) : PreferencesInteractor {
 
     override fun saveCredentials(credentials: Credentials) {
         repository.credentials = credentials

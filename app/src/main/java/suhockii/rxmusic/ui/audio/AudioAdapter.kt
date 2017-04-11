@@ -33,7 +33,7 @@ class AudioAdapter(var items: MutableList<Audio> = arrayListOf(),
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = items[position]
+        val item = items.get(position)
 
         with(holder) {
             itemView.vizualizerImageView.visibility = (if (position == selectedItem) VISIBLE else GONE)

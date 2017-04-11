@@ -15,18 +15,21 @@ import javax.inject.Singleton
 @Module
 class RepositoriesModule(val appContext: Context) {
 
-    val preferencesRepository: PreferencesRepository
-        @Provides
-        @Singleton
-        get() = PreferencesRepositoryImpl(appContext)
+    @Provides
+    @Singleton
+    fun providePreferencesRepository(): PreferencesRepository {
+        return PreferencesRepositoryImpl(appContext)
+    }
 
-    val authRepository: AuthRepository
-        @Provides
-        @Singleton
-        get() = AuthRepositoryImpl()
+    @Provides
+    @Singleton
+    fun provideAuthRepository(): AuthRepository {
+        return AuthRepositoryImpl()
+    }
 
-    val audioRepository: AudioRepository
-        @Provides
-        @Singleton
-        get() = AudioRepositoryImpl()
+    @Provides
+    @Singleton
+    fun provideAudioRepository(): AudioRepository {
+        return AudioRepositoryImpl()
+    }
 }

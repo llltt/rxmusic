@@ -1,5 +1,6 @@
 package suhockii.rxmusic.ui.audio
 
+import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,6 @@ import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import kotlinx.android.synthetic.main.controller_audio.view.*
 import suhockii.rxmusic.R
-import suhockii.rxmusic.data.repositories.audio.models.Audio
 import suhockii.rxmusic.data.repositories.audio.models.AudioResponse
 import suhockii.rxmusic.extension.InfiniteScrollListener
 import suhockii.rxmusic.ui.base.MoxyController
@@ -23,8 +23,7 @@ class AudioController : MoxyController(), AudioView {
     lateinit var presenter: AudioPresenter
 
     private var offset: Int = 0
-    private var items: MutableList<Audio> = arrayListOf()
-    private var adapter: AudioAdapter = AudioAdapter(items, { presenter.playAudio(it) })
+    private var adapter: AudioAdapter = AudioAdapter(onClick = { presenter.playAudio(it) })
 
     override fun getTitle(): String = "AudioController"
 
@@ -34,7 +33,6 @@ class AudioController : MoxyController(), AudioView {
 
     override fun onViewBound(view: View) {
         with(view) {
-            presenter.validateCredentials()
             val linearLayoutManager = LinearLayoutManager(activity)
             audioRecyclerView.setHasFixedSize(true)
             audioRecyclerView.layoutManager = linearLayoutManager
@@ -44,10 +42,14 @@ class AudioController : MoxyController(), AudioView {
                 presenter.getAudio(offset = offset.toString())
             }, linearLayoutManager))
         }
+        presenter.validateCredentials()
+    }
+
+    override fun onSaveViewState(view: View, outState: Bundle) {
+        super.onSaveViewState(view, outState)
     }
 
     override fun showAudio(audioResponse: AudioResponse) {
-        items.addAll(audioResponse.items)
         adapter.items.addAll(audioResponse.items)
         adapter.notifyDataSetChanged()
     }

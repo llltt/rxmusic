@@ -19,7 +19,8 @@ abstract class MoxyController : Controller {
     var isStateSaved = false
     private var hasExited: Boolean = false
     protected abstract fun inflateView(inflater: LayoutInflater, container: ViewGroup): View
-    abstract fun onViewBound(view: View)
+    protected abstract fun onViewBound(view: View)
+    protected abstract fun setupControllerComponent()
 
     constructor() : super() {
         this.mvpDelegate.onCreate()
@@ -29,16 +30,17 @@ abstract class MoxyController : Controller {
         this.mvpDelegate.onCreate(args)
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
+        val view = inflateView(inflater, container)
+        setupControllerComponent()
+        onViewBound(view)
+        return view
+    }
+
     override fun onChangeEnded(changeHandler: ControllerChangeHandler, changeType: ControllerChangeType) {
         super.onChangeEnded(changeHandler, changeType)
         hasExited = !changeType.isEnter
         if (isDestroyed) App.refWatcher.watch(this)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        val view = inflateView(inflater, container)
-        onViewBound(view)
-        return view
     }
 
     private fun getActionBar(): ActionBar {

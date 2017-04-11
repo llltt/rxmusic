@@ -8,24 +8,29 @@ import suhockii.rxmusic.business.auth.AuthInteractor
 import suhockii.rxmusic.business.auth.AuthInteractorImpl
 import suhockii.rxmusic.business.preferences.PreferencesInteractor
 import suhockii.rxmusic.business.preferences.PreferencesInteractorImpl
-import javax.inject.Singleton
+import suhockii.rxmusic.data.repositories.audio.AudioRepository
+import suhockii.rxmusic.data.repositories.auth.AuthRepository
+import suhockii.rxmusic.data.repositories.preferences.PreferencesRepository
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
 @Module
 class InteractorsModule {
 
-    val authInteractor: AuthInteractor
-        @Provides
-        @Singleton
-        get() = AuthInteractorImpl()
+    @Provides
+    @UserScope
+    fun provideAuthInteractor(repository: AuthRepository): AuthInteractor {
+        return AuthInteractorImpl(repository)
+    }
 
-    val preferencesInteractor: PreferencesInteractor
-        @Provides
-        @Singleton
-        get() = PreferencesInteractorImpl()
+    @Provides
+    @UserScope
+    fun providePreferencesInteractor(repository: PreferencesRepository): PreferencesInteractor {
+        return PreferencesInteractorImpl(repository)
+    }
 
-    val audioInteractor: AudioInteractor
-        @Provides
-        @Singleton
-        get() = AudioInteractorImpl()
+    @Provides
+    @UserScope
+    fun provideAudioInteractor(repository: AudioRepository): AudioInteractor {
+        return AudioInteractorImpl(repository)
+    }
 }
