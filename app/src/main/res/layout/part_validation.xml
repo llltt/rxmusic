@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/validateTextView"
+        android:id="@+id/validationTextView"
         android:layout_width="0dp"
         android:layout_height="52dp"
         android:layout_marginLeft="4dp"
@@ -26,10 +26,10 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/validateTextView">
+        app:layout_constraintTop_toBottomOf="@+id/validationTextView">
 
         <EditText
-            android:id="@+id/validateEditText"
+            android:id="@+id/validationEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Введите код из SMS"

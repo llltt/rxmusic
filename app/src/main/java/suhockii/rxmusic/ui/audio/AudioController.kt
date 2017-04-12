@@ -9,11 +9,12 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import kotlinx.android.synthetic.main.controller_audio.view.*
+import suhockii.rxmusic.App
 import suhockii.rxmusic.R
 import suhockii.rxmusic.data.repositories.audio.models.AudioResponse
-import suhockii.rxmusic.extension.InfiniteScrollListener
+import suhockii.rxmusic.smth.InfiniteScrollListener
+import suhockii.rxmusic.ui.auth.AuthController
 import suhockii.rxmusic.ui.base.MoxyController
-import suhockii.rxmusic.ui.login.LoginController
 
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
@@ -21,6 +22,10 @@ class AudioController : MoxyController(), AudioView {
 
     @InjectPresenter
     lateinit var presenter: AudioPresenter
+
+    override fun setupControllerComponent() {
+        App.userComponent.inject(this)
+    }
 
     private var offset: Int = 0
     private var adapter: AudioAdapter = AudioAdapter(onClick = { presenter.playAudio(it) })
@@ -54,11 +59,9 @@ class AudioController : MoxyController(), AudioView {
         adapter.notifyDataSetChanged()
     }
 
-
     override fun showLoginController() {
-        router.setRoot(RouterTransaction.with(LoginController())
+        router.setRoot(RouterTransaction.with(AuthController())
                 .pushChangeHandler(HorizontalChangeHandler())
                 .popChangeHandler(HorizontalChangeHandler()))
     }
-
 }

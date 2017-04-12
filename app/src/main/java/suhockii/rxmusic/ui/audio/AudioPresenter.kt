@@ -15,10 +15,6 @@ class AudioPresenter : MvpPresenter<AudioView>() {
     @Inject lateinit var preferencesInteractor: PreferencesInteractor
     @Inject lateinit var audioInteractor: AudioInteractor
 
-    init {
-        App.appComponent.inject(this)
-    }
-
     fun getAudio(ownerId: String = preferencesInteractor.getCredentials().user_id,
                  count: String = "30",
                  offset: String = "0") {
@@ -35,6 +31,7 @@ class AudioPresenter : MvpPresenter<AudioView>() {
     fun validateCredentials() {
         if (preferencesInteractor.isEmpty()) {
             viewState.showLoginController()
+            App.instance.releaseUserComponent()
         } else {
             getAudio()
         }

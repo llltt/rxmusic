@@ -1,4 +1,4 @@
-package suhockii.rxmusic.extension
+package suhockii.rxmusic.smth
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView

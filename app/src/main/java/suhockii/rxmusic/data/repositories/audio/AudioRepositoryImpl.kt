@@ -1,7 +1,6 @@
 package suhockii.rxmusic.data.repositories.audio
 
 import io.reactivex.Single
-import suhockii.rxmusic.App
 import suhockii.rxmusic.data.net.AudioApi
 import suhockii.rxmusic.data.net.ConstantFields.Companion.HTTPS
 import suhockii.rxmusic.data.net.ConstantFields.Companion.LANG
@@ -10,7 +9,7 @@ import suhockii.rxmusic.data.net.RetrofitObject
 import suhockii.rxmusic.data.net.models.BaseResponse
 import suhockii.rxmusic.data.repositories.audio.models.AudioResponse
 import suhockii.rxmusic.data.repositories.preferences.PreferencesRepository
-import suhockii.rxmusic.extension.md5
+import suhockii.rxmusic.smth.md5
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
@@ -18,9 +17,9 @@ class AudioRepositoryImpl : AudioRepository {
 
     @Inject lateinit var repository: PreferencesRepository
 
-    init {  //todo -> maybe init block is overhead
-        App.appComponent.inject(this)
-    }
+//    init {  //todo -> maybe init block is overhead
+//        App.appComponent.inject(this)
+//    }
 
     internal val api = RetrofitObject.build(AudioApi::class.java)
 

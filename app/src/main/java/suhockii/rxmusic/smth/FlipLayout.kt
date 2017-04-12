@@ -1,4 +1,4 @@
-package suhockii.rxmusic.extension
+package suhockii.rxmusic.smth
 
 import android.content.Context
 import android.graphics.Camera
@@ -15,12 +15,12 @@ class FlipLayout : FrameLayout, Animation.AnimationListener {
     private var isFlipped: Boolean = false
     var thirdViewEnabled: Boolean = false
     private var direction: Direction? = null
-    var view0: View? = null
-    var view1: View? = null
-    var view2: View? = null
+    var loginView: View? = null
+    var captchaView: View? = null
+    var validationView: View? = null
 
     fun showView(view: View) {
-        if (view == view2) thirdViewEnabled = true
+        if (view == validationView) thirdViewEnabled = true
         if (view.visibility != View.VISIBLE) toggleUp()
     }
 
@@ -52,29 +52,29 @@ class FlipLayout : FrameLayout, Animation.AnimationListener {
             throw IllegalStateException("FlipLayout can host only three direct children")
         }
 
-        view0 = getChildAt(0)
-        view1 = getChildAt(1)
-        view2 = getChildAt(2)
+        loginView = getChildAt(0)
+        captchaView = getChildAt(1)
+        validationView = getChildAt(2)
         reset()
     }
 
     private fun toggleView() {
-        if (view0 == null || view1 == null || view2 == null) {
+        if (loginView == null || captchaView == null || validationView == null) {
             return
         }
 
         if (isFlipped && !thirdViewEnabled) {
-            view0!!.visibility = View.VISIBLE
-            view1!!.visibility = View.GONE
-            view2!!.visibility = View.GONE
+            loginView!!.visibility = View.VISIBLE
+            captchaView!!.visibility = View.GONE
+            validationView!!.visibility = View.GONE
         } else if (thirdViewEnabled) {
-            view0!!.visibility = View.GONE
-            view1!!.visibility = View.GONE
-            view2!!.visibility = View.VISIBLE
+            loginView!!.visibility = View.GONE
+            captchaView!!.visibility = View.GONE
+            validationView!!.visibility = View.VISIBLE
         } else {
-            view0!!.visibility = View.GONE
-            view1!!.visibility = View.VISIBLE
-            view2!!.visibility = View.GONE
+            loginView!!.visibility = View.GONE
+            captchaView!!.visibility = View.VISIBLE
+            validationView!!.visibility = View.GONE
         }
 
         isFlipped = !isFlipped
@@ -87,9 +87,9 @@ class FlipLayout : FrameLayout, Animation.AnimationListener {
     fun reset() {
         isFlipped = false
         direction = Direction.DOWN
-        view0!!.visibility = View.VISIBLE
-        view1!!.visibility = View.GONE
-        view2!!.visibility = View.GONE
+        loginView!!.visibility = View.VISIBLE
+        captchaView!!.visibility = View.GONE
+        validationView!!.visibility = View.GONE
     }
 
     fun toggleUp() {

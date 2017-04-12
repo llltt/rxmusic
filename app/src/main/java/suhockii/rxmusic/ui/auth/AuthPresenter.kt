@@ -1,4 +1,4 @@
-package suhockii.rxmusic.ui.login
+package suhockii.rxmusic.ui.auth
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
@@ -14,14 +14,14 @@ import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 4/1/2017.*/
 @InjectViewState
-class LoginPresenter : MvpPresenter<LoginView>() {
+class AuthPresenter : MvpPresenter<AuthView>() {
 
     @Inject lateinit var preferencesInteractor: PreferencesInteractor
     @Inject lateinit var authInteractor: AuthInteractor
 
-    init {
-        App.appComponent.inject(this)
-    }
+//    init {
+//        App.appComponent.inject(this)
+//    }
 
     fun login(username: String, password: String, captchaSid: String? = null, captchaKey: String? = null, code: String? = null) {
         if (username.isNotEmpty() && password.isNotEmpty())
@@ -30,6 +30,7 @@ class LoginPresenter : MvpPresenter<LoginView>() {
                             {
                                 preferencesInteractor.saveCredentials(it)
                                 viewState.showNextController()
+                                App.instance.releaseAuthComponent()
                             },
                             {
                                 if (it is HttpException) {
@@ -45,6 +46,6 @@ class LoginPresenter : MvpPresenter<LoginView>() {
 
     private fun validatePhone(validation: Validation?) {
         authInteractor.validatePhone(validation!!.validation_sid).subscribe()
-        viewState.showValidate(validation)
+        viewState.showValidation(validation)
     }
 }

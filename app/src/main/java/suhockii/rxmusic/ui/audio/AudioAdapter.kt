@@ -10,9 +10,9 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_music.view.*
 import suhockii.rxmusic.R
 import suhockii.rxmusic.data.repositories.audio.models.Audio
-import suhockii.rxmusic.extension.context
-import suhockii.rxmusic.extension.onClick
-import suhockii.rxmusic.extension.toTime
+import suhockii.rxmusic.smth.context
+import suhockii.rxmusic.smth.onClick
+import suhockii.rxmusic.smth.toTime
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
 class AudioAdapter(var items: MutableList<Audio> = arrayListOf(),
