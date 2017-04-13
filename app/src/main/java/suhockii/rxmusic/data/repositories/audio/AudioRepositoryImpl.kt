@@ -10,16 +10,9 @@ import suhockii.rxmusic.data.net.models.BaseResponse
 import suhockii.rxmusic.data.repositories.audio.models.AudioResponse
 import suhockii.rxmusic.data.repositories.preferences.PreferencesRepository
 import suhockii.rxmusic.smth.md5
-import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
-class AudioRepositoryImpl : AudioRepository {
-
-    @Inject lateinit var repository: PreferencesRepository
-
-//    init {  //todo -> maybe init block is overhead
-//        App.appComponent.inject(this)
-//    }
+class AudioRepositoryImpl(private val repository: PreferencesRepository) : AudioRepository {
 
     internal val api = RetrofitObject.build(AudioApi::class.java)
 

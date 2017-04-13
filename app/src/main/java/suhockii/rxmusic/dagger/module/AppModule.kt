@@ -5,7 +5,8 @@ import dagger.Module
 import dagger.Provides
 import suhockii.rxmusic.business.preferences.PreferencesInteractor
 import suhockii.rxmusic.business.preferences.PreferencesInteractorImpl
-import suhockii.rxmusic.dagger.scope.UserScope
+import suhockii.rxmusic.data.repositories.audio.AudioRepository
+import suhockii.rxmusic.data.repositories.audio.AudioRepositoryImpl
 import suhockii.rxmusic.data.repositories.preferences.PreferencesRepository
 import suhockii.rxmusic.data.repositories.preferences.PreferencesRepositoryImpl
 import javax.inject.Singleton
@@ -21,7 +22,13 @@ class AppModule(val appContext: Context) {
     }
 
     @Provides
-    @UserScope
+    @Singleton
+    fun provideAudioRepository(repository: PreferencesRepository): AudioRepository {
+        return AudioRepositoryImpl(repository)
+    }
+
+    @Provides
+    @Singleton
     fun providePreferencesInteractor(repository: PreferencesRepository): PreferencesInteractor {
         return PreferencesInteractorImpl(repository)
     }

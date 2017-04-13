@@ -9,7 +9,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import kotlinx.android.synthetic.main.controller_audio.view.*
-import suhockii.rxmusic.App
 import suhockii.rxmusic.R
 import suhockii.rxmusic.data.repositories.audio.models.AudioResponse
 import suhockii.rxmusic.smth.InfiniteScrollListener
@@ -24,7 +23,7 @@ class AudioController : MoxyController(), AudioView {
     lateinit var presenter: AudioPresenter
 
     override fun setupControllerComponent() {
-        App.userComponent.inject(this)
+//        App.userComponent.inject(this)
     }
 
     private var offset: Int = 0

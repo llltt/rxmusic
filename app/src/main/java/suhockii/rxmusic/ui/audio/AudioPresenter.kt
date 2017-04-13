@@ -15,6 +15,10 @@ class AudioPresenter : MvpPresenter<AudioView>() {
     @Inject lateinit var preferencesInteractor: PreferencesInteractor
     @Inject lateinit var audioInteractor: AudioInteractor
 
+    init {
+        App.instance.initUserComponent().inject(this)
+    }
+
     fun getAudio(ownerId: String = preferencesInteractor.getCredentials().user_id,
                  count: String = "30",
                  offset: String = "0") {
