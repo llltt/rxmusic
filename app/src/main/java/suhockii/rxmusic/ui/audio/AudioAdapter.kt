@@ -10,13 +10,14 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_music.view.*
 import suhockii.rxmusic.R
 import suhockii.rxmusic.data.repositories.audio.models.Audio
-import suhockii.rxmusic.smth.context
-import suhockii.rxmusic.smth.onClick
-import suhockii.rxmusic.smth.toTime
+import suhockii.rxmusic.extensions.context
+import suhockii.rxmusic.extensions.onClick
+import suhockii.rxmusic.extensions.toTime
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
 class AudioAdapter(var items: MutableList<Audio> = arrayListOf(),
-                   val onClick: (position: Audio) -> Unit = { }) : RecyclerView.Adapter<AudioAdapter.ViewHolder>() {
+                   val onClick: (position: Audio) -> Unit = { })
+    : RecyclerView.Adapter<AudioAdapter.ViewHolder>() {
 
     var selectedItem = 0
 
@@ -29,14 +30,16 @@ class AudioAdapter(var items: MutableList<Audio> = arrayListOf(),
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_music, parent, false))
+        return ViewHolder(LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_music, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items.get(position)
 
         with(holder) {
-            itemView.vizualizerImageView.visibility = (if (position == selectedItem) VISIBLE else GONE)
+            itemView.vizualizerImageView.visibility =
+                    (if (position == selectedItem) VISIBLE else GONE)
             titleTextView.text = item.title
             artistTextView.text = item.artist
             durationTextView.text = item.duration.toTime()

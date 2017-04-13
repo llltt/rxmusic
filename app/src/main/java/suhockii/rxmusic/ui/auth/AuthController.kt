@@ -8,16 +8,15 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.controller_login.view.*
+import kotlinx.android.synthetic.main.controller_auth.view.*
 import kotlinx.android.synthetic.main.part_captcha.view.*
 import kotlinx.android.synthetic.main.part_login.view.*
 import kotlinx.android.synthetic.main.part_validation.view.*
-import suhockii.rxmusic.App
 import suhockii.rxmusic.R
 import suhockii.rxmusic.data.repositories.auth.models.Captcha
 import suhockii.rxmusic.data.repositories.auth.models.Validation
-import suhockii.rxmusic.smth.hideKeyboard
-import suhockii.rxmusic.smth.onClick
+import suhockii.rxmusic.extensions.hideKeyboard
+import suhockii.rxmusic.extensions.onClick
 import suhockii.rxmusic.ui.audio.AudioController
 import suhockii.rxmusic.ui.base.MoxyController
 
@@ -30,20 +29,13 @@ class AuthController : MoxyController(), AuthView {
     override fun getTitle(): String = "rxmusic"
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View {
-        return inflater.inflate(R.layout.controller_login, container, false)
-    }
-
-    init {
-        App.instance.initAuthComponent()
-    }
-
-    override fun setupControllerComponent() {
-        App.authComponent.inject(this)
+        return inflater.inflate(R.layout.controller_auth, container, false)
     }
 
     override fun onViewBound(view: View) {
         view.loginButton.onClick {
-            presenter.login(view.usernameEditText.text.toString(), view.passwordEditText.text.toString())
+            presenter.login(view.usernameEditText.text.toString(),
+                    view.passwordEditText.text.toString())
         }
     }
 
@@ -54,10 +46,10 @@ class AuthController : MoxyController(), AuthView {
         }
     }
 
-    override fun showLogin(toString: String) {
+    override fun showLogin(string: Any) {
         with(view!!) {
             flipLayout.showView(flipLayout.loginView!!)
-            showSnackbar(toString)
+            showSnackbar(string as String)
         }
     }
 

@@ -1,4 +1,4 @@
-package suhockii.rxmusic.smth
+package suhockii.rxmusic.ui.auth
 
 import android.content.Context
 import android.graphics.Camera

@@ -1,4 +1,4 @@
-package suhockii.rxmusic.smth
+package suhockii.rxmusic.extensions
 
 import android.app.Activity
 import android.content.Context

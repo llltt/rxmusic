@@ -9,7 +9,7 @@ import suhockii.rxmusic.data.net.RetrofitObject
 import suhockii.rxmusic.data.net.models.BaseResponse
 import suhockii.rxmusic.data.repositories.audio.models.AudioResponse
 import suhockii.rxmusic.data.repositories.preferences.PreferencesRepository
-import suhockii.rxmusic.smth.md5
+import suhockii.rxmusic.extensions.toMd5
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
 class AudioRepositoryImpl(private val repository: PreferencesRepository) : AudioRepository {
@@ -26,13 +26,18 @@ class AudioRepositoryImpl(private val repository: PreferencesRepository) : Audio
                 count,
                 offset,
                 repository.credentials.access_token,
-                md5("/method/audio.get?" +
-                        "v=$V&" +
-                        "lang=$LANG&" +
-                        "https=$HTTPS&" +
-                        "owner_id=$ownerId&" +
-                        "count=$count&" +
-                        "offset=$offset&" +
-                        "access_token=${repository.credentials.access_token}${repository.credentials.secret}"))
+                getSig(ownerId, count, offset))
+    }
+
+    private fun getSig(ownerId: String, count: String, offset: String): String {
+        return ("/method/audio.get?" +
+                "v=$V&" +
+                "lang=$LANG&" +
+                "https=$HTTPS&" +
+                "owner_id=$ownerId&" +
+                "count=$count&" +
+                "offset=$offset&" +
+                "access_token=${repository.credentials.access_token}${repository.credentials.secret}")
+                .toMd5()
     }
 }

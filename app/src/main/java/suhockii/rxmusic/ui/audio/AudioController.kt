@@ -1,6 +1,5 @@
 package suhockii.rxmusic.ui.audio
 
-import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +8,9 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import kotlinx.android.synthetic.main.controller_audio.view.*
+import suhockii.rxmusic.App
 import suhockii.rxmusic.R
 import suhockii.rxmusic.data.repositories.audio.models.AudioResponse
-import suhockii.rxmusic.smth.InfiniteScrollListener
 import suhockii.rxmusic.ui.auth.AuthController
 import suhockii.rxmusic.ui.base.MoxyController
 
@@ -21,10 +20,6 @@ class AudioController : MoxyController(), AudioView {
 
     @InjectPresenter
     lateinit var presenter: AudioPresenter
-
-    override fun setupControllerComponent() {
-//        App.userComponent.inject(this)
-    }
 
     private var offset: Int = 0
     private var adapter: AudioAdapter = AudioAdapter(onClick = { presenter.playAudio(it) })
@@ -46,11 +41,6 @@ class AudioController : MoxyController(), AudioView {
                 presenter.getAudio(offset = offset.toString())
             }, linearLayoutManager))
         }
-        presenter.validateCredentials()
-    }
-
-    override fun onSaveViewState(view: View, outState: Bundle) {
-        super.onSaveViewState(view, outState)
     }
 
     override fun showAudio(audioResponse: AudioResponse) {
@@ -58,9 +48,14 @@ class AudioController : MoxyController(), AudioView {
         adapter.notifyDataSetChanged()
     }
 
-    override fun showLoginController() {
+    override fun showAuthController() {
         router.setRoot(RouterTransaction.with(AuthController())
                 .pushChangeHandler(HorizontalChangeHandler())
                 .popChangeHandler(HorizontalChangeHandler()))
+    }
+
+    override fun onDetach(view: View) {
+        super.onDetach(view)
+        App.instance.userComponent = null
     }
 }

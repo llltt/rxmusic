@@ -1,4 +1,4 @@
-package suhockii.rxmusic.smth
+package suhockii.rxmusic.extensions
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -7,9 +7,9 @@ import java.security.MessageDigest
 import java.util.concurrent.TimeUnit
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
-fun md5(s: String): String {
+fun String.toMd5(): String {
     val md = MessageDigest.getInstance("MD5")
-    val md5sum = md.digest(s.toByteArray())
+    val md5sum = md.digest(this.toByteArray())
     return String.format("%032X", BigInteger(1, md5sum)).toLowerCase()
 }
 

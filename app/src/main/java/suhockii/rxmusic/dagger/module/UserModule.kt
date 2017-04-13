@@ -13,13 +13,7 @@ class UserModule {
 
     @Provides
     @UserScope
-    fun provideAudioInteractor(repository: AudioRepository): AudioInteractor {
-        return AudioInteractorImpl(repository)
+    fun provideAudioInteractor(audioRepository: AudioRepository): AudioInteractor {
+        return AudioInteractorImpl(audioRepository)
     }
-//
-//    @Provides
-//    @UserScope
-//    fun provideAudioRepository(repository: AudioRepository): AudioInteractor {
-//        return AudioInteractorImpl(repository)
-//    }
 }

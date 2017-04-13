@@ -16,7 +16,12 @@ class AudioPresenter : MvpPresenter<AudioView>() {
     @Inject lateinit var audioInteractor: AudioInteractor
 
     init {
-        App.instance.initUserComponent().inject(this)
+        App.instance.userComponent?.inject(this)
+    }
+
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        validateCredentials()
     }
 
     fun getAudio(ownerId: String = preferencesInteractor.getCredentials().user_id,
@@ -28,16 +33,16 @@ class AudioPresenter : MvpPresenter<AudioView>() {
                 }, { })
     }
 
-    fun playAudio(audio: Audio) {
-//        viewState.showPlayer()
-    }
-
     fun validateCredentials() {
         if (preferencesInteractor.isEmpty()) {
-            viewState.showLoginController()
-            App.instance.releaseUserComponent()
+            viewState.showAuthController()
         } else {
             getAudio()
         }
     }
+
+    fun playAudio(audio: Audio) {
+//        viewState.showPlayer()
+    }
+
 }

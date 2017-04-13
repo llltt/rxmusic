@@ -18,9 +18,6 @@ abstract class MoxyController : Controller {
     val mvpDelegate by lazy { MvpDelegate(this) }
     var isStateSaved = false
     private var hasExited: Boolean = false
-    protected abstract fun inflateView(inflater: LayoutInflater, container: ViewGroup): View
-    protected abstract fun onViewBound(view: View)
-    protected abstract fun setupControllerComponent()
 
     constructor() : super() {
         this.mvpDelegate.onCreate()
@@ -32,21 +29,37 @@ abstract class MoxyController : Controller {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflateView(inflater, container)
-        setupControllerComponent()
         onViewBound(view)
         return view
     }
 
-    override fun onChangeEnded(changeHandler: ControllerChangeHandler, changeType: ControllerChangeType) {
-        super.onChangeEnded(changeHandler, changeType)
-        hasExited = !changeType.isEnter
-        if (isDestroyed) App.refWatcher.watch(this)
+    protected abstract fun inflateView(inflater: LayoutInflater, container: ViewGroup): View
+
+    protected abstract fun onViewBound(view: View)
+
+    override fun onAttach(view: View) {
+        setTitle()
+        super.onAttach(view)
+        mvpDelegate.onAttach()
     }
 
-    private fun getActionBar(): ActionBar {
-        val actionBarProvider = activity as ActionBarProvider
-        return actionBarProvider.getSupportActionBar()!!
+    override fun onDetach(view: View) {
+        super.onDetach(view)
+        mvpDelegate.onDetach()
     }
+
+    override fun onDestroyView(view: View) {
+        super.onDestroyView(view)
+        mvpDelegate.onDetach()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (hasExited) App.refWatcher.watch(this)
+        if (isStateSaved) return
+        mvpDelegate.onDestroy()
+    }
+
 
     protected fun setTitle() {
         var parentController = parentController
@@ -56,8 +69,11 @@ abstract class MoxyController : Controller {
         }
 
         val title = getTitle()
-        val actionBar = getActionBar()
         if (title != null) getActionBar().title = title
+    }
+
+    private fun getActionBar(): ActionBar {
+        return (activity as ActionBarProvider).getSupportActionBar()!!
     }
 
     protected open fun getTitle(): String? {
@@ -76,27 +92,11 @@ abstract class MoxyController : Controller {
         mvpDelegate.onSaveInstanceState(outState)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        if (hasExited) App.refWatcher.watch(this)
-        if (isStateSaved) return
-        mvpDelegate.onDestroy()
-    }
 
-    override fun onDestroyView(view: View) {
-        super.onDestroyView(view)
-        mvpDelegate.onDetach()
-    }
-
-    override fun onDetach(view: View) {
-        super.onDetach(view)
-        mvpDelegate.onDetach()
-    }
-
-    override fun onAttach(view: View) {
-        setTitle()
-        super.onAttach(view)
-        mvpDelegate.onAttach()
+    override fun onChangeEnded(changeHandler: ControllerChangeHandler, changeType: ControllerChangeType) {
+        super.onChangeEnded(changeHandler, changeType)
+        hasExited = !changeType.isEnter
+        if (isDestroyed) App.refWatcher.watch(this)
     }
 
 

@@ -18,7 +18,7 @@ interface AuthView : MvpView {
 
     fun showValidation(validation: Validation)
 
-    fun showLogin(toString: String)
+    fun showLogin(string: Any)
 
     @StateStrategyType(SkipStrategy::class)
     fun showNextController()

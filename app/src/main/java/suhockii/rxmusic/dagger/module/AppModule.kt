@@ -7,6 +7,8 @@ import suhockii.rxmusic.business.preferences.PreferencesInteractor
 import suhockii.rxmusic.business.preferences.PreferencesInteractorImpl
 import suhockii.rxmusic.data.repositories.audio.AudioRepository
 import suhockii.rxmusic.data.repositories.audio.AudioRepositoryImpl
+import suhockii.rxmusic.data.repositories.auth.AuthRepository
+import suhockii.rxmusic.data.repositories.auth.AuthRepositoryImpl
 import suhockii.rxmusic.data.repositories.preferences.PreferencesRepository
 import suhockii.rxmusic.data.repositories.preferences.PreferencesRepositoryImpl
 import javax.inject.Singleton
@@ -15,22 +17,27 @@ import javax.inject.Singleton
 @Module
 class AppModule(val appContext: Context) {
 
-    @Provides
-    @Singleton
-    fun providePreferencesRepository(): PreferencesRepository {
-        return PreferencesRepositoryImpl(appContext)
-    }
+    var preferencesRepository: PreferencesRepository
+        @Provides
+        @Singleton
+        get() = PreferencesRepositoryImpl(appContext)
+        set(value) {}
 
-    @Provides
-    @Singleton
-    fun provideAudioRepository(repository: PreferencesRepository): AudioRepository {
-        return AudioRepositoryImpl(repository)
-    }
+    var authRepository: AuthRepository
+        @Provides
+        @Singleton
+        get() = AuthRepositoryImpl()
+        set(value) {}
 
-    @Provides
-    @Singleton
-    fun providePreferencesInteractor(repository: PreferencesRepository): PreferencesInteractor {
-        return PreferencesInteractorImpl(repository)
-    }
+    var audioRepository: AudioRepository
+        @Provides
+        @Singleton
+        get() = AudioRepositoryImpl(preferencesRepository)
+        set(value) {}
 
+    var preferencesInteractor: PreferencesInteractor
+        @Provides
+        @Singleton
+        get() = PreferencesInteractorImpl(preferencesRepository)
+        set(value) {}
 }

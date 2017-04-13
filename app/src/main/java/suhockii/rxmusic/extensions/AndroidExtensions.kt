@@ -1,4 +1,4 @@
-package suhockii.rxmusic.smth
+package suhockii.rxmusic.extensions
 
 import android.os.Build
 

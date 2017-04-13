@@ -21,9 +21,15 @@ class App : Application() {
         lateinit var instance: App private set
         lateinit var refWatcher: RefWatcher
         lateinit var appComponent: AppComponent
-        lateinit var userComponent: UserComponent
-        lateinit var authComponent: AuthComponent
     }
+
+    var userComponent: UserComponent?
+        get() = appComponent.plus(UserModule())
+        set(value) {}
+
+    var authComponent: AuthComponent?
+        get() = appComponent.plus(AuthModule())
+        set(value) {}
 
     override fun onCreate() {
         super.onCreate()
@@ -36,30 +42,8 @@ class App : Application() {
                     .build())
             if (!LeakCanary.isInAnalyzerProcess(this)) refWatcher = LeakCanary.install(this)
         }
-        initAppComponent()
-    }
-
-    private fun initAppComponent() {
         appComponent = DaggerAppComponent.builder()
                 .appModule(AppModule(this))
                 .build()
-    }
-
-    fun initUserComponent(): UserComponent {
-        userComponent = appComponent.plus(UserModule())
-        return userComponent
-    }
-
-    fun initAuthComponent(): AuthComponent {
-        authComponent = appComponent.plus(AuthModule())
-        return authComponent
-    }
-
-    fun releaseUserComponent() {
-        userComponent = null!!
-    }
-
-    fun releaseAuthComponent() {
-        authComponent = null!!
     }
 }
