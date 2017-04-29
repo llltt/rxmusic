@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_music.view.*
 import suhockii.rxmusic.R
-import suhockii.rxmusic.data.repositories.audio.models.Audio
+import suhockii.rxmusic.data.net.models.Audio
 import suhockii.rxmusic.extensions.context
 import suhockii.rxmusic.extensions.onClick
 import suhockii.rxmusic.extensions.toTime

@@ -5,13 +5,13 @@ import com.facebook.stetho.Stetho
 import com.frogermcs.androiddevmetrics.AndroidDevMetrics
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
-import suhockii.rxmusic.dagger.component.AppComponent
-import suhockii.rxmusic.dagger.component.AuthComponent
-import suhockii.rxmusic.dagger.component.DaggerAppComponent
-import suhockii.rxmusic.dagger.component.UserComponent
-import suhockii.rxmusic.dagger.module.AppModule
-import suhockii.rxmusic.dagger.module.AuthModule
-import suhockii.rxmusic.dagger.module.UserModule
+import suhockii.rxmusic.dagger.components.AppComponent
+import suhockii.rxmusic.dagger.components.AuthComponent
+import suhockii.rxmusic.dagger.components.DaggerAppComponent
+import suhockii.rxmusic.dagger.components.UserComponent
+import suhockii.rxmusic.dagger.modules.AppModule
+import suhockii.rxmusic.dagger.modules.AuthModule
+import suhockii.rxmusic.dagger.modules.UserModule
 
 /** Created by Maksim Sukhotski on 3/25/2017.*/
 

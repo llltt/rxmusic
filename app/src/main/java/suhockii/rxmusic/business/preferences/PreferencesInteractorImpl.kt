@@ -1,6 +1,6 @@
 package suhockii.rxmusic.business.preferences
 
-import suhockii.rxmusic.data.repositories.auth.models.Credentials
+import suhockii.rxmusic.data.net.models.Credentials
 import suhockii.rxmusic.data.repositories.preferences.PreferencesRepository
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
@@ -14,7 +14,7 @@ class PreferencesInteractorImpl(private val repository: PreferencesRepository) :
         return repository.credentials
     }
 
-    override fun isEmpty(): Boolean {
+    override fun authTokenEmpty(): Boolean {
         return repository.empty
     }
 }

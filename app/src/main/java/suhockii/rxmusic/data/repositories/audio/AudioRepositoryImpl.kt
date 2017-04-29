@@ -2,17 +2,17 @@ package suhockii.rxmusic.data.repositories.audio
 
 import io.reactivex.Single
 import suhockii.rxmusic.data.net.AudioApi
-import suhockii.rxmusic.data.net.ConstantFields.Companion.HTTPS
-import suhockii.rxmusic.data.net.ConstantFields.Companion.LANG
-import suhockii.rxmusic.data.net.ConstantFields.Companion.V
+import suhockii.rxmusic.data.net.BaseFields.Companion.HTTPS
+import suhockii.rxmusic.data.net.BaseFields.Companion.LANG
+import suhockii.rxmusic.data.net.BaseFields.Companion.V
 import suhockii.rxmusic.data.net.RetrofitObject
+import suhockii.rxmusic.data.net.models.AudioResponse
 import suhockii.rxmusic.data.net.models.BaseResponse
-import suhockii.rxmusic.data.repositories.audio.models.AudioResponse
 import suhockii.rxmusic.data.repositories.preferences.PreferencesRepository
 import suhockii.rxmusic.extensions.toMd5
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
-class AudioRepositoryImpl(private val repository: PreferencesRepository) : AudioRepository {
+class AudioRepositoryImpl(private val preferencesRepository: PreferencesRepository) : AudioRepository {
 
     internal val api = RetrofitObject.build(AudioApi::class.java)
 
@@ -25,7 +25,7 @@ class AudioRepositoryImpl(private val repository: PreferencesRepository) : Audio
                 ownerId,
                 count,
                 offset,
-                repository.credentials.access_token,
+                preferencesRepository.credentials.access_token,
                 getSig(ownerId, count, offset))
     }
 
@@ -37,7 +37,8 @@ class AudioRepositoryImpl(private val repository: PreferencesRepository) : Audio
                 "owner_id=$ownerId&" +
                 "count=$count&" +
                 "offset=$offset&" +
-                "access_token=${repository.credentials.access_token}${repository.credentials.secret}")
+                "access_token=${preferencesRepository.credentials.access_token}" +
+                preferencesRepository.credentials.secret)
                 .toMd5()
     }
 }

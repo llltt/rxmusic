@@ -4,8 +4,8 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:2.3.1"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.1"
-        classpath "org.jetbrains.kotlin:kotlin-android-extensions:1.1.1"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.2-2"
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:1.1.2-2"
         classpath 'com.frogermcs.androiddevmetrics:androiddevmetrics-plugin:0.5'
     }
 }

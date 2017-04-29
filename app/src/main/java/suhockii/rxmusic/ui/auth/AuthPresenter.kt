@@ -8,9 +8,9 @@ import retrofit2.HttpException
 import suhockii.rxmusic.App
 import suhockii.rxmusic.business.auth.AuthInteractor
 import suhockii.rxmusic.business.preferences.PreferencesInteractor
-import suhockii.rxmusic.data.repositories.auth.models.Captcha
-import suhockii.rxmusic.data.repositories.auth.models.Credentials
-import suhockii.rxmusic.data.repositories.auth.models.Validation
+import suhockii.rxmusic.data.net.models.Captcha
+import suhockii.rxmusic.data.net.models.Credentials
+import suhockii.rxmusic.data.net.models.Validation
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 4/1/2017.*/

@@ -10,7 +10,7 @@ import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import kotlinx.android.synthetic.main.controller_audio.view.*
 import suhockii.rxmusic.App
 import suhockii.rxmusic.R
-import suhockii.rxmusic.data.repositories.audio.models.AudioResponse
+import suhockii.rxmusic.data.net.models.AudioResponse
 import suhockii.rxmusic.ui.auth.AuthController
 import suhockii.rxmusic.ui.base.MoxyController
 

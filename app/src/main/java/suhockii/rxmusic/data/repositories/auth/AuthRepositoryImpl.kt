@@ -7,18 +7,18 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import suhockii.rxmusic.BuildConfig.CLIENT_ID
+import suhockii.rxmusic.BuildConfig.CLIENT_SECRET
 import suhockii.rxmusic.data.net.AuthApi
-import suhockii.rxmusic.data.net.ConstantFields.Companion.CLIENT_ID
-import suhockii.rxmusic.data.net.ConstantFields.Companion.CLIENT_SECRET
-import suhockii.rxmusic.data.net.ConstantFields.Companion.GRANT_TYPE
-import suhockii.rxmusic.data.net.ConstantFields.Companion.HTTPS
-import suhockii.rxmusic.data.net.ConstantFields.Companion.LANG
-import suhockii.rxmusic.data.net.ConstantFields.Companion.LIBVERIFY_SUPPORT
-import suhockii.rxmusic.data.net.ConstantFields.Companion.SCOPE
-import suhockii.rxmusic.data.net.ConstantFields.Companion.TWO_FA_SUPPORTED
-import suhockii.rxmusic.data.net.ConstantFields.Companion.V
+import suhockii.rxmusic.data.net.BaseFields.Companion.GRANT_TYPE
+import suhockii.rxmusic.data.net.BaseFields.Companion.HTTPS
+import suhockii.rxmusic.data.net.BaseFields.Companion.LANG
+import suhockii.rxmusic.data.net.BaseFields.Companion.LIBVERIFY_SUPPORT
+import suhockii.rxmusic.data.net.BaseFields.Companion.SCOPE
+import suhockii.rxmusic.data.net.BaseFields.Companion.TWO_FA_SUPPORTED
+import suhockii.rxmusic.data.net.BaseFields.Companion.V
 import suhockii.rxmusic.data.net.RetrofitObject
-import suhockii.rxmusic.data.repositories.auth.models.Credentials
+import suhockii.rxmusic.data.net.models.Credentials
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/
 

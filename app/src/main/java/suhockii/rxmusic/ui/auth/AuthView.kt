@@ -4,8 +4,8 @@ import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
-import suhockii.rxmusic.data.repositories.auth.models.Captcha
-import suhockii.rxmusic.data.repositories.auth.models.Validation
+import suhockii.rxmusic.data.net.models.Captcha
+import suhockii.rxmusic.data.net.models.Validation
 
 /** Created by Maksim Sukhotski on 4/1/2017.*/
 @StateStrategyType(AddToEndSingleStrategy::class)

@@ -13,8 +13,8 @@ import kotlinx.android.synthetic.main.part_captcha.view.*
 import kotlinx.android.synthetic.main.part_login.view.*
 import kotlinx.android.synthetic.main.part_validation.view.*
 import suhockii.rxmusic.R
-import suhockii.rxmusic.data.repositories.auth.models.Captcha
-import suhockii.rxmusic.data.repositories.auth.models.Validation
+import suhockii.rxmusic.data.net.models.Captcha
+import suhockii.rxmusic.data.net.models.Validation
 import suhockii.rxmusic.extensions.hideKeyboard
 import suhockii.rxmusic.extensions.onClick
 import suhockii.rxmusic.ui.audio.AudioController

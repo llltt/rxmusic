@@ -2,7 +2,7 @@ package suhockii.rxmusic.data.repositories.preferences
 
 import android.content.Context
 import com.google.gson.Gson
-import suhockii.rxmusic.data.repositories.auth.models.Credentials
+import suhockii.rxmusic.data.net.models.Credentials
 
 /** Created by Maksim Sukhotski on 3/30/2017.*/
 class PreferencesRepositoryImpl(context: Context) : PreferencesRepository {

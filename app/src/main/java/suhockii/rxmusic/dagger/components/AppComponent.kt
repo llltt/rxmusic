@@ -1,9 +1,9 @@
-package suhockii.rxmusic.dagger.component
+package suhockii.rxmusic.dagger.components
 
 import dagger.Component
-import suhockii.rxmusic.dagger.module.AppModule
-import suhockii.rxmusic.dagger.module.AuthModule
-import suhockii.rxmusic.dagger.module.UserModule
+import suhockii.rxmusic.dagger.modules.AppModule
+import suhockii.rxmusic.dagger.modules.AuthModule
+import suhockii.rxmusic.dagger.modules.UserModule
 import javax.inject.Singleton
 
 /** Created by Maksim Sukhotski on 4/7/2017. */

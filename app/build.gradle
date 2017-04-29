@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: 'kotlin-android-extensions'
@@ -41,6 +43,17 @@ android {
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
+    productFlavors {
+        dev {
+            def filePath = 'app-credentials.json'
+            def agent = (new JsonSlurper().parseText(file(filePath).text)).user_agent
+            def secret = (new JsonSlurper().parseText(file(filePath).text)).client_secret
+            def id = (new JsonSlurper().parseText(file(filePath).text)).client_id
+            buildConfigField('String', 'USER_AGENT', "\"" + agent + "\"")
+            buildConfigField('String', 'CLIENT_SECRET', "\"" + secret + "\"")
+            buildConfigField('String', 'CLIENT_ID', "\"" + id + "\"")
+        }
+    }
     dexOptions {
         javaMaxHeapSize "8g"
     }
@@ -51,34 +64,36 @@ kapt {
 }
 
 dependencies {
-    kapt rootProject.moxyCompiler
-    kapt rootProject.moxyCompiler
-    kapt rootProject.daggerCompiler
-
-    compile rootProject.kotlin
-    compile rootProject.rxJava
-    compile rootProject.rxAndroid
-    compile rootProject.rxPermissions
-    compile rootProject.rxJavaAdapter
-    compile rootProject.retrofit
-    compile rootProject.gsonConverter
-    compile rootProject.dagger
-    compile rootProject.moxy
-    compile rootProject.moxyAndroid
-    compile rootProject.moxyCompiler
-    compile rootProject.moxyAppcompat
-    compile rootProject.conductor
-    compile rootProject.conductorSupport
-    compile rootProject.conductorRxLifecycle
-
-    compile rootProject.glide
-    compile rootProject.design
-    compile rootProject.support
-    compile rootProject.appcompat
-    compile rootProject.constraint
-    compile rootProject.recyclerview
-
-    debugCompile rootProject.stetho
-    debugCompile rootProject.stethoOkhttp
-    debugCompile rootProject.leakcanary
+    compile(
+            rootProject.kotlin,
+            rootProject.rxJava,
+            rootProject.rxAndroid,
+            rootProject.rxPermissions,
+            rootProject.rxJavaAdapter,
+            rootProject.retrofit,
+            rootProject.gsonConverter,
+            rootProject.dagger,
+            rootProject.moxy,
+            rootProject.moxyAndroid,
+            rootProject.moxyCompiler,
+            rootProject.moxyAppcompat,
+            rootProject.conductor,
+            rootProject.conductorSupport,
+            rootProject.conductorRxLifecycle,
+            rootProject.glide,
+            rootProject.design,
+            rootProject.support,
+            rootProject.appcompat,
+            rootProject.constraint,
+            rootProject.recyclerview
+    )
+    debugCompile(
+            rootProject.stetho,
+            rootProject.stethoOkhttp,
+            rootProject.leakcanary
+    )
+    kapt(
+            rootProject.moxyCompiler,
+            rootProject.daggerCompiler
+    )
 }

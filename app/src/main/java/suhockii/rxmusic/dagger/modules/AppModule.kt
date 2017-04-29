@@ -1,4 +1,4 @@
-package suhockii.rxmusic.dagger.module
+package suhockii.rxmusic.dagger.modules
 
 import android.content.Context
 import dagger.Module

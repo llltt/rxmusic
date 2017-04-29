@@ -16,7 +16,7 @@ import suhockii.rxmusic.App
 abstract class MoxyController : Controller {
 
     val mvpDelegate by lazy { MvpDelegate(this) }
-    var isStateSaved = false
+    private var isStateSaved: Boolean = false
     private var hasExited: Boolean = false
 
     constructor() : super() {

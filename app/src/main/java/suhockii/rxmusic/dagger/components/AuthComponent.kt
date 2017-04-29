@@ -1,8 +1,8 @@
-package suhockii.rxmusic.dagger.component
+package suhockii.rxmusic.dagger.components
 
 import dagger.Subcomponent
-import suhockii.rxmusic.dagger.module.AuthModule
-import suhockii.rxmusic.dagger.scope.AuthScope
+import suhockii.rxmusic.dagger.modules.AuthModule
+import suhockii.rxmusic.dagger.scopes.AuthScope
 import suhockii.rxmusic.ui.auth.AuthPresenter
 
 /** Created by Maksim Sukhotski on 4/7/2017. */

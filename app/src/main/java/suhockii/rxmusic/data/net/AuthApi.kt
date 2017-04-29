@@ -4,7 +4,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
-import suhockii.rxmusic.data.repositories.auth.models.Credentials
+import suhockii.rxmusic.data.net.models.Credentials
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/
 
