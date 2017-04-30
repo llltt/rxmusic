@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="@dimen/list"
     android:orientation="vertical">
 
     <ImageView
@@ -39,28 +39,26 @@
 
     <TextView
         android:id="@+id/artistTextView"
+        style="@style/TextPrimary"
         android:layout_width="0dp"
         android:layout_height="25dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="0dp"
-        android:ellipsize="end"
         android:gravity="start|center_vertical"
-        android:maxLines="1"
         app:layout_constraintLeft_toRightOf="@+id/vizualizerImageView"
         app:layout_constraintRight_toLeftOf="@+id/isLoadedImageView"
         app:layout_constraintTop_toTopOf="@+id/vizualizerImageView" />
 
     <TextView
         android:id="@+id/titleTextView"
+        style="@style/TextPrimaryGray"
         android:layout_width="0dp"
         android:layout_height="25dp"
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:ellipsize="end"
         android:gravity="start|center_vertical"
-        android:maxLines="1"
         app:layout_constraintBottom_toBottomOf="@+id/vizualizerImageView"
         app:layout_constraintLeft_toRightOf="@+id/vizualizerImageView"
         app:layout_constraintRight_toLeftOf="@+id/isLoadedImageView" />

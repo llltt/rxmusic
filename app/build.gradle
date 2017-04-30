@@ -85,7 +85,8 @@ dependencies {
             rootProject.support,
             rootProject.appcompat,
             rootProject.constraint,
-            rootProject.recyclerview
+            rootProject.recyclerview,
+            rootProject.slidinguppanel
     )
     debugCompile(
             rootProject.stetho,
@@ -96,4 +97,7 @@ dependencies {
             rootProject.moxyCompiler,
             rootProject.daggerCompiler
     )
+    repositories {
+        mavenCentral()
+    }
 }

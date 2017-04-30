@@ -5,7 +5,7 @@
     android:id="@+id/loginLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="suhockii.rxmusic.ui.auth.AuthController">
+    tools:context="rx.music.ui.auth.AuthController">
 
     <ScrollView
         android:layout_width="0dp"
@@ -45,7 +45,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/flipLayout" />
 
-            <suhockii.rxmusic.ui.auth.FlipLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <rx.music.ui.auth.FlipLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/flipLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                 <include layout="@layout/part_captcha" />
 
                 <include layout="@layout/part_validation" />
-            </suhockii.rxmusic.ui.auth.FlipLayout>
+            </rx.music.ui.auth.FlipLayout>
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
