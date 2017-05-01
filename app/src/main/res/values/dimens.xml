@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="list">80dp</dimen>
-    <dimen name="player_preview">64dp</dimen>
-    <dimen name="player_half">32dp</dimen>
+    <dimen name="navigation">56dp</dimen>
+    <dimen name="navigation_half">28dp</dimen>
 </resources>

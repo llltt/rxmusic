@@ -9,9 +9,10 @@ import rx.music.data.net.models.BaseResponse
 /** Created by Maksim Sukhotski on 4/9/2017. */
 interface AudioInteractor {
 
-    fun getAudio(ownerId: String,
+    fun getAudio(ownerId: String?,
                  count: String,
                  offset: String): Single<BaseResponse<AudioResponse>>
 
-    fun playAudio(audio: Audio): Completable
+    fun handleAudio(audio: Audio): Completable
+    val isNotAuthorized: Boolean
 }

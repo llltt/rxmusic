@@ -21,5 +21,5 @@ interface AuthView : MvpView {
     fun showLogin(string: Any)
 
     @StateStrategyType(SkipStrategy::class)
-    fun showNextController()
+    fun showAudioController()
 }

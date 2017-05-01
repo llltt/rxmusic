@@ -3,13 +3,13 @@ package rx.music.ui.auth
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.google.gson.Gson
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import org.json.JSONObject
 import retrofit2.HttpException
 import rx.music.App
 import rx.music.business.auth.AuthInteractor
-import rx.music.business.preferences.PreferencesInteractor
 import rx.music.data.net.models.Captcha
-import rx.music.data.net.models.Credentials
 import rx.music.data.net.models.Validation
 import javax.inject.Inject
 
@@ -17,7 +17,6 @@ import javax.inject.Inject
 @InjectViewState
 class AuthPresenter : MvpPresenter<AuthView>() {
 
-    @Inject lateinit var preferencesInteractor: PreferencesInteractor
     @Inject lateinit var authInteractor: AuthInteractor
 
     init {
@@ -31,7 +30,9 @@ class AuthPresenter : MvpPresenter<AuthView>() {
               code: String? = null) {
         if (username.isNotEmpty() && password.isNotEmpty())
             authInteractor.getCredentials(username, password, captchaSid, captchaKey, code)
-                    .subscribe(onResponse(), onError())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ viewState.showAudioController() }, onError())
     }
 
     private fun onError(): (Throwable) -> Unit {
@@ -44,14 +45,6 @@ class AuthPresenter : MvpPresenter<AuthView>() {
                     "need_captcha" -> viewState.showCaptcha(Gson().fromJson(s, Captcha::class.java))
                 }
             }
-        }
-    }
-
-    private fun onResponse(): (Credentials) -> Unit {
-        return {
-            preferencesInteractor.saveCredentials(it)
-            App.instance.authComponent = null
-            viewState.showNextController()
         }
     }
 

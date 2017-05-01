@@ -9,7 +9,6 @@ import javax.inject.Singleton
 /** Created by Maksim Sukhotski on 4/7/2017. */
 @Component(modules = arrayOf(AppModule::class))
 @Singleton interface AppComponent {
-
-    fun plus(m: UserModule): UserComponent
-    fun plus(m: AuthModule): AuthComponent
+    fun plus(userModule: UserModule): UserComponent
+    fun plus(authModule: AuthModule): AuthComponent
 }

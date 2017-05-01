@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Rx Music</string>
     <string name="code_sent">Код отправлен на номер %1$s</string>
+    <string name="music">Музыка</string>
+    <string name="popular">Популярное</string>
+    <string name="room">Комната</string>
 </resources>

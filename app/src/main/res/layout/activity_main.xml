@@ -1,31 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/sliding_layout"
+    android:id="@+id/slidingLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:gravity="top"
-    sothree:umanoPanelHeight="@dimen/player_preview"
+    sothree:umanoPanelHeight="@dimen/navigation"
     sothree:umanoShadowHeight="4dp">
 
-    <android.support.design.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <include
+        layout="@layout/part_containers"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:gravity="center"
-        tools:context=".ui.base.MainActivity">
-
-        <com.bluelinelabs.conductor.ChangeHandlerFrameLayout
-            android:id="@+id/controllerContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    </android.support.design.widget.CoordinatorLayout>
+        android:gravity="center" />
 
     <include
+        android:id="@+id/playerContainer"
         layout="@layout/controller_player"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

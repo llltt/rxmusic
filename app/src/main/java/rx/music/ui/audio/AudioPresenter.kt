@@ -6,7 +6,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import rx.music.App
 import rx.music.business.audio.AudioInteractor
-import rx.music.business.preferences.PreferencesInteractor
 import rx.music.data.net.models.Audio
 import javax.inject.Inject
 
@@ -15,7 +14,6 @@ import javax.inject.Inject
 @InjectViewState
 class AudioPresenter : MvpPresenter<AudioView>() {
 
-    @Inject lateinit var preferencesInteractor: PreferencesInteractor
     @Inject lateinit var audioInteractor: AudioInteractor
 
     init {
@@ -24,16 +22,10 @@ class AudioPresenter : MvpPresenter<AudioView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        if (preferencesInteractor.authTokenEmpty()) {
-            viewState.showAuthController()
-        } else {
-            getAudio()
-        }
+        if (audioInteractor.isNotAuthorized) viewState.showAuthController() else getAudio()
     }
 
-    fun getAudio(ownerId: String = preferencesInteractor.getCredentials().user_id,
-                 count: String = "30",
-                 offset: String = "0") {
+    fun getAudio(ownerId: String? = null, count: String = "30", offset: String = "0") {
         audioInteractor.getAudio(ownerId, count, offset)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -41,11 +33,10 @@ class AudioPresenter : MvpPresenter<AudioView>() {
     }
 
     fun playAudio(audio: Audio) {
-        audioInteractor.playAudio(audio)
+        audioInteractor.handleAudio(audio)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()
-//        viewState.showPlayer()
     }
 
 }

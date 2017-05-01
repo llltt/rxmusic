@@ -6,7 +6,6 @@ import rx.music.data.net.models.Credentials
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/
 interface AuthInteractor {
-
     fun getCredentials(username: String,
                        password: String,
                        captchaSid: String?,

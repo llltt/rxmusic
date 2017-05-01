@@ -7,6 +7,5 @@ interface PreferencesRepository {
 
     var credentials: Credentials
     var empty: Boolean
-
     fun clear()
 }

@@ -8,23 +8,27 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_auth.view.*
+import kotlinx.android.synthetic.main.part_auth.view.*
 import kotlinx.android.synthetic.main.part_captcha.view.*
-import kotlinx.android.synthetic.main.part_login.view.*
+import kotlinx.android.synthetic.main.part_containers.*
 import kotlinx.android.synthetic.main.part_validation.view.*
 import me.ext.hideKeyboard
 import me.ext.onClick
+import rx.music.App
 import rx.music.R
 import rx.music.data.net.models.Captcha
 import rx.music.data.net.models.Validation
 import rx.music.ui.audio.AudioController
 import rx.music.ui.base.MoxyController
+import rx.music.ui.main.MainActivity
 
 
 class AuthController : MoxyController(), AuthView {
 
     @InjectPresenter
-    lateinit var presenter: AuthPresenter
+    lateinit var authPresenter: AuthPresenter
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View {
         return inflater.inflate(R.layout.controller_auth, container, false)
@@ -32,15 +36,14 @@ class AuthController : MoxyController(), AuthView {
 
     override fun onViewBound(view: View) {
         view.loginButton.onClick {
-            presenter.login(view.usernameEditText.text.toString(),
+            authPresenter.login(view.usernameEditText.text.toString(),
                     view.passwordEditText.text.toString())
         }
     }
 
     override fun showSnackbar(text: String) {
         with(view!!) {
-            Snackbar.make(loginLayout, text, Snackbar.LENGTH_LONG)
-                    .show()
+            Snackbar.make(loginLayout, text, Snackbar.LENGTH_LONG).show()
         }
     }
 
@@ -59,7 +62,7 @@ class AuthController : MoxyController(), AuthView {
                     .error(R.drawable.oh)
                     .into(captchaImageView)
             loginButton.onClick {
-                presenter.login(usernameEditText.text.toString(),
+                authPresenter.login(usernameEditText.text.toString(),
                         passwordEditText.text.toString(),
                         captcha.captcha_sid,
                         captchaEditText.text.toString())
@@ -73,17 +76,25 @@ class AuthController : MoxyController(), AuthView {
             flipLayout.showView(flipLayout.validationView!!)
             validationTextView.text = context.getString(R.string.code_sent, validation.phone_mask)
             loginButton.onClick {
-                presenter.login(usernameEditText.text.toString(),
+                authPresenter.login(usernameEditText.text.toString(),
                         passwordEditText.text.toString(),
                         code = validationEditText.text.toString())
             }
         }
     }
 
-    override fun showNextController() {
+    override fun showAudioController() {
+        showNavigation()
         view?.hideKeyboard()
+        App.instance.authComponent = null
         router.setRoot(RouterTransaction.with(AudioController())
                 .pushChangeHandler(HorizontalChangeHandler())
                 .popChangeHandler(HorizontalChangeHandler()))
+    }
+
+    fun showNavigation() {
+        (activity as MainActivity).slidingLayout.panelHeight =
+                resources!!.getDimension(R.dimen.navigation).toInt()
+        (activity as MainActivity).bottomNavigation.animate().translationY(0f)
     }
 }

@@ -5,6 +5,7 @@ import dagger.Provides
 import rx.music.business.audio.AudioInteractor
 import rx.music.business.audio.AudioInteractorImpl
 import rx.music.data.repositories.audio.AudioRepository
+import rx.music.data.repositories.audio.AudioRepositoryImpl
 import rx.music.di.scopes.UserScope
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
@@ -13,7 +14,13 @@ class UserModule {
 
     @Provides
     @UserScope
-    fun provideAudioInteractor(audioRepository: AudioRepository): AudioInteractor {
-        return AudioInteractorImpl(audioRepository)
+    fun provideAudioRepository(): AudioRepository {
+        return AudioRepositoryImpl()
+    }
+
+    @Provides
+    @UserScope
+    fun provideAudioInteractor(): AudioInteractor {
+        return AudioInteractorImpl()
     }
 }

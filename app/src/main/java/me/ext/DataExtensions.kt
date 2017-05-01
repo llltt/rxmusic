@@ -1,10 +1,19 @@
 package me.ext
 
+import android.content.res.Resources
+import android.util.TypedValue
+
+
+
 /** Created by Maksim Sukhotski on 4/9/2017. */
 fun String.toMd5(): String {
     val md = java.security.MessageDigest.getInstance("MD5")
     val md5sum = md.digest(this.toByteArray())
     return String.format("%032X", java.math.BigInteger(1, md5sum)).toLowerCase()
+}
+
+fun Int.toDp(r: Resources): Float {
+    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), r.displayMetrics)
 }
 
 fun android.content.Context.isNetworkConnected() = (this.getSystemService(android.content.Context.CONNECTIVITY_SERVICE) as android.net.ConnectivityManager).activeNetworkInfo != null
