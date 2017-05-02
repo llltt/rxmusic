@@ -9,9 +9,7 @@ import rx.music.data.net.models.AudioResponse
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface AudioView : MvpView {
 
-    fun showAudio(audioResponse: AudioResponse)
+    fun showAudio(audioResponse: AudioResponse?)
 
     fun showAuthController()
-//    @StateStrategyType(SkipStrategy::class)
-//    fun showAudioController()
 }

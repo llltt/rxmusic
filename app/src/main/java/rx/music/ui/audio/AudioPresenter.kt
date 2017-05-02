@@ -29,7 +29,12 @@ class AudioPresenter : MvpPresenter<AudioView>() {
         audioInteractor.getAudio(ownerId, count, offset)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ it -> viewState.showAudio(it.response) }, { })
+                .subscribe({ it ->
+                    run {
+                        if (it.response != null) viewState.showAudio(it.response)
+                        else if (it.error.error_code == 5) viewState.showAuthController()
+                    }
+                })
     }
 
     fun playAudio(audio: Audio) {

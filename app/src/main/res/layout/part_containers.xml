@@ -7,7 +7,26 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context=".ui.main.MainActivity">
+    tools:context=".ui.base.MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="45dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:elevation="8dp"
+        android:foreground="?android:selectableItemBackgroundBorderless"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bottomNavigation"
+        app:srcCompat="@drawable/more"
+        tools:targetApi="lollipop" />
 
     <com.bluelinelabs.conductor.ChangeHandlerFrameLayout
         android:id="@+id/audioContainer"
@@ -59,11 +78,13 @@
         android:id="@+id/bottomNavigation"
         android:layout_width="0dp"
         android:layout_height="@dimen/navigation"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
         android:background="@android:color/white"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/imageView3"
         app:menu="@menu/navigation"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintRight_creator="1" />

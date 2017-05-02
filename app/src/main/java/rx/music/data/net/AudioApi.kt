@@ -4,6 +4,7 @@ import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
+import rx.music.BuildConfig.USER_AGENT
 import rx.music.data.net.models.AudioResponse
 import rx.music.data.net.models.BaseResponse
 
@@ -11,7 +12,7 @@ import rx.music.data.net.models.BaseResponse
 interface AudioApi {
 
     @Headers(
-            "User-Agent: VKAndroidApp/4.0.1-816 (Android 6.0.1; SDK 23; armeabi-v7a; LGE Nexus 5; ru)"
+            "User-Agent: $USER_AGENT"
     )
     @GET("audio.get")
     fun getAudio(@Query("v") v: String,

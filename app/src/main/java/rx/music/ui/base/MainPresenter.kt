@@ -1,4 +1,4 @@
-package rx.music.ui.main
+package rx.music.ui.base
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter

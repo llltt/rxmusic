@@ -22,4 +22,6 @@ interface AuthView : MvpView {
 
     @StateStrategyType(SkipStrategy::class)
     fun showAudioController()
+
+    fun hideNavigation()
 }

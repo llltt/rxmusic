@@ -23,6 +23,10 @@ class AuthPresenter : MvpPresenter<AuthView>() {
         App.instance.authComponent?.inject(this)
     }
 
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        viewState.hideNavigation()
+    }
     fun login(username: String,
               password: String,
               captchaSid: String? = null,

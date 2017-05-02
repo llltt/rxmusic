@@ -7,15 +7,12 @@ import android.view.ViewGroup
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_audio.view.*
-import kotlinx.android.synthetic.main.part_containers.*
 import rx.music.App
 import rx.music.R
 import rx.music.data.net.models.AudioResponse
 import rx.music.ui.auth.AuthController
 import rx.music.ui.base.MoxyController
-import rx.music.ui.main.MainActivity
 
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
@@ -44,13 +41,14 @@ class AudioController : MoxyController(), AudioView {
         }
     }
 
-    override fun showAudio(audioResponse: AudioResponse) {
-        adapter.items.addAll(audioResponse.items)
-        adapter.notifyDataSetChanged()
+    override fun showAudio(audioResponse: AudioResponse?) {
+        if (audioResponse != null) {
+            adapter.items.addAll(audioResponse.items)
+            adapter.notifyDataSetChanged()
+        }
     }
 
     override fun showAuthController() {
-        hideNavigation()
         router.setRoot(RouterTransaction.with(AuthController())
                 .pushChangeHandler(HorizontalChangeHandler())
                 .popChangeHandler(HorizontalChangeHandler()))
@@ -59,11 +57,5 @@ class AudioController : MoxyController(), AudioView {
     override fun onDetach(view: View) {
         super.onDetach(view)
         App.instance.userComponent = null
-    }
-
-    fun hideNavigation() {
-        (activity as MainActivity).bottomNavigation.animate().
-                translationY(resources!!.getDimension(R.dimen.navigation)).withEndAction { (activity as MainActivity).bottomNavigation.visibility = View.GONE }
-        (activity as MainActivity).slidingLayout.panelHeight = 0
     }
 }

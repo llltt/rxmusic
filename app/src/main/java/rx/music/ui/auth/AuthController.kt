@@ -21,8 +21,8 @@ import rx.music.R
 import rx.music.data.net.models.Captcha
 import rx.music.data.net.models.Validation
 import rx.music.ui.audio.AudioController
+import rx.music.ui.base.MainActivity
 import rx.music.ui.base.MoxyController
-import rx.music.ui.main.MainActivity
 
 
 class AuthController : MoxyController(), AuthView {
@@ -85,7 +85,6 @@ class AuthController : MoxyController(), AuthView {
 
     override fun showAudioController() {
         showNavigation()
-        view?.hideKeyboard()
         App.instance.authComponent = null
         router.setRoot(RouterTransaction.with(AudioController())
                 .pushChangeHandler(HorizontalChangeHandler())
@@ -93,8 +92,17 @@ class AuthController : MoxyController(), AuthView {
     }
 
     fun showNavigation() {
-        (activity as MainActivity).slidingLayout.panelHeight =
-                resources!!.getDimension(R.dimen.navigation).toInt()
+        view?.hideKeyboard()
         (activity as MainActivity).bottomNavigation.animate().translationY(0f)
+                .withStartAction { (activity as MainActivity).bottomNavigation.visibility = View.VISIBLE }
+                .withEndAction { (activity as MainActivity).slidingLayout.panelHeight = resources!!.getDimension(R.dimen.navigation).toInt() }
+                .startDelay = 300
+    }
+
+    override fun hideNavigation() {
+        (activity as MainActivity).slidingLayout.panelHeight = 0
+        (activity as MainActivity).bottomNavigation.animate()
+                .translationY(resources!!.getDimension(R.dimen.navigation))
+                .withEndAction { (activity as MainActivity).bottomNavigation.visibility = View.GONE }
     }
 }

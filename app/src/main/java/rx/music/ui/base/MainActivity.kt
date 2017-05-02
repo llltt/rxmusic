@@ -1,4 +1,4 @@
-package rx.music.ui.main
+package rx.music.ui.base
 
 import android.support.design.widget.BottomNavigationView
 import android.view.View
@@ -61,11 +61,13 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     }
 
     override fun showContainer(container: ChangeHandlerFrameLayout?, isReselected: Boolean) {
-        audioContainer.visibility = if (container == null || container == audioContainer)
+        audioContainer.visibility = if (container == null || container.id == R.id.audioContainer)
             View.VISIBLE else View.GONE
-        popularContainer.visibility = if (container == popularContainer) View.VISIBLE else View.GONE
-        roomContainer.visibility = if (container == roomContainer) View.VISIBLE else View.GONE
-        if (isReselected) {
+        popularContainer.visibility = if (container?.id == R.id.popularContainer)
+            View.VISIBLE else View.GONE
+        roomContainer.visibility = if (container?.id == R.id.roomContainer)
+            View.VISIBLE else View.GONE
+        if (!isReselected) {
             container?.alpha = 0F
             container?.animate()?.alpha(1F)
         }

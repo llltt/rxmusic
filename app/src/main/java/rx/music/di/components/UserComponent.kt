@@ -6,6 +6,7 @@ import rx.music.data.repositories.audio.AudioRepositoryImpl
 import rx.music.di.modules.UserModule
 import rx.music.di.scopes.UserScope
 import rx.music.ui.audio.AudioPresenter
+import rx.music.ui.player.PlayerPresenter
 import rx.music.ui.popular.PopularPresenter
 import rx.music.ui.popular.RoomPresenter
 
@@ -17,4 +18,5 @@ import rx.music.ui.popular.RoomPresenter
     fun inject(roomPresenter: RoomPresenter)
     fun inject(audioInteractorImpl: AudioInteractorImpl)
     fun inject(audioRepositoryImpl: AudioRepositoryImpl)
+    fun inject(playerPresenter: PlayerPresenter)
 }
