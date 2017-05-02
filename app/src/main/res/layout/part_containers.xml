@@ -10,7 +10,7 @@
     tools:context=".ui.base.MainActivity">
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/moreImageView"
         android:layout_width="45dp"
         android:layout_height="0dp"
         android:layout_marginBottom="0dp"
@@ -84,7 +84,7 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/imageView3"
+        app:layout_constraintRight_toLeftOf="@+id/moreImageView"
         app:menu="@menu/navigation"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintRight_creator="1" />

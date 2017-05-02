@@ -86,7 +86,8 @@ dependencies {
             rootProject.appcompat,
             rootProject.constraint,
             rootProject.recyclerview,
-            rootProject.slidinguppanel
+            rootProject.slidinguppanel,
+            rootProject.bottomSheet
     )
     debugCompile(
             rootProject.stetho,

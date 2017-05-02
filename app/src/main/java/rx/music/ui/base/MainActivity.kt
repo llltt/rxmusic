@@ -1,6 +1,7 @@
 package rx.music.ui.base
 
 import android.support.design.widget.BottomNavigationView
+import android.view.MenuItem
 import android.view.View
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -8,14 +9,17 @@ import com.bluelinelabs.conductor.ChangeHandlerFrameLayout
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
+import com.kennyc.bottomsheet.BottomSheet
+import com.kennyc.bottomsheet.BottomSheetListener
 import kotlinx.android.synthetic.main.part_containers.*
 import rx.music.R
 import rx.music.ui.audio.AudioController
 import rx.music.ui.popular.PopularController
 import rx.music.ui.popular.RoomController
 
+
 /** Created by Maksim Sukhotski on 4/6/2017. */
-class MainActivity : MvpAppCompatActivity(), MainView {
+class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener {
 
     @InjectPresenter
     lateinit var mainPresenter: MainPresenter
@@ -27,17 +31,31 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        moreImageView.setOnClickListener { _ -> showMoreMenu() }
         bottomNavigation.setOnNavigationItemSelectedListener(navigationListener)
         audioRouter = Conductor.attachRouter(this, audioContainer, savedInstanceState)
         popularRouter = Conductor.attachRouter(this, popularContainer, savedInstanceState)
         roomRouter = Conductor.attachRouter(this, roomContainer, savedInstanceState)
         if (!audioRouter!!.hasRootController())
-            audioRouter!!.setRoot(RouterTransaction.with(AudioController()))
+            audioRouter!!.setRoot(RouterTransaction.with(AudioController()).tag("audio"))
         if (!popularRouter!!.hasRootController())
             popularRouter!!.setRoot(RouterTransaction.with(PopularController()))
         if (!roomRouter!!.hasRootController())
             roomRouter!!.setRoot(RouterTransaction.with(RoomController()))
+    }
 
+    private fun showMoreMenu() {
+        BottomSheet.Builder(this)
+                .setSheet(R.menu.more)
+                .setListener(this)
+                .show()
+    }
+
+    override fun onSheetDismissed(p0: BottomSheet, p1: Int) {}
+    override fun onSheetShown(p0: BottomSheet) {}
+    override fun onSheetItemSelected(p0: BottomSheet, p1: MenuItem?) {
+        if (p1?.itemId == R.id.share) mainPresenter.logout()
     }
 
     override fun onResume() {
@@ -45,9 +63,22 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     }
 
     override fun onBackPressed() {
-        if (!audioRouter!!.handleBack()) {
-            super.onBackPressed()
+        val visibleRouter = getVisibleRouter()
+        if (!visibleRouter?.handleBack()!!) {
+            if (visibleRouter !== audioRouter) {
+                bottomNavigation.selectedItemId = R.id.music
+            } else {
+                super.onBackPressed()
+            }
         }
+    }
+
+    private fun getVisibleRouter(): Router? {
+        if (popularContainer.visibility == View.VISIBLE)
+            return popularRouter
+        if (roomContainer.visibility == View.VISIBLE)
+            return roomRouter
+        return audioRouter
     }
 
     private val navigationListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -73,4 +104,8 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         }
     }
 
+    override fun showAuthController() {
+        (audioRouter?.getControllerWithTag("audio") as AudioController).audioPresenter
+                .viewState.showAuthController()
+    }
 }
