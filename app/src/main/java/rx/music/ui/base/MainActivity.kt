@@ -9,10 +9,13 @@ import com.bluelinelabs.conductor.ChangeHandlerFrameLayout
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
+import com.bumptech.glide.Glide
 import com.kennyc.bottomsheet.BottomSheet
 import com.kennyc.bottomsheet.BottomSheetListener
 import kotlinx.android.synthetic.main.part_containers.*
+import kotlinx.android.synthetic.main.part_player_preview.*
 import rx.music.R
+import rx.music.data.network.models.Audio
 import rx.music.ui.audio.AudioController
 import rx.music.ui.popular.PopularController
 import rx.music.ui.popular.RoomController
@@ -50,6 +53,13 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener {
                 .setSheet(R.menu.more)
                 .setListener(this)
                 .show()
+    }
+
+    override fun showPlayer(audio: Audio) {
+        Glide.with(this)
+                .load(audio.pic)
+                .error(R.drawable.audio_row_placeholder_2x)
+                .into(playerPreviewImageView)
     }
 
     override fun onSheetDismissed(p0: BottomSheet, p1: Int) {}

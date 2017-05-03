@@ -5,7 +5,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import rx.music.App
-import rx.music.data.net.models.Credentials
+import rx.music.data.network.models.Credentials
 import rx.music.data.repositories.auth.AuthRepository
 import rx.music.data.repositories.preferences.PreferencesRepository
 import javax.inject.Inject

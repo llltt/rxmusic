@@ -1,19 +1,17 @@
-package rx.music.data.net
+package rx.music.data.network
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import rx.music.data.network.BaseFields.Companion.VK_API
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
-object RetrofitObject {
-
-    private const val API_URL = "https://api.vk.com/method/"
-
+object Retrofit {
     fun build(): Retrofit {
         val retrofit = Retrofit.Builder()
-                .baseUrl(API_URL)
+                .baseUrl(VK_API)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(createHttpClient())

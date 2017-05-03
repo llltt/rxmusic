@@ -9,8 +9,8 @@ import org.json.JSONObject
 import retrofit2.HttpException
 import rx.music.App
 import rx.music.business.auth.AuthInteractor
-import rx.music.data.net.models.Captcha
-import rx.music.data.net.models.Validation
+import rx.music.data.network.models.Captcha
+import rx.music.data.network.models.Validation
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 4/1/2017.*/
@@ -27,11 +27,9 @@ class AuthPresenter : MvpPresenter<AuthView>() {
         super.onFirstViewAttach()
         viewState.hideNavigation()
     }
-    fun login(username: String,
-              password: String,
-              captchaSid: String? = null,
-              captchaKey: String? = null,
-              code: String? = null) {
+
+    fun login(username: String, password: String, captchaSid: String? = null,
+              captchaKey: String? = null, code: String? = null) {
         if (username.isNotEmpty() && password.isNotEmpty())
             authInteractor.getCredentials(username, password, captchaSid, captchaKey, code)
                     .subscribeOn(Schedulers.io())

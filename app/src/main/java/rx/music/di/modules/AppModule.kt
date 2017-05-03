@@ -8,12 +8,8 @@ import rx.music.data.repositories.preferences.PreferencesRepositoryImpl
 import javax.inject.Singleton
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
-@Module
-class AppModule(val context: Context) {
-
-    @Provides
-    @Singleton
-    fun providePreferencesRepository(): PreferencesRepository {
+@Module @Singleton class AppModule(val context: Context) {
+    @Provides fun providePreferencesRepository(): PreferencesRepository {
         return PreferencesRepositoryImpl(context)
     }
 }

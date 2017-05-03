@@ -1,17 +1,18 @@
-package rx.music.data.net
+package rx.music.data.network.apis
 
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
-import rx.music.data.net.models.Credentials
+import retrofit2.http.Url
+import rx.music.data.network.models.Credentials
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/
 
-internal interface AuthApi {
-
-    @GET("token")
-    fun getCredentials(@Query("scope") scope: String,
+interface AuthApi {
+    @GET
+    fun getCredentials(@Url url: String,
+                       @Query("scope") scope: String,
                        @Query("client_id") clientId: String,
                        @Query("client_secret") clientSecret: String,
                        @Query("2fa_supported") twoFaSupported: String,

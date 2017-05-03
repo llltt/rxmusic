@@ -7,7 +7,7 @@
 
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/playerPreviewImageView"
         android:layout_width="@dimen/navigation"
         android:layout_height="@dimen/navigation"
         android:layout_marginLeft="0dp"
@@ -15,7 +15,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/audio_visualizer" />
+        app:srcCompat="@drawable/audio_row_placeholder_2x" />
 
     <TextView
         android:id="@+id/playerArtistTextView"
@@ -27,7 +27,7 @@
         android:layout_marginTop="0dp"
         android:gravity="bottom|start"
         android:text="Моцарт"
-        app:layout_constraintLeft_toRightOf="@+id/imageView"
+        app:layout_constraintLeft_toRightOf="@+id/playerPreviewImageView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -41,7 +41,7 @@
         android:gravity="top|start"
         android:text="Лунная соната"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/imageView" />
+        app:layout_constraintLeft_toRightOf="@+id/playerPreviewImageView" />
 
     <ImageView
         android:id="@+id/imageView2"

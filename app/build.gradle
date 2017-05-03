@@ -47,11 +47,15 @@ android {
         dev {
             def filePath = 'app-credentials.json'
             def agent = (new JsonSlurper().parseText(file(filePath).text)).user_agent
-            def secret = (new JsonSlurper().parseText(file(filePath).text)).client_secret
-            def id = (new JsonSlurper().parseText(file(filePath).text)).client_id
+            def vkSecret = (new JsonSlurper().parseText(file(filePath).text)).vk_client_secret
+            def vkClientId = (new JsonSlurper().parseText(file(filePath).text)).vk_client_id
+            def googleKey = (new JsonSlurper().parseText(file(filePath).text)).google_key
+            def googleCx = (new JsonSlurper().parseText(file(filePath).text)).google_cx
             buildConfigField('String', 'USER_AGENT', "\"" + agent + "\"")
-            buildConfigField('String', 'CLIENT_SECRET', "\"" + secret + "\"")
-            buildConfigField('String', 'CLIENT_ID', "\"" + id + "\"")
+            buildConfigField('String', 'VK_CLIENT_SECRET', "\"" + vkSecret + "\"")
+            buildConfigField('String', 'VK_CLIENT_ID', "\"" + vkClientId + "\"")
+            buildConfigField('String', 'GOOGLE_KEY', "\"" + googleKey + "\"")
+            buildConfigField('String', 'GOOGLE_CX', "\"" + googleCx + "\"")
         }
     }
     dexOptions {
@@ -87,7 +91,8 @@ dependencies {
             rootProject.constraint,
             rootProject.recyclerview,
             rootProject.slidinguppanel,
-            rootProject.bottomSheet
+            rootProject.bottomSheet,
+            rootProject.jsoup
     )
     debugCompile(
             rootProject.stetho,

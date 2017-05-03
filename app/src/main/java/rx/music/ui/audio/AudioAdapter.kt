@@ -6,13 +6,15 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_music.view.*
 import me.ext.context
 import me.ext.onClick
 import me.ext.toTime
 import rx.music.R
-import rx.music.data.net.models.Audio
+import rx.music.data.network.models.Audio
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
 class AudioAdapter(var items: MutableList<Audio> = arrayListOf(),
@@ -22,11 +24,11 @@ class AudioAdapter(var items: MutableList<Audio> = arrayListOf(),
     var selectedItem = 0
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val vizualizerImageView = view.vizualizerImageView
-        val titleTextView = view.titleTextView
-        val artistTextView = view.artistTextView
-        val isLoadedImageView = view.isLoadedImageView
-        val durationTextView = view.durationTextView
+        val vizualizerImageView: ImageView = view.vizualizerImageView
+        val titleTextView: TextView = view.titleTextView
+        val artistTextView: TextView = view.artistTextView
+        val isLoadedImageView: ImageView = view.isLoadedImageView
+        val durationTextView: TextView = view.durationTextView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

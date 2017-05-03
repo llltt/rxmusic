@@ -18,8 +18,8 @@ import me.ext.hideKeyboard
 import me.ext.onClick
 import rx.music.App
 import rx.music.R
-import rx.music.data.net.models.Captcha
-import rx.music.data.net.models.Validation
+import rx.music.data.network.models.Captcha
+import rx.music.data.network.models.Validation
 import rx.music.ui.audio.AudioController
 import rx.music.ui.base.MainActivity
 import rx.music.ui.base.MoxyController

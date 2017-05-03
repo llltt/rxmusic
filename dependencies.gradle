@@ -44,4 +44,5 @@ ext {
     leakcanary = "com.squareup.leakcanary:leakcanary-android:1.5"
     slidinguppanel = "com.sothree.slidinguppanel:library:3.3.1"
     bottomSheet =  "com.github.Kennyc1012:BottomSheet:2.3.4"
+    jsoup = "org.jsoup:jsoup:1.8.3"
 }

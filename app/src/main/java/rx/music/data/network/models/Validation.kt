@@ -1,4 +1,4 @@
-package rx.music.data.net.models
+package rx.music.data.network.models
 
 /** Created by Maksim Sukhotski on 4/4/2017. */
 class Validation(val error: String,

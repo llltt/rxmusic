@@ -2,7 +2,7 @@ package rx.music.business.auth
 
 import io.reactivex.Completable
 import io.reactivex.Single
-import rx.music.data.net.models.Credentials
+import rx.music.data.network.models.Credentials
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/
 interface AuthInteractor {

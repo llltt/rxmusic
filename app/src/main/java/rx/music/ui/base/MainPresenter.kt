@@ -4,6 +4,7 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.bluelinelabs.conductor.ChangeHandlerFrameLayout
 import rx.music.App
+import rx.music.data.network.models.Audio
 import rx.music.data.repositories.preferences.PreferencesRepository
 import javax.inject.Inject
 
@@ -27,6 +28,10 @@ class MainPresenter : MvpPresenter<MainView>() {
     fun logout() {
         preferencesRepository.clear()
         viewState.showAuthController()
+    }
+
+    fun updatePlayer(audio: Audio) {
+        viewState.showPlayer(audio)
     }
 
 }

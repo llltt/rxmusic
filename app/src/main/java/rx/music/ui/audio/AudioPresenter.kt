@@ -6,7 +6,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import rx.music.App
 import rx.music.business.audio.AudioInteractor
-import rx.music.data.net.models.Audio
+import rx.music.data.network.models.Audio
 import javax.inject.Inject
 
 
@@ -37,11 +37,11 @@ class AudioPresenter : MvpPresenter<AudioView>() {
                 })
     }
 
-    fun playAudio(audio: Audio) {
+    fun handleAudio(audio: Audio) {
         audioInteractor.handleAudio(audio)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
+                .subscribe({ t -> viewState.showPlayer(t) })
     }
 
 }

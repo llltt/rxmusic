@@ -1,4 +1,4 @@
-package rx.music.data.net.models
+package rx.music.data.network.models
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
 class Audio(val id: String,
@@ -9,4 +9,6 @@ class Audio(val id: String,
             val date: String,
             val url: String,
             val lyrics_id: String,
-            val genre_id: String)
+            val genre_id: String,
+            var pic: String?,
+            var pic_preview: String?)

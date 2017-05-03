@@ -3,6 +3,7 @@ package rx.music.di.components
 import dagger.Subcomponent
 import rx.music.business.audio.AudioInteractorImpl
 import rx.music.data.repositories.audio.AudioRepositoryImpl
+import rx.music.data.repositories.google.GoogleRepositoryImpl
 import rx.music.di.modules.UserModule
 import rx.music.di.scopes.UserScope
 import rx.music.ui.audio.AudioPresenter
@@ -19,4 +20,5 @@ import rx.music.ui.popular.RoomPresenter
     fun inject(audioInteractorImpl: AudioInteractorImpl)
     fun inject(audioRepositoryImpl: AudioRepositoryImpl)
     fun inject(playerPresenter: PlayerPresenter)
+    fun inject(googleRepositoryImpl: GoogleRepositoryImpl)
 }

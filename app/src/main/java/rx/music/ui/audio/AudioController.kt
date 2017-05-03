@@ -10,8 +10,10 @@ import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import kotlinx.android.synthetic.main.controller_audio.view.*
 import rx.music.App
 import rx.music.R
-import rx.music.data.net.models.AudioResponse
+import rx.music.data.network.models.Audio
+import rx.music.data.network.models.AudioResponse
 import rx.music.ui.auth.AuthController
+import rx.music.ui.base.MainActivity
 import rx.music.ui.base.MoxyController
 
 
@@ -22,7 +24,7 @@ class AudioController : MoxyController(), AudioView {
     lateinit var audioPresenter: AudioPresenter
 
     private var offset: Int = 0
-    private var adapter: AudioAdapter = AudioAdapter(onClick = { audioPresenter.playAudio(it) })
+    private var adapter: AudioAdapter = AudioAdapter(onClick = { audioPresenter.handleAudio(it) })
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View {
         return inflater.inflate(R.layout.controller_audio, container, false)
@@ -48,6 +50,9 @@ class AudioController : MoxyController(), AudioView {
         }
     }
 
+    override fun showPlayer(audio: Audio) {
+        (activity as MainActivity).mainPresenter.updatePlayer(audio)
+    }
     override fun showAuthController() {
         router.setRoot(RouterTransaction.with(AuthController())
                 .pushChangeHandler(HorizontalChangeHandler())
