@@ -26,4 +26,13 @@
         <item name="android:maxLines">1</item>
     </style>
 
+    <style name="ImageControl">
+        <item name="android:layout_width">@dimen/navigation</item>
+        <item name="android:layout_height">@dimen/navigation</item>
+        <item name="android:background">@drawable/round_bit_white</item>
+        <item name="android:clickable">true</item>
+        <item name="android:foreground">?android:selectableItemBackgroundBorderless</item>
+        <item name="android:padding">15dp</item>
+    </style>
+
 </resources>

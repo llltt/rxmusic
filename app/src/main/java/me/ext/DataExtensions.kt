@@ -16,6 +16,10 @@ fun Int.toDp(r: Resources): Float {
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), r.displayMetrics)
 }
 
+fun Int.toSp(r: Resources): Float {
+    return this / r.displayMetrics.scaledDensity
+}
+
 fun android.content.Context.isNetworkConnected() = (this.getSystemService(android.content.Context.CONNECTIVITY_SERVICE) as android.net.ConnectivityManager).activeNetworkInfo != null
 
 /**

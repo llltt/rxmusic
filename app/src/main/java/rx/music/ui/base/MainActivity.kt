@@ -12,6 +12,9 @@ import com.bluelinelabs.conductor.RouterTransaction
 import com.bumptech.glide.Glide
 import com.kennyc.bottomsheet.BottomSheet
 import com.kennyc.bottomsheet.BottomSheetListener
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.controller_player.*
 import kotlinx.android.synthetic.main.part_containers.*
 import kotlinx.android.synthetic.main.part_player_preview.*
 import rx.music.R
@@ -22,7 +25,9 @@ import rx.music.ui.popular.RoomController
 
 
 /** Created by Maksim Sukhotski on 4/6/2017. */
-class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener {
+
+class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
+        SlidingUpPanelLayout.PanelSlideListener {
 
     @InjectPresenter
     lateinit var mainPresenter: MainPresenter
@@ -34,7 +39,8 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener {
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        artistTextView; titleTextView
+        slidingLayout.addPanelSlideListener(this)
         moreImageView.setOnClickListener { _ -> showMoreMenu() }
         bottomNavigation.setOnNavigationItemSelectedListener(navigationListener)
         audioRouter = Conductor.attachRouter(this, audioContainer, savedInstanceState)
@@ -56,10 +62,14 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener {
     }
 
     override fun showPlayer(audio: Audio) {
-        Glide.with(this)
-                .load(audio.pic)
-                .error(R.drawable.audio_row_placeholder_2x)
+        Glide.with(this).load(audio.pic).centerCrop().error(R.drawable.audio_row_placeholder_2x)
                 .into(playerPreviewImageView)
+        Glide.with(this).load(audio.pic).centerCrop().error(R.drawable.audio_row_placeholder_2x)
+                .into(playerImageView)
+        playerArtistTextView.text = audio.artist
+        playerTitleTextView.text = audio.title
+        artistTextView.text = audio.artist
+        titleTextView.text = audio.title
     }
 
     override fun onSheetDismissed(p0: BottomSheet, p1: Int) {}
@@ -117,5 +127,33 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener {
     override fun showAuthController() {
         (audioRouter?.getControllerWithTag("audio") as AudioController).audioPresenter
                 .viewState.showAuthController()
+    }
+
+    override fun onPanelSlide(panel: View?, slideOffset: Float) {
+        playerPreviewInclude?.alpha = 1 - slideOffset * 2
+        val fl = slideOffset * 2 - 1
+        playerButtonsInclude?.alpha = fl
+        seekBar?.alpha = fl
+        previousImageView?.alpha = fl
+        nextImageView?.alpha = fl
+        nextImageView?.alpha = fl
+        playImageView?.alpha = fl
+    }
+
+    override fun showAlpha(view: View?) {
+        if (view == null || view.id == R.id.playerButtonsInclude) {
+            playerButtonsInclude.alpha = 0f
+            playerPreviewInclude.alpha = 1f
+        } else {
+            playerPreviewInclude.alpha = 0f
+            playerButtonsInclude.alpha = 1f
+        }
+    }
+
+    override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
+        when (newState?.ordinal) {
+            0 -> mainPresenter.viewState.showAlpha(playerPreviewInclude)
+            1 -> mainPresenter.viewState.showAlpha(playerButtonsInclude)
+        }
     }
 }

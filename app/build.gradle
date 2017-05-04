@@ -3,7 +3,6 @@ import groovy.json.JsonSlurper
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.frogermcs.androiddevmetrics'
 
 buildscript {
     repositories {
@@ -97,7 +96,7 @@ dependencies {
     debugCompile(
             rootProject.stetho,
             rootProject.stethoOkhttp,
-            rootProject.leakcanary
+            rootProject.leakcanary,
     )
     kapt(
             rootProject.moxyCompiler,

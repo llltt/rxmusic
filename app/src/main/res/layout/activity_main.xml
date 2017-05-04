@@ -7,6 +7,7 @@
     android:fitsSystemWindows="true"
     android:gravity="top"
     sothree:umanoPanelHeight="@dimen/navigation"
+    sothree:umanoParallaxOffset="@dimen/navigation"
     sothree:umanoShadowHeight="2dp">
 
     <include

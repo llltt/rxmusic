@@ -19,6 +19,7 @@ class MainPresenter : MvpPresenter<MainView>() {
         super.onFirstViewAttach()
         App.appComponent.inject(this)
         viewState.showContainer(isReselected = true)
+        viewState.showAlpha(null)
     }
 
     fun showContainer(audioContainer: ChangeHandlerFrameLayout?, isReselected: Boolean) {
