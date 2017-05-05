@@ -22,7 +22,6 @@ class AudioInteractorImpl : AudioInteractor {
     var audio: Audio? = null
 
     init {
-//        App.appComponent.inject(this)
         App.instance.userComponent?.inject(this)
     }
 

@@ -12,16 +12,16 @@ import javax.inject.Singleton
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
 
-@Module @Singleton class AppModule(val context: Context) {
-    @Provides fun providePreferencesRepository(): PreferencesRepository {
+@Module class AppModule(val context: Context) {
+    @Provides @Singleton fun providePreferencesRepository(): PreferencesRepository {
         return PreferencesRepositoryImpl(context)
     }
 
-    @Provides fun provideMediaPlayerRepository(): MediaPlayerRepository {
+    @Provides @Singleton fun provideMediaPlayerRepository(): MediaPlayerRepository {
         return MediaPlayerRepositoryImpl()
     }
 
-    @Provides fun provideMediaPlayer(): MediaPlayer {
+    @Provides @Singleton fun provideMediaPlayer(): MediaPlayer {
         return MediaPlayer()
     }
 }

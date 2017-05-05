@@ -19,7 +19,7 @@ class MediaPlayerRepositoryImpl : MediaPlayerRepository {
         App.appComponent.inject(this)
         mediaPlayer.setOnPreparedListener { mp ->
             mp.start()
-            Log.d("ttt", "true")
+            Log.d("ttt", "mp.start() -> ${mp.isPlaying}")
         }
     }
 

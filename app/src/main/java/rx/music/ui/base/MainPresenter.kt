@@ -1,7 +1,6 @@
 package rx.music.ui.base
 
 import android.media.MediaPlayer
-import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.bluelinelabs.conductor.ChangeHandlerFrameLayout
@@ -19,12 +18,14 @@ class MainPresenter : MvpPresenter<MainView>() {
 
     @Inject lateinit var preferencesRepository: PreferencesRepository
     @Inject lateinit var mediaPlayer: MediaPlayer
+    lateinit var timer: Timer
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         App.appComponent.inject(this)
         viewState.showContainer(isReselected = true)
         viewState.showAlpha(null)
+        timer = timer(period = 3000) {}
     }
 
     fun showContainer(audioContainer: ChangeHandlerFrameLayout?, isReselected: Boolean) {
@@ -38,10 +39,7 @@ class MainPresenter : MvpPresenter<MainView>() {
 
     fun updatePlayer(audio: Audio) {
         viewState.showPlayer(audio)
-        timer(daemon = false, startAt = Date(), period = 250, action = {
-            if (mediaPlayer.isPlaying)
-                viewState.showSeekBar(mediaPlayer)
-            else Log.d("ttt", "false")
-        })
+        timer.cancel()
+        timer = timer(initialDelay = 0, period = 100) { viewState.showSeekBar(mediaPlayer) }
     }
 }

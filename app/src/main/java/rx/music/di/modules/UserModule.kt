@@ -14,24 +14,24 @@ import rx.music.data.repositories.google.GoogleRepositoryImpl
 import rx.music.di.scopes.UserScope
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
-@Module @UserScope class UserModule {
-    @Provides fun provideAudioRepository(): AudioRepository {
+@Module class UserModule {
+    @Provides @UserScope fun provideAudioRepository(): AudioRepository {
         return AudioRepositoryImpl()
     }
 
-    @Provides fun provideAudioInteractor(): AudioInteractor {
+    @Provides @UserScope fun provideAudioInteractor(): AudioInteractor {
         return AudioInteractorImpl()
     }
 
-    @Provides fun provideGoogleRepository(): GoogleRepository {
+    @Provides @UserScope fun provideGoogleRepository(): GoogleRepository {
         return GoogleRepositoryImpl()
     }
 
-    @Provides fun provideAudioApi(): AudioApi {
+    @Provides @UserScope fun provideAudioApi(): AudioApi {
         return Retrofit.build(AudioApi::class.java)
     }
 
-    @Provides fun provideGoogleApi(): GoogleApi {
+    @Provides @UserScope fun provideGoogleApi(): GoogleApi {
         return Retrofit.build(GoogleApi::class.java)
     }
 }

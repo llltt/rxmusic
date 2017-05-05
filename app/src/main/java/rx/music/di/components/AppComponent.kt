@@ -14,6 +14,5 @@ import javax.inject.Singleton
     fun plus(userModule: UserModule): UserComponent
     fun plus(authModule: AuthModule): AuthComponent
     fun inject(mainPresenter: MainPresenter)
-    //    fun inject(audioInteractorImpl: AudioInteractorImpl)
     fun inject(mediaPlayerRepositoryImpl: MediaPlayerRepositoryImpl)
 }

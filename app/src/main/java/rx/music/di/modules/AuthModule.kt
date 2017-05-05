@@ -11,12 +11,12 @@ import rx.music.data.repositories.auth.AuthRepositoryImpl
 import rx.music.di.scopes.AuthScope
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
-@Module @AuthScope class AuthModule {
-    @Provides fun provideAuthRepository(): AuthRepository {
+@Module class AuthModule {
+    @Provides @AuthScope fun provideAuthRepository(): AuthRepository {
         return AuthRepositoryImpl()
     }
 
-    @Provides fun provideAuthInteractor(): AuthInteractor {
+    @Provides @AuthScope fun provideAuthInteractor(): AuthInteractor {
         return AuthInteractorImpl()
     }
 
