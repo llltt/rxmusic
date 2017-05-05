@@ -4,13 +4,13 @@ import android.app.Application
 import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
-import rx.music.di.components.AppComponent
-import rx.music.di.components.AuthComponent
-import rx.music.di.components.DaggerAppComponent
-import rx.music.di.components.UserComponent
-import rx.music.di.modules.AppModule
-import rx.music.di.modules.AuthModule
-import rx.music.di.modules.UserModule
+import rx.music.dagger.components.AppComponent
+import rx.music.dagger.components.AuthComponent
+import rx.music.dagger.components.DaggerAppComponent
+import rx.music.dagger.components.UserComponent
+import rx.music.dagger.modules.AppModule
+import rx.music.dagger.modules.AuthModule
+import rx.music.dagger.modules.UserModule
 
 /** Created by Maksim Sukhotski on 3/25/2017.*/
 

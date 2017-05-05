@@ -2,13 +2,13 @@ package rx.music.business.audio
 
 import io.reactivex.Single
 import rx.music.App
-import rx.music.data.network.BaseFields.Companion.IMG_SIZE
-import rx.music.data.network.models.Audio
-import rx.music.data.network.models.AudioResponse
-import rx.music.data.network.models.BaseResponse
-import rx.music.data.repositories.audio.AudioRepository
-import rx.music.data.repositories.google.GoogleRepository
-import rx.music.data.repositories.mediaplayer.MediaPlayerRepository
+import rx.music.data.audio.AudioRepository
+import rx.music.data.google.GoogleRepository
+import rx.music.data.mediaplayer.MediaPlayerRepository
+import rx.music.network.BaseFields.Companion.IMG_SIZE
+import rx.music.network.models.Audio
+import rx.music.network.models.AudioResponse
+import rx.music.network.models.BaseResponse
 import javax.inject.Inject
 
 

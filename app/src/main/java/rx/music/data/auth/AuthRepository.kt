@@ -1,11 +1,11 @@
-package rx.music.business.auth
+package rx.music.data.auth
 
 import io.reactivex.Completable
 import io.reactivex.Single
 import rx.music.network.models.Credentials
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/
-interface AuthInteractor {
+interface AuthRepository {
     fun getCredentials(username: String,
                        password: String,
                        captchaSid: String?,

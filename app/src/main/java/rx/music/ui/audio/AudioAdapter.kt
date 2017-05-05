@@ -10,11 +10,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_music.view.*
-import me.ext.context
-import me.ext.onClick
-import me.ext.toTime
+import me.extensions.context
+import me.extensions.onClick
+import me.extensions.toTime
 import rx.music.R
-import rx.music.data.network.models.Audio
+import rx.music.network.models.Audio
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
 class AudioAdapter(var items: MutableList<Audio> = arrayListOf(),

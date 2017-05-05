@@ -6,7 +6,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import rx.music.App
 import rx.music.business.audio.AudioInteractor
-import rx.music.data.network.models.Audio
+import rx.music.network.models.Audio
 import javax.inject.Inject
 
 

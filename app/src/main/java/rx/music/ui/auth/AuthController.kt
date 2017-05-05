@@ -14,15 +14,15 @@ import kotlinx.android.synthetic.main.part_auth.view.*
 import kotlinx.android.synthetic.main.part_captcha.view.*
 import kotlinx.android.synthetic.main.part_containers.*
 import kotlinx.android.synthetic.main.part_validation.view.*
-import me.ext.hideKeyboard
-import me.ext.onClick
+import me.base.MoxyController
+import me.extensions.hideKeyboard
+import me.extensions.onClick
 import rx.music.App
 import rx.music.R
-import rx.music.data.network.models.Captcha
-import rx.music.data.network.models.Validation
+import rx.music.network.models.Captcha
+import rx.music.network.models.Validation
 import rx.music.ui.audio.AudioController
-import rx.music.ui.base.MainActivity
-import rx.music.ui.base.MoxyController
+import rx.music.ui.main.MainActivity
 
 
 class AuthController : MoxyController(), AuthView {

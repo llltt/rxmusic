@@ -8,13 +8,13 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import kotlinx.android.synthetic.main.controller_audio.view.*
+import me.base.MoxyController
 import rx.music.App
 import rx.music.R
-import rx.music.data.network.models.Audio
-import rx.music.data.network.models.AudioResponse
+import rx.music.network.models.Audio
+import rx.music.network.models.AudioResponse
 import rx.music.ui.auth.AuthController
-import rx.music.ui.base.MainActivity
-import rx.music.ui.base.MoxyController
+import rx.music.ui.main.MainActivity
 
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
