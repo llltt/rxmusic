@@ -1,6 +1,7 @@
 package rx.music.di.components
 
 import dagger.Component
+import rx.music.data.repositories.mediaplayer.MediaPlayerRepositoryImpl
 import rx.music.di.modules.AppModule
 import rx.music.di.modules.AuthModule
 import rx.music.di.modules.UserModule
@@ -13,4 +14,6 @@ import javax.inject.Singleton
     fun plus(userModule: UserModule): UserComponent
     fun plus(authModule: AuthModule): AuthComponent
     fun inject(mainPresenter: MainPresenter)
+    //    fun inject(audioInteractorImpl: AudioInteractorImpl)
+    fun inject(mediaPlayerRepositoryImpl: MediaPlayerRepositoryImpl)
 }

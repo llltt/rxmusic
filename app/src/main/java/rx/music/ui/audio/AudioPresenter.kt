@@ -41,7 +41,9 @@ class AudioPresenter : MvpPresenter<AudioView>() {
         audioInteractor.handleAudio(audio)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ t -> viewState.showPlayer(t) })
+                .doOnSubscribe { viewState.showPlayer(audio) }
+                .subscribe({ handled -> viewState.showPlayer(handled) },
+                        { error -> })
     }
 
 }

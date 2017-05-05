@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.arellomobile.mvp.presenter.InjectPresenter
 import rx.music.R
 import rx.music.ui.base.MoxyController
+import rx.music.ui.room.RoomPresenter
 
 /** Created by Maksim Sukhotski on 5/1/2017. */
 class RoomController : MoxyController(), RoomView {

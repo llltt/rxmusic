@@ -1,5 +1,6 @@
 package rx.music.ui.base
 
+import android.media.MediaPlayer
 import android.view.View
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
@@ -14,4 +15,5 @@ interface MainView : MvpView {
     fun showAuthController()
     fun showPlayer(audio: Audio)
     fun showAlpha(view: View?)
+    fun showSeekBar(mp: MediaPlayer)
 }

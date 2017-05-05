@@ -20,6 +20,7 @@ class GoogleRepositoryImpl : GoogleRepository {
     }
 
     override fun getPicture(q: String, num: Int, imgSize: String): Single<CustomSearch> {
-        return googleApi.getPicture(GOOGLE_API, q, num, imgSize, SEARCH_TYPE, GOOGLE_KEY, GOOGLE_CX)
+        return googleApi.getPicture(GOOGLE_API, q + " album cover", num, imgSize, SEARCH_TYPE,
+                GOOGLE_KEY, GOOGLE_CX)
     }
 }

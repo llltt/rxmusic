@@ -1,5 +1,6 @@
 package rx.music.ui.base
 
+import android.media.MediaPlayer
 import android.support.design.widget.BottomNavigationView
 import android.view.MenuItem
 import android.view.View
@@ -62,14 +63,19 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     }
 
     override fun showPlayer(audio: Audio) {
-        Glide.with(this).load(audio.pic).centerCrop().error(R.drawable.audio_row_placeholder_2x)
-                .into(playerPreviewImageView)
-        Glide.with(this).load(audio.pic).centerCrop().error(R.drawable.audio_row_placeholder_2x)
-                .into(playerImageView)
+        if (audio.pic != null) {
+            Glide.with(this).load(audio.pic).centerCrop().error(R.drawable.cover1).into(playerPreviewImageView)
+            Glide.with(this).load(audio.pic).centerCrop().error(R.drawable.cover1).into(playerImageView)
+        }
         playerArtistTextView.text = audio.artist
         playerTitleTextView.text = audio.title
         artistTextView.text = audio.artist
         titleTextView.text = audio.title
+    }
+
+    override fun showSeekBar(mp: MediaPlayer) {
+        seekBar.max = mp.duration
+        seekBar.progress = mp.currentPosition
     }
 
     override fun onSheetDismissed(p0: BottomSheet, p1: Int) {}

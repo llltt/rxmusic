@@ -1,9 +1,10 @@
-package rx.music.ui.popular
+package rx.music.ui.room
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import rx.music.App
 import rx.music.business.audio.AudioInteractor
+import rx.music.ui.popular.RoomView
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 5/1/2017. */
@@ -18,10 +19,5 @@ class RoomPresenter : MvpPresenter<RoomView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-//        if (audioInteractor.authTokenEmpty()) {
-//            viewState.showAuthController()
-//        } else {
-//            getAudio()
-//        }
     }
 }

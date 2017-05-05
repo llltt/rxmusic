@@ -9,7 +9,7 @@ import rx.music.di.scopes.UserScope
 import rx.music.ui.audio.AudioPresenter
 import rx.music.ui.player.PlayerPresenter
 import rx.music.ui.popular.PopularPresenter
-import rx.music.ui.popular.RoomPresenter
+import rx.music.ui.room.RoomPresenter
 
 /** Created by Maksim Sukhotski on 4/7/2017. */
 @Subcomponent(modules = arrayOf(UserModule::class))
@@ -17,8 +17,9 @@ import rx.music.ui.popular.RoomPresenter
     fun inject(audioController: AudioPresenter)
     fun inject(popularPresenter: PopularPresenter)
     fun inject(roomPresenter: RoomPresenter)
-    fun inject(audioInteractorImpl: AudioInteractorImpl)
+    //    fun inject(audioInteractorImpl: AudioInteractorImpl)
     fun inject(audioRepositoryImpl: AudioRepositoryImpl)
     fun inject(playerPresenter: PlayerPresenter)
     fun inject(googleRepositoryImpl: GoogleRepositoryImpl)
+    fun inject(audioInteractorImpl: AudioInteractorImpl)
 }

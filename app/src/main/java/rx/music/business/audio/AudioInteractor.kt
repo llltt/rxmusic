@@ -11,7 +11,6 @@ interface AudioInteractor {
     fun getAudio(ownerId: String?,
                  count: String,
                  offset: String): Single<BaseResponse<AudioResponse>>
-
     fun handleAudio(audio: Audio): Single<Audio>
     val isNotAuthorized: Boolean
 }

@@ -53,6 +53,7 @@ class AudioController : MoxyController(), AudioView {
     override fun showPlayer(audio: Audio) {
         (activity as MainActivity).mainPresenter.updatePlayer(audio)
     }
+
     override fun showAuthController() {
         router.setRoot(RouterTransaction.with(AuthController())
                 .pushChangeHandler(HorizontalChangeHandler())
