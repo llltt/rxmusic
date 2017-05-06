@@ -19,7 +19,6 @@ class PlayerController : MoxyController(), PlayerView {
 
     override fun onViewBound(view: View) {
         with(view) {
-            //            (activity as MainActivity).slidingLayout.addPanelSlideListener(this)
         }
     }
 }

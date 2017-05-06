@@ -2,14 +2,15 @@ import groovy.json.JsonSlurper
 
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
-apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-android-extensions"
+apply plugin: "com.getkeepsafe.dexcount"
 
 buildscript {
     repositories {
         jcenter()
     }
     dependencies {
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath "com.neenbedankt.gradle.plugins:android-apt:1.8"
     }
 }
 
@@ -27,8 +28,11 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+        debug {
+            minifyEnabled false
         }
     }
     compileOptions {
@@ -37,28 +41,25 @@ android {
     }
     lintOptions {
         abortOnError true
-        ignore 'UnusedResources'
+        ignore "UnusedResources"
     }
     packagingOptions {
-        exclude 'META-INF/rxjava.properties'
+        exclude "META-INF/rxjava.properties"
     }
     productFlavors {
         dev {
-            def filePath = 'app-credentials.json'
+            def filePath = "app-credentials.json"
             def agent = (new JsonSlurper().parseText(file(filePath).text)).user_agent
             def vkSecret = (new JsonSlurper().parseText(file(filePath).text)).vk_client_secret
             def vkClientId = (new JsonSlurper().parseText(file(filePath).text)).vk_client_id
             def googleKey = (new JsonSlurper().parseText(file(filePath).text)).google_key
             def googleCx = (new JsonSlurper().parseText(file(filePath).text)).google_cx
-            buildConfigField('String', 'USER_AGENT', "\"" + agent + "\"")
-            buildConfigField('String', 'VK_CLIENT_SECRET', "\"" + vkSecret + "\"")
-            buildConfigField('String', 'VK_CLIENT_ID', "\"" + vkClientId + "\"")
-            buildConfigField('String', 'GOOGLE_KEY', "\"" + googleKey + "\"")
-            buildConfigField('String', 'GOOGLE_CX', "\"" + googleCx + "\"")
+            buildConfigField("String", "USER_AGENT", "\"" + agent + "\"")
+            buildConfigField("String", "VK_CLIENT_SECRET", "\"" + vkSecret + "\"")
+            buildConfigField("String", "VK_CLIENT_ID", "\"" + vkClientId + "\"")
+            buildConfigField("String", "GOOGLE_KEY", "\"" + googleKey + "\"")
+            buildConfigField("String", "GOOGLE_CX", "\"" + googleCx + "\"")
         }
-    }
-    dexOptions {
-        javaMaxHeapSize "8g"
     }
 }
 
@@ -77,26 +78,17 @@ dependencies {
             rootProject.gsonConverter,
             rootProject.dagger,
             rootProject.moxy,
-            rootProject.moxyAndroid,
-            rootProject.moxyCompiler,
             rootProject.moxyAppcompat,
             rootProject.conductor,
-            rootProject.conductorSupport,
-            rootProject.conductorRxLifecycle,
             rootProject.glide,
             rootProject.design,
-            rootProject.support,
-            rootProject.appcompat,
             rootProject.constraint,
-            rootProject.recyclerview,
             rootProject.slidinguppanel,
-            rootProject.bottomSheet,
-            rootProject.jsoup
+            rootProject.bottomSheet
     )
     debugCompile(
-            rootProject.stetho,
             rootProject.stethoOkhttp,
-            rootProject.leakcanary,
+            rootProject.leakcanary
     )
     kapt(
             rootProject.moxyCompiler,
@@ -105,4 +97,7 @@ dependencies {
     repositories {
         mavenCentral()
     }
+    compile "com.google.firebase:firebase-database:10.0.1"
 }
+
+apply plugin: "com.google.gms.google-services"
