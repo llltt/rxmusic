@@ -10,6 +10,7 @@ import com.bluelinelabs.conductor.ChangeHandlerFrameLayout
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
+import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.bumptech.glide.Glide
 import com.kennyc.bottomsheet.BottomSheet
 import com.kennyc.bottomsheet.BottomSheetListener
@@ -21,6 +22,7 @@ import kotlinx.android.synthetic.main.part_player_preview.*
 import rx.music.R
 import rx.music.network.models.Audio
 import rx.music.ui.audio.AudioController
+import rx.music.ui.auth.AuthController
 import rx.music.ui.popular.PopularController
 import rx.music.ui.popular.RoomController
 
@@ -131,8 +133,9 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     }
 
     override fun showAuthController() {
-        (audioRouter?.getControllerWithTag("audio") as AudioController).audioPresenter
-                .viewState.showAuthController()
+        getVisibleRouter()?.setRoot(RouterTransaction.with(AuthController())
+                .pushChangeHandler(HorizontalChangeHandler())
+                .popChangeHandler(HorizontalChangeHandler()))
     }
 
     override fun onPanelSlide(panel: View?, slideOffset: Float) {

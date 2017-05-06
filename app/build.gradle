@@ -56,7 +56,7 @@ android {
             def googleCx = (new JsonSlurper().parseText(file(filePath).text)).google_cx
             buildConfigField("String", "USER_AGENT", "\"" + agent + "\"")
             buildConfigField("String", "VK_CLIENT_SECRET", "\"" + vkSecret + "\"")
-            buildConfigField("String", "VK_CLIENT_ID", "\"" + vkClientId + "\"")
+            buildConfigField("int", "VK_CLIENT_ID", vkClientId)
             buildConfigField("String", "GOOGLE_KEY", "\"" + googleKey + "\"")
             buildConfigField("String", "GOOGLE_CX", "\"" + googleCx + "\"")
         }

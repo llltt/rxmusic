@@ -4,4 +4,5 @@
     <string name="music">Музыка</string>
     <string name="popular">Популярное</string>
     <string name="room">Комната</string>
+    <string name="fab_dialog_transition_name">transition.fab</string>
 </resources>

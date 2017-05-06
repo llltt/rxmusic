@@ -13,12 +13,12 @@ interface AuthApi {
     @GET
     fun getCredentials(@Url url: String,
                        @Query("scope") scope: String,
-                       @Query("client_id") clientId: String,
+                       @Query("client_id") clientId: Int,
                        @Query("client_secret") clientSecret: String,
-                       @Query("2fa_supported") twoFaSupported: String,
+                       @Query("2fa_supported") twoFaSupported: Int,
                        @Query("lang") lang: String,
                        @Query("grant_type") grantType: String,
-                       @Query("libverify_support") libverifySupport: String,
+                       @Query("libverify_support") libverifySupport: Int,
                        @Query("username") username: String,
                        @Query("password") password: String,
                        @Query("captcha_sid") captcha_sid: String?,
@@ -26,9 +26,9 @@ interface AuthApi {
                        @Query("code") code: String?): Single<Credentials>
 
     @GET("auth.validatePhone")
-    fun validatePhone(@Query("v") v: String,
+    fun validatePhone(@Query("v") v: Double,
                       @Query("lang") lang: String,
-                      @Query("https") https: String,
+                      @Query("https") https: Int,
                       @Query("sid") sid: String,
-                      @Query("api_id") api_id: String): Completable
+                      @Query("api_id") api_id: Int): Completable
 }

@@ -8,7 +8,7 @@ import rx.music.data.mediaplayer.MediaPlayerRepository
 import rx.music.network.BaseFields.Companion.IMG_SIZE
 import rx.music.network.models.Audio
 import rx.music.network.models.AudioResponse
-import rx.music.network.models.BaseResponse
+import rx.music.network.models.Base
 import javax.inject.Inject
 
 
@@ -25,18 +25,15 @@ class AudioInteractorImpl : AudioInteractor {
         App.instance.userComponent?.inject(this)
     }
 
-    override fun getAudio(ownerId: String?, count: String, offset: String)
-            : Single<BaseResponse<AudioResponse>> {
-        return audioRepository.getAudio(ownerId, count, offset)
-    }
+    override fun getAudio(ownerId: Long?, count: Int, offset: Int): Single<Base<AudioResponse>> =
+            audioRepository.getAudio(ownerId, count, offset)
 
-    override fun handleAudio(audio: Audio): Single<Audio> {
-        return googleRepository.getPicture(audio.artist, 1, IMG_SIZE)
-                .doOnSubscribe { mediaPlayerRepository.play(audio).subscribe() }
-                .doOnSuccess { pics -> audio.pic = pics?.items?.get(0)?.link }
-                .map { audio }
-    }
+    override fun handleAudio(audio: Audio): Single<Audio> =
+            googleRepository.getPicture(audio.artist, 1, IMG_SIZE)
+                    .doOnSubscribe { mediaPlayerRepository.play(audio).subscribe() }
+                    .doOnSuccess { pics -> audio.pic = pics?.items?.get(0)?.link }
+                    .map { audio }
 
-    override val isNotAuthorized: Boolean
-        get() = audioRepository.isNotAuthorized
+    override val isAuthorized: Boolean
+        get() = audioRepository.isAuthorized
 }

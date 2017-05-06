@@ -28,12 +28,12 @@ class MainPresenter : MvpPresenter<MainView>() {
         timer = timer(period = 3000) {}
     }
 
-    fun showContainer(audioContainer: ChangeHandlerFrameLayout?, isReselected: Boolean) {
+    fun showContainer(audioContainer: ChangeHandlerFrameLayout?, isReselected: Boolean) =
         viewState.showContainer(audioContainer!!, isReselected)
-    }
 
     fun logout() {
         preferencesRepository.clear()
+        viewState.showContainer(isReselected = true)
         viewState.showAuthController()
     }
 

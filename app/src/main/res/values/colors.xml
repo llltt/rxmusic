@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#395F86</color>
     <color name="colorAccent">#bbb</color>
     <color name="colorBackground">#fff</color>
+    <color name="dialogImmersion">#88000000</color>
 </resources>

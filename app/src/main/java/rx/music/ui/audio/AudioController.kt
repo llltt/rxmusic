@@ -19,46 +19,37 @@ import rx.music.ui.main.MainActivity
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
 class AudioController : MoxyController(), AudioView {
+    @InjectPresenter lateinit var audioPresenter: AudioPresenter
 
-    @InjectPresenter
-    lateinit var audioPresenter: AudioPresenter
-
-    private var offset: Int = 0
-    private var adapter: AudioAdapter = AudioAdapter(onClick = { audioPresenter.handleAudio(it) })
-
-    override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View {
-        return inflater.inflate(R.layout.controller_audio, container, false)
-    }
-
-    override fun onViewBound(view: View) {
-        with(view) {
-            val linearLayoutManager = LinearLayoutManager(activity)
-            audioRecyclerView.setHasFixedSize(true)
-            audioRecyclerView.layoutManager = linearLayoutManager
-            audioRecyclerView.adapter = adapter
-            audioRecyclerView.addOnScrollListener(InfiniteScrollListener({
-                offset += 30
-                audioPresenter.getAudio(offset = offset.toString())
-            }, linearLayoutManager))
+    private var adapter: AudioAdapter = AudioAdapter(onClick = { audio, position ->
+        run {
+            audioPresenter.handleAudio(audio)
+            audioPresenter.savePosition(position)
         }
+    })
+
+    override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View =
+            inflater.inflate(R.layout.controller_audio, container, false)
+
+    override fun onViewBound(view: View) = with(view) {
+        val layoutManager = LinearLayoutManager(activity)
+        audioRecyclerView.adapter = adapter
+        audioRecyclerView.setHasFixedSize(true)
+        audioRecyclerView.layoutManager = layoutManager
+        audioRecyclerView.addOnScrollListener(InfiniteScrollListener({
+            audioPresenter.getAudio(offset = adapter.itemCount)
+        }, layoutManager))
     }
 
-    override fun showAudio(audioResponse: AudioResponse?) {
-        if (audioResponse != null) {
-            adapter.items.addAll(audioResponse.items)
-            adapter.notifyDataSetChanged()
-        }
-    }
+    override fun showAudio(audioResponse: AudioResponse) = adapter.addAndNotify(audioResponse.items)
 
-    override fun showPlayer(audio: Audio) {
-        (activity as MainActivity).mainPresenter.updatePlayer(audio)
-    }
+    override fun showPlayer(audio: Audio) = (activity as MainActivity).mainPresenter.updatePlayer(audio)
 
-    override fun showAuthController() {
-        router.setRoot(RouterTransaction.with(AuthController())
-                .pushChangeHandler(HorizontalChangeHandler())
-                .popChangeHandler(HorizontalChangeHandler()))
-    }
+    override fun showAuthController() = router.setRoot(RouterTransaction.with(AuthController())
+            .pushChangeHandler(HorizontalChangeHandler())
+            .popChangeHandler(HorizontalChangeHandler()))
+
+    override fun showSelectedPos(position: Int) = adapter.selectAndNotify(position)
 
     override fun onDetach(view: View) {
         super.onDetach(view)

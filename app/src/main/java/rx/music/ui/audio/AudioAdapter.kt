@@ -18,10 +18,10 @@ import rx.music.network.models.Audio
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
 class AudioAdapter(var items: MutableList<Audio> = arrayListOf(),
-                   val onClick: (position: Audio) -> Unit = { })
+                   val onClick: (audio: Audio, position: Int) -> Unit = { _, _ -> {} })
     : RecyclerView.Adapter<AudioAdapter.ViewHolder>() {
 
-    var selectedItem = 0
+    var selectedPos = -1
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val vizualizerImageView: ImageView = view.vizualizerImageView
@@ -36,26 +36,31 @@ class AudioAdapter(var items: MutableList<Audio> = arrayListOf(),
                 .inflate(R.layout.item_music, parent, false))
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = items.get(position)
-
-        with(holder) {
-            itemView.vizualizerImageView.visibility =
-                    (if (position == selectedItem) VISIBLE else GONE)
-            titleTextView.text = item.title
-            artistTextView.text = item.artist
-            durationTextView.text = item.duration.toTime()
-            Glide.with(context)
-                    .load(R.drawable.audio_visualizer)
-                    .into(itemView.vizualizerImageView)
-
-            itemView.onClick {
-                selectedItem = position
-                notifyDataSetChanged()
-                onClick.invoke(item)
-            }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = with(holder) {
+        val item = items[position]
+        titleTextView.text = item.title
+        artistTextView.text = item.artist
+        durationTextView.text = item.duration.toTime()
+        itemView.vizualizerImageView.visibility = (if (position == selectedPos) VISIBLE else GONE)
+        Glide.with(context)
+                .load(R.drawable.audio_visualizer)
+                .into(itemView.vizualizerImageView)
+        itemView.onClick {
+            selectedPos = position
+            notifyDataSetChanged()
+            onClick.invoke(item, selectedPos)
         }
     }
 
     override fun getItemCount(): Int = items.size
+
+    fun addAndNotify(items: MutableList<Audio>) {
+        this.items.addAll(items)
+        notifyDataSetChanged()
+    }
+
+    fun selectAndNotify(position: Int) {
+        this.selectedPos = position
+        notifyDataSetChanged()
+    }
 }

@@ -22,10 +22,10 @@ class AudioPresenter : MvpPresenter<AudioView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        if (audioInteractor.isNotAuthorized) viewState.showAuthController() else getAudio()
+        if (audioInteractor.isAuthorized) getAudio() else viewState.showAuthController()
     }
 
-    fun getAudio(ownerId: String? = null, count: String = "30", offset: String = "0") {
+    fun getAudio(ownerId: Long? = null, count: Int = 30, offset: Int = 0) {
         audioInteractor.getAudio(ownerId, count, offset)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -44,6 +44,10 @@ class AudioPresenter : MvpPresenter<AudioView>() {
                 .doOnSubscribe { viewState.showPlayer(audio) }
                 .subscribe({ handled -> viewState.showPlayer(handled) },
                         { error -> })
+    }
+
+    fun savePosition(position: Int) {
+        viewState.showSelectedPos(position)
     }
 
 }

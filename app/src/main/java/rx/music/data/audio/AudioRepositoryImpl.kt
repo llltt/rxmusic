@@ -9,7 +9,7 @@ import rx.music.network.BaseFields.Companion.LANG
 import rx.music.network.BaseFields.Companion.V
 import rx.music.network.apis.AudioApi
 import rx.music.network.models.AudioResponse
-import rx.music.network.models.BaseResponse
+import rx.music.network.models.Base
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
@@ -21,19 +21,15 @@ class AudioRepositoryImpl : AudioRepository {
         App.instance.userComponent?.inject(this)
     }
 
-    override fun getAudio(ownerId: String?, count: String,
-                          offset: String): Single<BaseResponse<AudioResponse>> {
-        return audioApi.getAudio(V, LANG, HTTPS,
-                ownerId ?: preferencesRepository.credentials.user_id,
-                count, offset, preferencesRepository.credentials.access_token,
-                getSig(ownerId ?: preferencesRepository.credentials.user_id, count, offset))
-    }
+    override fun getAudio(ownerId: Long?, count: Int, offset: Int): Single<Base<AudioResponse>> =
+            audioApi.getAudio(V, LANG, HTTPS, ownerId ?: preferencesRepository.credentials.user_id,
+                    count, offset, preferencesRepository.credentials.access_token,
+                    getSig(ownerId ?: preferencesRepository.credentials.user_id, count, offset))
 
-    private fun getSig(ownerId: String, count: String, offset: String): String {
-        return ("/method/audio.get?v=${V}&lang=${LANG}&https=${HTTPS}&owner_id=$ownerId&count=$count&" +
-                "offset=$offset&access_token=${preferencesRepository.credentials.access_token}" +
-                preferencesRepository.credentials.secret).toMd5()
-    }
+    private fun getSig(ownerId: Long, count: Int, offset: Int): String =
+            ("/method/audio.get?v=$V&lang=$LANG&https=$HTTPS&owner_id=$ownerId&count=$count&" +
+                    "offset=$offset&access_token=${preferencesRepository.credentials.access_token}" +
+                    preferencesRepository.credentials.secret).toMd5()
 
-    override val isNotAuthorized: Boolean get() = preferencesRepository.empty
+    override val isAuthorized: Boolean get() = preferencesRepository.isNotEmpty
 }

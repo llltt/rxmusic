@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/navigation"
+    android:background="@android:color/white"
+    android:elevation="1dp"
+    android:orientation="vertical">
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="28dp" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        style="@style/ImageControl"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="0dp"
+        android:elevation="8dp"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/imageView5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/users"
+        tools:targetApi="lollipop" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        style="@style/ImageControl"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="0dp"
+        android:elevation="8dp"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/settings"
+        tools:targetApi="lollipop" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="@dimen/navigation"
+        android:layout_height="@dimen/navigation"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/rx_logo" />
+
+    <TextView
+        android:id="@+id/textView"
+        style="@style/TextPrimaryGray"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="0dp"
+        android:text="Оптимальный вариант"
+        android:textAlignment="textStart"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintLeft_toRightOf="@+id/imageView6"
+        app:layout_constraintRight_toLeftOf="@+id/imageView4"
+        app:layout_constraintTop_toTopOf="@+id/guideline4" />
+
+    <TextView
+        android:id="@+id/textView2"
+        style="@style/TextPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-1dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="Optimus Gang"
+        android:textAlignment="textStart"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintLeft_toRightOf="@+id/imageView6"
+        app:layout_constraintRight_toLeftOf="@+id/imageView4" />
+
+</android.support.constraint.ConstraintLayout>
