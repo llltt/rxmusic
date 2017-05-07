@@ -74,6 +74,7 @@ class AuthController : MoxyController(), AuthView {
 
     override fun showAudioController() {
         showNavigation()
+        view?.hideKeyboard()
         App.instance.authComponent = null
         router.setRoot(RouterTransaction.with(AudioController())
                 .pushChangeHandler(HorizontalChangeHandler())
@@ -84,7 +85,6 @@ class AuthController : MoxyController(), AuthView {
         (activity as MainActivity).bottomNavigation.animate().translationY(0f)
                 .withStartAction { (activity as MainActivity).bottomNavigation.visibility = View.VISIBLE }
                 .withEndAction {
-                    view?.hideKeyboard()
                     (activity as MainActivity).slidingLayout.panelHeight =
                             resources!!.getDimension(R.dimen.navigation).toInt()
                 }

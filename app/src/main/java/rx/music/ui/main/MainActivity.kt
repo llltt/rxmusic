@@ -1,6 +1,7 @@
 package rx.music.ui.main
 
 import android.media.MediaPlayer
+import android.os.Handler
 import android.support.design.widget.BottomNavigationView
 import android.view.MenuItem
 import android.view.View
@@ -39,6 +40,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     private var popularRouter: Router? = null
     private var roomRouter: Router? = null
     private var isRoom: Boolean = false
+    var isAnimate: Boolean = false
 
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,18 +89,16 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
         if (p1?.itemId == R.id.share) mainPresenter.logout()
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     override fun onBackPressed() {
-        val visibleRouter = getVisibleRouter()
-        if (!visibleRouter?.handleBack()!!) {
-            if (visibleRouter !== audioRouter) {
-                bottomNavigation.selectedItemId = R.id.music
-            } else {
-                super.onBackPressed()
+        if (!isAnimate) {
+            if (slidingLayout.panelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+                return
             }
+            val visibleRouter = getVisibleRouter()
+            if (!visibleRouter?.handleBack()!!)
+                if (visibleRouter !== audioRouter) bottomNavigation.selectedItemId = R.id.music
+                else super.onBackPressed()
         }
     }
 
@@ -157,8 +157,17 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
                 .popChangeHandler(HorizontalChangeHandler()))
     }
 
+    override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?,
+                                     newState: SlidingUpPanelLayout.PanelState?) {
+        when (newState?.ordinal) {
+            0 -> mainPresenter.viewState.showAlpha(playerPreviewInclude)
+            1 -> mainPresenter.viewState.showAlpha(playerButtonsInclude)
+        }
+    }
+
     override fun onPanelSlide(panel: View?, slideOffset: Float) {
-        playerPreviewInclude?.alpha = 1 - slideOffset * 2
+        if (playerPreviewInclude.visibility == View.VISIBLE) playerPreviewInclude?.alpha = 1 - slideOffset * 2
+        else roomPreviewInclude?.alpha = 1 - slideOffset * 2
         val fl = slideOffset * 2 - 1
         playerButtonsInclude?.alpha = fl
         seekBar?.alpha = fl
@@ -178,10 +187,5 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
         }
     }
 
-    override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
-        when (newState?.ordinal) {
-            0 -> mainPresenter.viewState.showAlpha(playerPreviewInclude)
-            1 -> mainPresenter.viewState.showAlpha(playerButtonsInclude)
-        }
-    }
+    fun resetAnimationMode() = Handler().postDelayed({ isAnimate = false }, 500)
 }

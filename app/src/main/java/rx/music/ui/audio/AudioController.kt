@@ -21,27 +21,30 @@ import rx.music.ui.main.MainActivity
 class AudioController : MoxyController(), AudioView {
     @InjectPresenter lateinit var audioPresenter: AudioPresenter
 
-    private var adapter: AudioAdapter = AudioAdapter(onClick = { audio, position ->
-        run {
-            audioPresenter.handleAudio(audio)
-            audioPresenter.savePosition(position)
-        }
-    })
+    private var adapter: AudioAdapter? = null
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View =
             inflater.inflate(R.layout.controller_audio, container, false)
 
     override fun onViewBound(view: View) = with(view) {
+        adapter = AudioAdapter(onClick = { audio, position ->
+            run {
+                audioPresenter.handleAudio(audio)
+                audioPresenter.savePosition(position)
+            }
+        })
         val layoutManager = LinearLayoutManager(activity)
         audioRecyclerView.adapter = adapter
         audioRecyclerView.setHasFixedSize(true)
         audioRecyclerView.layoutManager = layoutManager
         audioRecyclerView.addOnScrollListener(InfiniteScrollListener({
-            audioPresenter.getAudio(offset = adapter.itemCount)
+            audioPresenter.getAudio(offset = adapter?.itemCount!!)
         }, layoutManager))
     }
 
-    override fun showAudio(audioResponse: AudioResponse) = adapter.addAndNotify(audioResponse.items)
+    override fun showAudio(audioResponse: AudioResponse) {
+        adapter?.addAndNotify(audioResponse.items)
+    }
 
     override fun showPlayer(audio: Audio) = (activity as MainActivity).mainPresenter.updatePlayer(audio)
 
@@ -49,7 +52,7 @@ class AudioController : MoxyController(), AudioView {
             .pushChangeHandler(HorizontalChangeHandler())
             .popChangeHandler(HorizontalChangeHandler()))
 
-    override fun showSelectedPos(position: Int) = adapter.selectAndNotify(position)
+    override fun showSelectedPos(position: Int) = adapter!!.selectAndNotify(position)
 
     override fun onDetach(view: View) {
         super.onDetach(view)

@@ -11,8 +11,8 @@
 
     <ImageView
         android:id="@+id/playerPreviewImageView"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="@dimen/navigation"
+        android:layout_height="@dimen/navigation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,7 +23,7 @@
         android:id="@+id/playerArtistTextView"
         style="@style/TextPrimary"
         android:layout_width="0dp"
-        android:layout_height="28dp"
+        android:layout_height="@dimen/navigation_half"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="0dp"
@@ -39,7 +39,7 @@
         android:id="@+id/playerTitleTextView"
         style="@style/TextPrimaryGray"
         android:layout_width="0dp"
-        android:layout_height="28dp"
+        android:layout_height="@dimen/navigation_half"
         android:layout_marginBottom="0dp"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
@@ -54,11 +54,11 @@
 
     <ImageView
         android:id="@+id/playerPlayImageView"
-        android:layout_width="56dp"
-        android:layout_height="0dp"
+        android:layout_width="@dimen/navigation"
+        android:layout_height="@dimen/navigation"
         android:clickable="true"
         android:foreground="?android:selectableItemBackgroundBorderless"
-        android:padding="12dp"
+        android:padding="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"

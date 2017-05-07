@@ -13,14 +13,12 @@
     <include
         layout="@layout/part_containers"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center" />
+        android:layout_height="match_parent" />
 
     <include
         android:id="@+id/playerContainer"
         layout="@layout/controller_player"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center|bottom" />
+        android:layout_height="match_parent" />
 
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>
