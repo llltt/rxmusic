@@ -5,16 +5,16 @@ import io.reactivex.Single
 import rx.music.App
 import rx.music.BuildConfig.VK_CLIENT_ID
 import rx.music.BuildConfig.VK_CLIENT_SECRET
-import rx.music.network.BaseFields.Companion.GRANT_TYPE
-import rx.music.network.BaseFields.Companion.HTTPS
-import rx.music.network.BaseFields.Companion.LANG
-import rx.music.network.BaseFields.Companion.LIBVERIFY_SUPPORT
-import rx.music.network.BaseFields.Companion.SCOPE
-import rx.music.network.BaseFields.Companion.TWO_FA_SUPPORTED
-import rx.music.network.BaseFields.Companion.V
-import rx.music.network.BaseFields.Companion.VK_VALIDATION_API
-import rx.music.network.apis.AuthApi
-import rx.music.network.models.Credentials
+import rx.music.net.BaseFields.Companion.GRANT_TYPE
+import rx.music.net.BaseFields.Companion.HTTPS
+import rx.music.net.BaseFields.Companion.LANG
+import rx.music.net.BaseFields.Companion.LIBVERIFY_SUPPORT
+import rx.music.net.BaseFields.Companion.SCOPE
+import rx.music.net.BaseFields.Companion.TWO_FA_SUPPORTED
+import rx.music.net.BaseFields.Companion.V
+import rx.music.net.BaseFields.Companion.VK_VALIDATION_API
+import rx.music.net.apis.AuthApi
+import rx.music.net.models.Credentials
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/

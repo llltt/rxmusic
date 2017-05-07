@@ -3,4 +3,6 @@
     <dimen name="list">76dp</dimen>
     <dimen name="navigation">56dp</dimen>
     <dimen name="navigation_half">28dp</dimen>
+    <dimen name="touch_raise">6dp</dimen>
+    <dimen name="padding_normal">16dp</dimen>
 </resources>

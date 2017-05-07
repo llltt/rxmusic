@@ -11,8 +11,8 @@ import kotlinx.android.synthetic.main.controller_audio.view.*
 import me.base.MoxyController
 import rx.music.App
 import rx.music.R
-import rx.music.network.models.Audio
-import rx.music.network.models.AudioResponse
+import rx.music.net.models.Audio
+import rx.music.net.models.AudioResponse
 import rx.music.ui.auth.AuthController
 import rx.music.ui.main.MainActivity
 

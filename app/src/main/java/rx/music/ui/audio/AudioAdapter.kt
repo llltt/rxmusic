@@ -14,7 +14,7 @@ import me.extensions.context
 import me.extensions.onClick
 import me.extensions.toTime
 import rx.music.R
-import rx.music.network.models.Audio
+import rx.music.net.models.Audio
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
 class AudioAdapter(var items: MutableList<Audio> = arrayListOf(),

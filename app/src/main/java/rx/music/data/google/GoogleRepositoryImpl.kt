@@ -4,10 +4,10 @@ import io.reactivex.Single
 import rx.music.App
 import rx.music.BuildConfig.GOOGLE_CX
 import rx.music.BuildConfig.GOOGLE_KEY
-import rx.music.network.BaseFields.Companion.GOOGLE_API
-import rx.music.network.BaseFields.Companion.SEARCH_TYPE
-import rx.music.network.apis.GoogleApi
-import rx.music.network.models.CustomSearch
+import rx.music.net.BaseFields.Companion.GOOGLE_API
+import rx.music.net.BaseFields.Companion.SEARCH_TYPE
+import rx.music.net.apis.GoogleApi
+import rx.music.net.models.CustomSearch
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 5/3/2017. */

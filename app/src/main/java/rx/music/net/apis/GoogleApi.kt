@@ -1,10 +1,10 @@
-package rx.music.network.apis
+package rx.music.net.apis
 
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.http.Url
-import rx.music.network.models.CustomSearch
+import rx.music.net.models.CustomSearch
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
 interface GoogleApi {

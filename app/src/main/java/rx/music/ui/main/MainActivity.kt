@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.controller_player.*
 import kotlinx.android.synthetic.main.part_containers.*
 import kotlinx.android.synthetic.main.part_player_preview.*
 import rx.music.R
-import rx.music.network.models.Audio
+import rx.music.net.models.Audio
 import rx.music.ui.audio.AudioController
 import rx.music.ui.auth.AuthController
 import rx.music.ui.popular.PopularController
@@ -38,6 +38,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     private var audioRouter: Router? = null
     private var popularRouter: Router? = null
     private var roomRouter: Router? = null
+    private var isRoom: Boolean = false
 
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
         super.onCreate(savedInstanceState)
@@ -126,9 +127,27 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
             View.VISIBLE else View.GONE
         roomContainer.visibility = if (container?.id == R.id.roomContainer)
             View.VISIBLE else View.GONE
+
         if (!isReselected) {
             container?.alpha = 0F
             container?.animate()?.alpha(1F)
+            if (container?.id == R.id.roomContainer) {
+                isRoom = true
+                playerPreviewInclude.animate()
+                        .translationX(-playerPreviewInclude.width.toFloat())
+                        .withEndAction { playerPreviewInclude.visibility = View.GONE }
+                roomPreviewInclude.translationX = playerPreviewInclude.width.toFloat()
+                roomPreviewInclude.animate().translationX(0f)
+                        .withStartAction { roomPreviewInclude.visibility = View.VISIBLE }
+            } else if (isRoom) {
+                isRoom = false
+                roomPreviewInclude.animate()
+                        .translationX(roomPreviewInclude.width.toFloat())
+                        .withEndAction { roomPreviewInclude.visibility = View.GONE }
+                playerPreviewInclude.translationX = -playerPreviewInclude.width.toFloat()
+                playerPreviewInclude.animate().translationX(0f)
+                        .withStartAction { playerPreviewInclude.visibility = View.VISIBLE }
+            }
         }
     }
 

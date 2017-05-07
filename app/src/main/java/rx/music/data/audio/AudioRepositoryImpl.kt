@@ -4,12 +4,12 @@ import io.reactivex.Single
 import me.extensions.toMd5
 import rx.music.App
 import rx.music.data.preferences.PreferencesRepository
-import rx.music.network.BaseFields.Companion.HTTPS
-import rx.music.network.BaseFields.Companion.LANG
-import rx.music.network.BaseFields.Companion.V
-import rx.music.network.apis.AudioApi
-import rx.music.network.models.AudioResponse
-import rx.music.network.models.Base
+import rx.music.net.BaseFields.Companion.HTTPS
+import rx.music.net.BaseFields.Companion.LANG
+import rx.music.net.BaseFields.Companion.V
+import rx.music.net.apis.AudioApi
+import rx.music.net.models.AudioResponse
+import rx.music.net.models.Base
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 4/9/2017. */

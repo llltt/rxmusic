@@ -7,8 +7,8 @@ import rx.music.business.auth.AuthInteractorImpl
 import rx.music.dagger.scopes.AuthScope
 import rx.music.data.auth.AuthRepository
 import rx.music.data.auth.AuthRepositoryImpl
-import rx.music.network.Retrofit
-import rx.music.network.apis.AuthApi
+import rx.music.net.Retrofit
+import rx.music.net.apis.AuthApi
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
 @Module class AuthModule {

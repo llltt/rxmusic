@@ -1,11 +1,11 @@
-package rx.music.network
+package rx.music.net
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import rx.music.network.BaseFields.Companion.VK_API
+import rx.music.net.BaseFields.Companion.VK_API
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
 object Retrofit {

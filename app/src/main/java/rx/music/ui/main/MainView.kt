@@ -6,7 +6,7 @@ import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.bluelinelabs.conductor.ChangeHandlerFrameLayout
-import rx.music.network.models.Audio
+import rx.music.net.models.Audio
 
 /** Created by Maksim Sukhotski on 5/1/2017. */
 @StateStrategyType(AddToEndSingleStrategy::class)

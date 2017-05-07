@@ -5,10 +5,10 @@ import rx.music.App
 import rx.music.data.audio.AudioRepository
 import rx.music.data.google.GoogleRepository
 import rx.music.data.mediaplayer.MediaPlayerRepository
-import rx.music.network.BaseFields.Companion.IMG_SIZE
-import rx.music.network.models.Audio
-import rx.music.network.models.AudioResponse
-import rx.music.network.models.Base
+import rx.music.net.BaseFields.Companion.IMG_SIZE
+import rx.music.net.models.Audio
+import rx.music.net.models.AudioResponse
+import rx.music.net.models.Base
 import javax.inject.Inject
 
 

@@ -7,7 +7,7 @@ import io.reactivex.Completable
 import io.reactivex.functions.Action
 import io.reactivex.internal.operators.completable.CompletableFromAction
 import rx.music.App
-import rx.music.network.models.Audio
+import rx.music.net.models.Audio
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 5/5/2017. */

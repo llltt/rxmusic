@@ -1,12 +1,12 @@
-package rx.music.network.apis
+package rx.music.net.apis
 
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
 import rx.music.BuildConfig.USER_AGENT
-import rx.music.network.models.AudioResponse
-import rx.music.network.models.Base
+import rx.music.net.models.AudioResponse
+import rx.music.net.models.Base
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
 interface AudioApi {

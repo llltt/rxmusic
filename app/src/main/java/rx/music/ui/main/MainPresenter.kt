@@ -6,7 +6,7 @@ import com.arellomobile.mvp.MvpPresenter
 import com.bluelinelabs.conductor.ChangeHandlerFrameLayout
 import rx.music.App
 import rx.music.data.preferences.PreferencesRepository
-import rx.music.network.models.Audio
+import rx.music.net.models.Audio
 import java.util.*
 import javax.inject.Inject
 import kotlin.concurrent.timer

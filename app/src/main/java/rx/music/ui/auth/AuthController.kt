@@ -19,8 +19,8 @@ import me.extensions.hideKeyboard
 import me.extensions.onClick
 import rx.music.App
 import rx.music.R
-import rx.music.network.models.Captcha
-import rx.music.network.models.Validation
+import rx.music.net.models.Captcha
+import rx.music.net.models.Validation
 import rx.music.ui.audio.AudioController
 import rx.music.ui.main.MainActivity
 

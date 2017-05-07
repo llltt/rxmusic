@@ -9,8 +9,8 @@ import org.json.JSONObject
 import retrofit2.HttpException
 import rx.music.App
 import rx.music.business.auth.AuthInteractor
-import rx.music.network.models.Captcha
-import rx.music.network.models.Validation
+import rx.music.net.models.Captcha
+import rx.music.net.models.Validation
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 4/1/2017.*/

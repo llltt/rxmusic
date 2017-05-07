@@ -1,4 +1,4 @@
-package rx.music.network
+package rx.music.net
 
 import java.util.*
 

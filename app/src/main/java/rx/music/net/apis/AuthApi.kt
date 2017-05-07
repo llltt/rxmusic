@@ -1,11 +1,11 @@
-package rx.music.network.apis
+package rx.music.net.apis
 
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.http.Url
-import rx.music.network.models.Credentials
+import rx.music.net.models.Credentials
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/
 
