@@ -4,7 +4,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import rx.music.App
+import rx.music.dagger.Dagger
 import rx.music.data.auth.AuthRepository
 import rx.music.data.preferences.PreferencesRepository
 import rx.music.net.models.Credentials
@@ -17,7 +17,7 @@ class AuthInteractorImpl : AuthInteractor {
     @Inject lateinit var authRepository: AuthRepository
 
     init {
-        App.instance.authComponent?.inject(this)
+        Dagger.instance.authComponent?.inject(this)
     }
 
     override fun getCredentials(username: String, password: String, captchaSid: String?,

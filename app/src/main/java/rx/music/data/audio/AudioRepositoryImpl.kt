@@ -2,7 +2,7 @@ package rx.music.data.audio
 
 import io.reactivex.Single
 import me.extensions.toMd5
-import rx.music.App
+import rx.music.dagger.Dagger
 import rx.music.data.preferences.PreferencesRepository
 import rx.music.net.BaseFields.Companion.HTTPS
 import rx.music.net.BaseFields.Companion.LANG
@@ -18,7 +18,7 @@ class AudioRepositoryImpl : AudioRepository {
     @Inject lateinit var audioApi: AudioApi
 
     init {
-        App.instance.userComponent?.inject(this)
+        Dagger.instance.userComponent?.inject(this)
     }
 
     override fun getAudio(ownerId: Long?, count: Int, offset: Int): Single<Base<AudioResponse>> =

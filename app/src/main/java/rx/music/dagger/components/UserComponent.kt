@@ -7,7 +7,6 @@ import rx.music.dagger.scopes.UserScope
 import rx.music.data.audio.AudioRepositoryImpl
 import rx.music.data.google.GoogleRepositoryImpl
 import rx.music.ui.audio.AudioPresenter
-import rx.music.ui.picker.PickerPresenter
 import rx.music.ui.player.PlayerPresenter
 import rx.music.ui.popular.PopularPresenter
 import rx.music.ui.room.RoomPresenter
@@ -22,5 +21,4 @@ import rx.music.ui.room.RoomPresenter
     fun inject(playerPresenter: PlayerPresenter)
     fun inject(googleRepositoryImpl: GoogleRepositoryImpl)
     fun inject(audioInteractorImpl: AudioInteractorImpl)
-    fun inject(pickerPresenter: PickerPresenter)
 }

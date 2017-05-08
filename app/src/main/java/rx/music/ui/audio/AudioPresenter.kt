@@ -4,8 +4,8 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import rx.music.App
 import rx.music.business.audio.AudioInteractor
+import rx.music.dagger.Dagger
 import rx.music.net.models.Audio
 import javax.inject.Inject
 
@@ -17,7 +17,7 @@ class AudioPresenter : MvpPresenter<AudioView>() {
     @Inject lateinit var audioInteractor: AudioInteractor
 
     init {
-        App.instance.userComponent?.inject(this)
+        Dagger.instance.userComponent?.inject(this)
     }
 
     override fun onFirstViewAttach() {
@@ -31,8 +31,8 @@ class AudioPresenter : MvpPresenter<AudioView>() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ it ->
                     run {
-                        if (it.response != null) viewState.showAudio(it.response)
-                        else if (it.error.error_code == 5) viewState.showAuthController()
+                        if (it.response != null) viewState.showAudio(it?.response)
+                        else if (it.error?.error_code == 5) viewState.showAuthController()
                     }
                 })
     }

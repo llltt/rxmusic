@@ -111,13 +111,17 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     }
 
     private val navigationListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        val isReselected = bottomNavigation.selectedItemId == item.itemId
-        when (item.itemId) {
-            R.id.music -> mainPresenter.showContainer(audioContainer, isReselected)
-            R.id.popular -> mainPresenter.showContainer(popularContainer, isReselected)
-            R.id.room -> mainPresenter.showContainer(roomContainer, isReselected)
+        if (isAnimate) {
+            false
+        } else {
+            val isReselected = bottomNavigation.selectedItemId == item.itemId
+            when (item.itemId) {
+                R.id.music -> mainPresenter.showContainer(audioContainer, isReselected)
+                R.id.popular -> mainPresenter.showContainer(popularContainer, isReselected)
+                R.id.room -> mainPresenter.showContainer(roomContainer, isReselected)
+            }
+            true
         }
-        true
     }
 
     override fun showContainer(container: ChangeHandlerFrameLayout?, isReselected: Boolean) {
@@ -160,7 +164,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?,
                                      newState: SlidingUpPanelLayout.PanelState?) {
         when (newState?.ordinal) {
-            0 -> mainPresenter.viewState.showAlpha(playerPreviewInclude)
+            0 -> mainPresenter.viewState.showAlpha(if (isRoom) roomPreviewInclude else playerPreviewInclude)
             1 -> mainPresenter.viewState.showAlpha(playerButtonsInclude)
         }
     }
@@ -181,11 +185,14 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
         if (view == null || view.id == R.id.playerButtonsInclude) {
             playerButtonsInclude.alpha = 0f
             playerPreviewInclude.alpha = 1f
+            roomPreviewInclude.alpha = 1f
         } else {
             playerPreviewInclude.alpha = 0f
+            roomPreviewInclude.alpha = 0f
             playerButtonsInclude.alpha = 1f
         }
     }
 
-    fun resetAnimationMode() = Handler().postDelayed({ isAnimate = false }, 500)
+    fun resetAnimationMode() = Handler().postDelayed({ isAnimate = false; bottomNavigation.isClickable = true }, 200)
+    fun resetSlidingPanel() = Handler().postDelayed({ slidingLayout.panelHeight = resources!!.getDimension(R.dimen.navigation).toInt() }, 10)
 }

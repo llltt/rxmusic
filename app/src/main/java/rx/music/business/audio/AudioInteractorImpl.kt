@@ -1,7 +1,7 @@
 package rx.music.business.audio
 
 import io.reactivex.Single
-import rx.music.App
+import rx.music.dagger.Dagger
 import rx.music.data.audio.AudioRepository
 import rx.music.data.google.GoogleRepository
 import rx.music.data.mediaplayer.MediaPlayerRepository
@@ -22,7 +22,7 @@ class AudioInteractorImpl : AudioInteractor {
     var audio: Audio? = null
 
     init {
-        App.instance.userComponent?.inject(this)
+        Dagger.instance.userComponent?.inject(this)
     }
 
     override fun getAudio(ownerId: Long?, count: Int, offset: Int): Single<Base<AudioResponse>> =

@@ -5,6 +5,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import rx.music.BuildConfig
 import rx.music.net.BaseFields.Companion.VK_API
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
@@ -24,8 +25,8 @@ object Retrofit {
     }
 
     private fun createHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder()
-                .addNetworkInterceptor(StethoInterceptor())
-                .build()
+        if (BuildConfig.DEBUG)
+            return OkHttpClient.Builder().addNetworkInterceptor(StethoInterceptor()).build()
+        return OkHttpClient.Builder().build()
     }
 }

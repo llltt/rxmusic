@@ -1,9 +1,9 @@
 package rx.music.data.google
 
 import io.reactivex.Single
-import rx.music.App
 import rx.music.BuildConfig.GOOGLE_CX
 import rx.music.BuildConfig.GOOGLE_KEY
+import rx.music.dagger.Dagger
 import rx.music.net.BaseFields.Companion.GOOGLE_API
 import rx.music.net.BaseFields.Companion.SEARCH_TYPE
 import rx.music.net.apis.GoogleApi
@@ -16,7 +16,7 @@ class GoogleRepositoryImpl : GoogleRepository {
     @Inject lateinit var googleApi: GoogleApi
 
     init {
-        App.instance.userComponent?.inject(this)
+        Dagger.instance.userComponent?.inject(this)
     }
 
     override fun getPicture(q: String, num: Int, imgSize: String): Single<CustomSearch> {

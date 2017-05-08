@@ -2,9 +2,9 @@ package rx.music.data.auth
 
 import io.reactivex.Completable
 import io.reactivex.Single
-import rx.music.App
 import rx.music.BuildConfig.VK_CLIENT_ID
 import rx.music.BuildConfig.VK_CLIENT_SECRET
+import rx.music.dagger.Dagger
 import rx.music.net.BaseFields.Companion.GRANT_TYPE
 import rx.music.net.BaseFields.Companion.HTTPS
 import rx.music.net.BaseFields.Companion.LANG
@@ -23,7 +23,7 @@ class AuthRepositoryImpl : AuthRepository {
     @Inject lateinit var authApi: AuthApi
 
     init {
-        App.instance.authComponent?.inject(this)
+        Dagger.instance.authComponent?.inject(this)
     }
 
     override fun getCredentials(username: String, password: String, captchaSid: String?,

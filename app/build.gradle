@@ -1,9 +1,20 @@
 import groovy.json.JsonSlurper
 
+def filePath = "app-credentials.json"
+def appStorePassword = (new JsonSlurper().parseText(file(filePath).text)).storePassword
+def appKeyAlias = (new JsonSlurper().parseText(file(filePath).text)).keyAlias
+def appKeyPassword = (new JsonSlurper().parseText(file(filePath).text)).keyPassword
+def agent = (new JsonSlurper().parseText(file(filePath).text)).userAgent
+def vkSecret = (new JsonSlurper().parseText(file(filePath).text)).vkClientSecret
+def vkClientId = (new JsonSlurper().parseText(file(filePath).text)).vkClientId
+def googleKey = (new JsonSlurper().parseText(file(filePath).text)).googleKey
+def googleCx = (new JsonSlurper().parseText(file(filePath).text)).googleCx
+
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-android-extensions"
 apply plugin: "com.getkeepsafe.dexcount"
+apply plugin: "realm-android"
 
 buildscript {
     repositories {
@@ -17,22 +28,46 @@ buildscript {
 android {
     compileSdkVersion rootProject.compileSdkV
     buildToolsVersion rootProject.buildToolsV
-
     defaultConfig {
         versionCode 1
         versionName "1.0"
-        applicationId "suhockii.rxmusic"
+        applicationId "rx.music"
         vectorDrawables.useSupportLibrary true
         minSdkVersion rootProject.minSdkV
         targetSdkVersion rootProject.targetSdkV
     }
+    signingConfigs {
+        release {
+            storeFile file('D:/AndroidStudioProjects/RxMusic/app/rxmusic-keystore.jks')
+            keyAlias appKeyAlias
+            keyPassword appKeyPassword
+            storePassword appStorePassword
+        }
+    }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
-        debug {
-            minifyEnabled false
+        applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                def alignedOutputFile = output.outputFile
+                def unalignedOutputFile = output.packageApplication.outputFile
+                def s1 = alignedOutputFile.name.replace(".apk", "-" + defaultConfig.versionName + ".apk")
+                def s2 = unalignedOutputFile.name.replace(".apk", "-v" + defaultConfig.versionName + ".apk")
+                if (variant.buildType.zipAlignEnabled) output.outputFile = new File(alignedOutputFile.parent, s1)
+                output.packageApplication.outputFile = new File(unalignedOutputFile.parent, s2)
+            }
+        }
+    }
+    productFlavors {
+        rxmusic {
+            buildConfigField("String", "USER_AGENT", "\"" + agent + "\"")
+            buildConfigField("String", "VK_CLIENT_SECRET", "\"" + vkSecret + "\"")
+            buildConfigField("int", "VK_CLIENT_ID", vkClientId)
+            buildConfigField("String", "GOOGLE_KEY", "\"" + googleKey + "\"")
+            buildConfigField("String", "GOOGLE_CX", "\"" + googleCx + "\"")
         }
     }
     compileOptions {
@@ -46,25 +81,6 @@ android {
     packagingOptions {
         exclude "META-INF/rxjava.properties"
     }
-    productFlavors {
-        dev {
-            def filePath = "app-credentials.json"
-            def agent = (new JsonSlurper().parseText(file(filePath).text)).user_agent
-            def vkSecret = (new JsonSlurper().parseText(file(filePath).text)).vk_client_secret
-            def vkClientId = (new JsonSlurper().parseText(file(filePath).text)).vk_client_id
-            def googleKey = (new JsonSlurper().parseText(file(filePath).text)).google_key
-            def googleCx = (new JsonSlurper().parseText(file(filePath).text)).google_cx
-            buildConfigField("String", "USER_AGENT", "\"" + agent + "\"")
-            buildConfigField("String", "VK_CLIENT_SECRET", "\"" + vkSecret + "\"")
-            buildConfigField("int", "VK_CLIENT_ID", vkClientId)
-            buildConfigField("String", "GOOGLE_KEY", "\"" + googleKey + "\"")
-            buildConfigField("String", "GOOGLE_CX", "\"" + googleCx + "\"")
-        }
-    }
-}
-
-kapt {
-    generateStubs = true
 }
 
 dependencies {
@@ -84,20 +100,26 @@ dependencies {
             rootProject.design,
             rootProject.constraint,
             rootProject.slidinguppanel,
-            rootProject.bottomSheet
+            rootProject.bottomSheet,
+            rootProject.firebaseDatabase
     )
     debugCompile(
             rootProject.stethoOkhttp,
+            rootProject.stethoRealm,
             rootProject.leakcanary
+    )
+    releaseCompile(
+            rootProject.leakcanaryNoOp,
+            rootProject.stethoNoOp
     )
     kapt(
             rootProject.moxyCompiler,
             rootProject.daggerCompiler
     )
-    repositories {
-        mavenCentral()
-    }
-    compile "com.google.firebase:firebase-database:10.0.1"
+}
+
+kapt {
+    generateStubs = true
 }
 
 apply plugin: "com.google.gms.google-services"

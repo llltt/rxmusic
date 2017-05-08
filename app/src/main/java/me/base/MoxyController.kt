@@ -9,6 +9,7 @@ import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.ControllerChangeType
 import rx.music.App
+import rx.music.BuildConfig
 
 
 /** Created by Maksim Sukhotski on 4/6/2017. */
@@ -53,7 +54,7 @@ abstract class MoxyController : Controller {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (hasExited) App.refWatcher.watch(this)
+        if (hasExited && BuildConfig.DEBUG) App.refWatcher.watch(this)
         if (isStateSaved) return
         mvpDelegate.onDestroy()
     }
@@ -73,7 +74,7 @@ abstract class MoxyController : Controller {
     override fun onChangeEnded(changeHandler: ControllerChangeHandler, changeType: ControllerChangeType) {
         super.onChangeEnded(changeHandler, changeType)
         hasExited = !changeType.isEnter
-        if (isDestroyed) App.refWatcher.watch(this)
+        if (isDestroyed && BuildConfig.DEBUG) App.refWatcher.watch(this)
     }
 
 

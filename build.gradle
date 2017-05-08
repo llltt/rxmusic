@@ -8,6 +8,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:1.1.1"
         classpath "com.google.gms:google-services:3.0.0"
         classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.4"
+        classpath "io.realm:realm-gradle-plugin:3.1.4"
     }
 }
 
@@ -15,6 +16,8 @@ allprojects {
     repositories {
         jcenter()
         maven { url "https://jitpack.io" }
+        maven { url "https://github.com/uPhyca/stetho-realm/raw/master/maven-repo" }
+        maven { url "http://dl.bintray.com/igenius-code/maven" }
     }
 }
 

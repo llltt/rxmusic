@@ -16,6 +16,7 @@ ext {
     glideV = "3.7.0"
     stethoV = "1.4.2"
     leakcanaryV = "3.7.0"
+    firebaseV = "10.0.1"
 
     kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_V"
     rxJava = "io.reactivex.rxjava2:rxjava:$rxjava"
@@ -39,10 +40,14 @@ ext {
     design = "com.android.support:design:$supportV"
     constraint = "com.android.support.constraint:constraint-layout:1.0.2"
     glide = "com.github.bumptech.glide:glide:3.7.0"
-    stetho = "com.facebook.stetho:stetho:$stethoV"
     stethoOkhttp = "com.facebook.stetho:stetho-okhttp3:$stethoV"
+    stethoRealm = "com.uphyca:stetho_realm:2.0.0"
     leakcanary = "com.squareup.leakcanary:leakcanary-android:1.5"
+    leakcanaryNoOp = "com.squareup.leakcanary:leakcanary-android-no-op:1.5"
+    stetho = "com.facebook.stetho:stetho:$stethoV"
+    stethoNoOp = "net.igenius:stetho-no-op:1.1"
     slidinguppanel = "com.sothree.slidinguppanel:library:3.3.1"
     bottomSheet =  "com.github.Kennyc1012:BottomSheet:2.3.4"
     jsoup = "org.jsoup:jsoup:1.8.3"
+    firebaseDatabase = "com.google.firebase:firebase-database:$firebaseV"
 }

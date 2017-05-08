@@ -7,8 +7,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.json.JSONObject
 import retrofit2.HttpException
-import rx.music.App
 import rx.music.business.auth.AuthInteractor
+import rx.music.dagger.Dagger
 import rx.music.net.models.Captcha
 import rx.music.net.models.Validation
 import javax.inject.Inject
@@ -20,7 +20,7 @@ class AuthPresenter : MvpPresenter<AuthView>() {
     @Inject lateinit var authInteractor: AuthInteractor
 
     init {
-        App.instance.authComponent?.inject(this)
+        Dagger.instance.authComponent?.inject(this)
     }
 
     override fun onFirstViewAttach() {

@@ -13,38 +13,28 @@
 
     <LinearLayout
         android:id="@+id/dialog_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="@dimen/navigation"
+        android:layout_marginLeft="@dimen/navigation_half"
+        android:layout_marginRight="@dimen/navigation_half"
+        android:layout_marginTop="@dimen/navigation_half"
         android:background="@android:color/white"
         android:elevation="16dp"
-        android:minWidth="280dp"
         android:orientation="vertical"
         android:transitionName="@string/fab_dialog_transition_name">
 
         <TextView
-            android:id="@+id/tv_title"
-            style="@style/Base.DialogWindowTitle.AppCompat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="24dp"
-            android:gravity="center_vertical"
-            android:text="@string/app_name" />
-
-        <TextView
-            android:id="@+id/tv_description"
+            android:id="@+id/descriptionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:text="@string/app_name" />
+            android:text="Выберите одну или несколько аудиозаписей" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/pickerRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/dismiss"

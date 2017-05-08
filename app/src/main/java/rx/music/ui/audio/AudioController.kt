@@ -9,8 +9,8 @@ import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import kotlinx.android.synthetic.main.controller_audio.view.*
 import me.base.MoxyController
-import rx.music.App
 import rx.music.R
+import rx.music.dagger.Dagger
 import rx.music.net.models.Audio
 import rx.music.net.models.AudioResponse
 import rx.music.ui.auth.AuthController
@@ -34,28 +34,27 @@ class AudioController : MoxyController(), AudioView {
             }
         })
         val layoutManager = LinearLayoutManager(activity)
-        audioRecyclerView.adapter = adapter
-        audioRecyclerView.setHasFixedSize(true)
-        audioRecyclerView.layoutManager = layoutManager
-        audioRecyclerView.addOnScrollListener(InfiniteScrollListener({
+        audioRecycler.adapter = adapter
+        audioRecycler.setHasFixedSize(true)
+        audioRecycler.layoutManager = layoutManager
+        audioRecycler.addOnScrollListener(InfiniteScrollListener({
             audioPresenter.getAudio(offset = adapter?.itemCount!!)
         }, layoutManager))
     }
 
-    override fun showAudio(audioResponse: AudioResponse) {
-        adapter?.addAndNotify(audioResponse.items)
-    }
-
     override fun showPlayer(audio: Audio) = (activity as MainActivity).mainPresenter.updatePlayer(audio)
+
+    override fun showSelectedPos(position: Int) = adapter!!.selectAndNotify(position)
+
+    override fun showAudio(audioResponse: AudioResponse): Unit = adapter!!.addAndNotify(audioResponse.items)
 
     override fun showAuthController() = router.setRoot(RouterTransaction.with(AuthController())
             .pushChangeHandler(HorizontalChangeHandler())
             .popChangeHandler(HorizontalChangeHandler()))
 
-    override fun showSelectedPos(position: Int) = adapter!!.selectAndNotify(position)
 
     override fun onDetach(view: View) {
         super.onDetach(view)
-        App.instance.userComponent = null
+        Dagger.instance.userComponent = null
     }
 }

@@ -17,8 +17,8 @@ import kotlinx.android.synthetic.main.part_validation.view.*
 import me.base.MoxyController
 import me.extensions.hideKeyboard
 import me.extensions.onClick
-import rx.music.App
 import rx.music.R
+import rx.music.dagger.Dagger
 import rx.music.net.models.Captcha
 import rx.music.net.models.Validation
 import rx.music.ui.audio.AudioController
@@ -75,7 +75,7 @@ class AuthController : MoxyController(), AuthView {
     override fun showAudioController() {
         showNavigation()
         view?.hideKeyboard()
-        App.instance.authComponent = null
+        Dagger.instance.authComponent = null
         router.setRoot(RouterTransaction.with(AudioController())
                 .pushChangeHandler(HorizontalChangeHandler())
                 .popChangeHandler(HorizontalChangeHandler()))
