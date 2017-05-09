@@ -5,6 +5,7 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import me.base.MoxyController
 
@@ -26,6 +27,21 @@ fun View.onClick(l: (v: View?) -> Unit) {
 
 fun View.onLongClick(l: (v: View?) -> Boolean) {
     setOnLongClickListener(l)
+}
+
+fun View.setEnable(b: Boolean) {
+    this.isEnabled = b
+    if (this is ViewGroup) {
+        val group = this
+
+        for (idx in 0..group.childCount - 1) {
+            enableDisableView(group.getChildAt(idx), b)
+        }
+    }
+}
+
+fun enableDisableView(view: View, enabled: Boolean) {
+
 }
 
 inline val RecyclerView.ViewHolder.context

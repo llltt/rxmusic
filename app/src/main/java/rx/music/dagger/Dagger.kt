@@ -1,6 +1,6 @@
 package rx.music.dagger
 
-import android.content.Context
+import android.app.Application
 import rx.music.App.Companion.appComponent
 import rx.music.dagger.components.AuthComponent
 import rx.music.dagger.components.DaggerAppComponent
@@ -10,7 +10,7 @@ import rx.music.dagger.modules.AuthModule
 import rx.music.dagger.modules.UserModule
 
 /** Created by Maksim Sukhotski on 5/8/2017. */
-class Dagger(val context: Context) {
+class Dagger(val app: Application) {
     companion object {
         lateinit var instance: Dagger private set
     }
@@ -18,7 +18,7 @@ class Dagger(val context: Context) {
     init {
         instance = this
         appComponent = DaggerAppComponent.builder()
-                .appModule(AppModule(context))
+                .appModule(AppModule(app))
                 .build()
     }
 

@@ -10,7 +10,7 @@ interface AuthInteractor {
                        password: String,
                        captchaSid: String?,
                        captchaKey: String?,
-                       code: String?): Single<Credentials>
+                       code: Int?): Single<Credentials>
 
     fun validatePhone(sid: String): Completable
 }

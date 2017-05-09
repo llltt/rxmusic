@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import rx.music.business.audio.AudioInteractor
 import rx.music.business.audio.AudioInteractorImpl
-import rx.music.dagger.scopes.UserScope
+import rx.music.dagger.scopes.PerUser
 import rx.music.data.audio.AudioRepository
 import rx.music.data.audio.AudioRepositoryImpl
 import rx.music.data.google.GoogleRepository
@@ -15,23 +15,23 @@ import rx.music.net.apis.GoogleApi
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
 @Module class UserModule {
-    @Provides @UserScope fun provideAudioRepository(): AudioRepository {
+    @Provides @PerUser fun provideAudioRepository(): AudioRepository {
         return AudioRepositoryImpl()
     }
 
-    @Provides @UserScope fun provideAudioInteractor(): AudioInteractor {
+    @Provides @PerUser fun provideAudioInteractor(): AudioInteractor {
         return AudioInteractorImpl()
     }
 
-    @Provides @UserScope fun provideGoogleRepository(): GoogleRepository {
+    @Provides @PerUser fun provideGoogleRepository(): GoogleRepository {
         return GoogleRepositoryImpl()
     }
 
-    @Provides @UserScope fun provideAudioApi(): AudioApi {
+    @Provides @PerUser fun provideAudioApi(): AudioApi {
         return Retrofit.build(AudioApi::class.java)
     }
 
-    @Provides @UserScope fun provideGoogleApi(): GoogleApi {
+    @Provides @PerUser fun provideGoogleApi(): GoogleApi {
         return Retrofit.build(GoogleApi::class.java)
     }
 }

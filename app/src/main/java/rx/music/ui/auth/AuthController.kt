@@ -54,10 +54,8 @@ class AuthController : MoxyController(), AuthView {
                 .error(R.drawable.oh)
                 .into(captchaImageView)
         loginButton.onClick {
-            authPresenter.login(usernameEditText.text.toString(),
-                    passwordEditText.text.toString(),
-                    captcha.captcha_sid,
-                    captchaEditText.text.toString())
+            authPresenter.login(usernameEditText.text.toString(), passwordEditText.text.toString(),
+                    captcha.captcha_sid, captchaEditText.text.toString())
             captchaEditText.text.clear()
         }
     }
@@ -68,7 +66,7 @@ class AuthController : MoxyController(), AuthView {
         loginButton.onClick {
             authPresenter.login(usernameEditText.text.toString(),
                     passwordEditText.text.toString(),
-                    code = validationEditText.text.toString())
+                    code = validationEditText.text.toString().toInt())
         }
     }
 

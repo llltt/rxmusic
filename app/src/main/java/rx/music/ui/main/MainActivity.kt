@@ -193,6 +193,18 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
         }
     }
 
-    fun resetAnimationMode() = Handler().postDelayed({ isAnimate = false; bottomNavigation.isClickable = true }, 200)
-    fun resetSlidingPanel() = Handler().postDelayed({ slidingLayout.panelHeight = resources!!.getDimension(R.dimen.navigation).toInt() }, 10)
+    fun resetSlidingPanel() = Handler().postDelayed({
+        roomContainer.elevation = 0f
+        slidingLayout.panelHeight = resources!!.getDimension(R.dimen.navigation).toInt()
+        resetParallax()
+    }, 200)
+
+    fun resetParallax() = Handler().postDelayed({
+        slidingLayout.setParallaxOffset(resources!!.getDimension(R.dimen.navigation).toInt())
+        resetAnimationMode()
+    }, 100)
+
+    fun resetAnimationMode() = Handler().postDelayed({
+        isAnimate = false; bottomNavigation.isClickable = true
+    }, 100)
 }

@@ -21,7 +21,7 @@ class AuthInteractorImpl : AuthInteractor {
     }
 
     override fun getCredentials(username: String, password: String, captchaSid: String?,
-                                captchaKey: String?, code: String?): Single<Credentials> {
+                                captchaKey: String?, code: Int?): Single<Credentials> {
         return authRepository.getCredentials(username, password, captchaSid, captchaKey, code)
                 .doOnSuccess { preferencesRepository.credentials = it }
     }

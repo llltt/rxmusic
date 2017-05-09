@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_picker.view.*
-import kotlinx.android.synthetic.main.part_containers.*
 import me.base.MoxyController
 import me.extensions.onClick
 import rx.music.R
@@ -68,11 +66,8 @@ class PickerController : MoxyController(), AudioView {
         if (!(activity as MainActivity).isAnimate) {
             (activity as MainActivity).isAnimate = true
             view?.postDelayed({
-                (activity as MainActivity).roomContainer.elevation = 0f
-                (activity as MainActivity).slidingLayout.setParallaxOffset(resources!!.getDimension(R.dimen.navigation).toInt())
-                (activity as MainActivity).resetAnimationMode()
                 (activity as MainActivity).resetSlidingPanel()
-            }, 400)
+            }, 200)
             return super.handleBack()
         }
         return false

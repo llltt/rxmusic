@@ -8,12 +8,21 @@ import com.arellomobile.mvp.MvpDelegate
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.ControllerChangeType
+import com.squareup.leakcanary.RefWatcher
+import io.realm.Realm
 import rx.music.App
 import rx.music.BuildConfig
+import javax.inject.Inject
 
 
 /** Created by Maksim Sukhotski on 4/6/2017. */
 abstract class MoxyController : Controller {
+    @Inject lateinit var refWatcher: RefWatcher
+    @Inject lateinit protected var realm: Realm
+
+    init {
+        @Suppress("LeakingThis") App.appComponent.inject(this)
+    }
 
     val mvpDelegate by lazy { MvpDelegate(this) }
     private var isStateSaved: Boolean = false
@@ -54,9 +63,10 @@ abstract class MoxyController : Controller {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (hasExited && BuildConfig.DEBUG) App.refWatcher.watch(this)
+        if (hasExited && BuildConfig.DEBUG) refWatcher.watch(this)
         if (isStateSaved) return
         mvpDelegate.onDestroy()
+        realm.close()
     }
 
     override fun onRestoreViewState(view: View, savedViewState: Bundle) {
@@ -74,8 +84,6 @@ abstract class MoxyController : Controller {
     override fun onChangeEnded(changeHandler: ControllerChangeHandler, changeType: ControllerChangeType) {
         super.onChangeEnded(changeHandler, changeType)
         hasExited = !changeType.isEnter
-        if (isDestroyed && BuildConfig.DEBUG) App.refWatcher.watch(this)
+        if (isDestroyed && BuildConfig.DEBUG) refWatcher.watch(this)
     }
-
-
 }

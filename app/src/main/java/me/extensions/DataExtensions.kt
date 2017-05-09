@@ -25,7 +25,7 @@ fun android.content.Context.isNetworkConnected() = (this.getSystemService(androi
 /**
  * hh:mm:ss
  */
-fun String.toTime(): String {
+fun Int.toTime(): String {
 
     val l = this.toLong()
     val hours = java.util.concurrent.TimeUnit.SECONDS.toHours(l)

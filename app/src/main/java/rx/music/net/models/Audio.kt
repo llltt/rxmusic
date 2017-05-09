@@ -1,14 +1,17 @@
 package rx.music.net.models
 
+import io.realm.RealmObject
+import io.realm.annotations.RealmClass
+
 /** Created by Maksim Sukhotski on 4/9/2017. */
-class Audio(val id: String,
-            val owner_id: String,
-            val artist: String,
-            val title: String,
-            val duration: String,
-            val date: String,
-            val url: String,
-            val lyrics_id: String,
-            val genre_id: String,
-            var pic: String?,
-            var pic_preview: String?)
+@RealmClass
+open class Audio(var id: Long = 0,
+                 var owner_id: Long = 0,
+                 var artist: String = "",
+                 var title: String = "",
+                 var duration: Int = 0,
+                 var date: String = "",
+                 var url: String = "",
+                 var lyrics_id: Long = 0,
+                 var genre_id: Long = 0,
+                 var pic: String? = "") : RealmObject()

@@ -40,6 +40,7 @@ public class FabToDialogTransitionChangeHandler extends TransitionChangeHandler 
 
     @Override
     public void prepareForTransition(@NonNull ViewGroup container, @Nullable View from, @Nullable View to, @NonNull Transition transition, boolean isPush, @NonNull OnTransitionPreparedListener onTransitionPreparedListener) {
+        if (isPush && from == null || !isPush && to == null) return;
         fab = isPush ? from.findViewById(R.id.floatingActionButton) : to.findViewById(R.id.floatingActionButton);
         fabParent = (ViewGroup) fab.getParent();
 

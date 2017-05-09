@@ -1,14 +1,14 @@
 import groovy.json.JsonSlurper
 
-def filePath = "app-credentials.json"
-def appStorePassword = (new JsonSlurper().parseText(file(filePath).text)).storePassword
-def appKeyAlias = (new JsonSlurper().parseText(file(filePath).text)).keyAlias
-def appKeyPassword = (new JsonSlurper().parseText(file(filePath).text)).keyPassword
-def agent = (new JsonSlurper().parseText(file(filePath).text)).userAgent
-def vkSecret = (new JsonSlurper().parseText(file(filePath).text)).vkClientSecret
-def vkClientId = (new JsonSlurper().parseText(file(filePath).text)).vkClientId
-def googleKey = (new JsonSlurper().parseText(file(filePath).text)).googleKey
-def googleCx = (new JsonSlurper().parseText(file(filePath).text)).googleCx
+def fileName = "app-credentials.json"
+def appStorePassword = (new JsonSlurper().parseText(file(fileName).text)).storePassword
+def appKeyAlias = (new JsonSlurper().parseText(file(fileName).text)).keyAlias
+def appKeyPassword = (new JsonSlurper().parseText(file(fileName).text)).keyPassword
+def agent = (new JsonSlurper().parseText(file(fileName).text)).userAgent
+def vkSecret = (new JsonSlurper().parseText(file(fileName).text)).vkClientSecret
+def vkClientId = (new JsonSlurper().parseText(file(fileName).text)).vkClientId
+def googleKey = (new JsonSlurper().parseText(file(fileName).text)).googleKey
+def googleCx = (new JsonSlurper().parseText(file(fileName).text)).googleCx
 
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
@@ -38,7 +38,7 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file('D:/AndroidStudioProjects/RxMusic/app/rxmusic-keystore.jks')
+            storeFile file("$rootDir/app/rxmusic-keystore.jks")
             keyAlias appKeyAlias
             keyPassword appKeyPassword
             storePassword appStorePassword
@@ -54,8 +54,8 @@ android {
             variant.outputs.each { output ->
                 def alignedOutputFile = output.outputFile
                 def unalignedOutputFile = output.packageApplication.outputFile
-                def s1 = alignedOutputFile.name.replace(".apk", "-" + defaultConfig.versionName + ".apk")
-                def s2 = unalignedOutputFile.name.replace(".apk", "-v" + defaultConfig.versionName + ".apk")
+                def s1 = alignedOutputFile.name.replace(".apk", "-v${defaultConfig.versionName}.apk")
+                def s2 = unalignedOutputFile.name.replace(".apk", "-v${defaultConfig.versionName}.apk")
                 if (variant.buildType.zipAlignEnabled) output.outputFile = new File(alignedOutputFile.parent, s1)
                 output.packageApplication.outputFile = new File(unalignedOutputFile.parent, s2)
             }

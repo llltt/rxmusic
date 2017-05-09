@@ -23,7 +23,7 @@ interface AuthApi {
                        @Query("password") password: String,
                        @Query("captcha_sid") captcha_sid: String?,
                        @Query("captcha_key") captcha: String?,
-                       @Query("code") code: String?): Single<Credentials>
+                       @Query("code") code: Int?): Single<Credentials>
 
     @GET("auth.validatePhone")
     fun validatePhone(@Query("v") v: Double,
