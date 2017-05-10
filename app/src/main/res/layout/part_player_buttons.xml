@@ -58,7 +58,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/guideline3"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/more"
+        app:srcCompat="@drawable/more_black"
         tools:targetApi="lollipop" />
 
     <android.support.constraint.Guideline

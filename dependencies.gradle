@@ -50,4 +50,5 @@ ext {
     bottomSheet =  "com.github.Kennyc1012:BottomSheet:2.3.4"
     jsoup = "org.jsoup:jsoup:1.8.3"
     firebaseDatabase = "com.google.firebase:firebase-database:$firebaseV"
+    realmAdapters = "io.realm:android-adapters:2.0.0"
 }

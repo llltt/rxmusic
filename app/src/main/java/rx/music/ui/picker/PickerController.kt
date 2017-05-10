@@ -13,7 +13,6 @@ import me.base.MoxyController
 import me.extensions.onClick
 import rx.music.R
 import rx.music.net.models.Audio
-import rx.music.net.models.AudioResponse
 import rx.music.ui.audio.AudioAdapter
 import rx.music.ui.audio.AudioPresenter
 import rx.music.ui.audio.AudioView
@@ -25,7 +24,13 @@ import rx.music.ui.main.MainActivity
 class PickerController : MoxyController(), AudioView {
     @InjectPresenter lateinit var audioPresenter: AudioPresenter
 
-    private var adapter: AudioAdapter? = null
+    private var adapter: AudioAdapter? = AudioAdapter(realm.where(Audio::class.java).findAll(),
+            onClick = { audio, position ->
+                run {
+                    audioPresenter.handleAudio(audio)
+                    audioPresenter.savePosition(position)
+                }
+            })
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View {
         return inflater.inflate(R.layout.controller_picker, container, false)
@@ -41,12 +46,6 @@ class PickerController : MoxyController(), AudioView {
             handleBack()
             router.popCurrentController()
         }
-        adapter = AudioAdapter(onClick = { audio, position ->
-            run {
-                audioPresenter.handleAudio(audio)
-                audioPresenter.savePosition(position)
-            }
-        })
         val layoutManager = LinearLayoutManager(activity)
         pickerRecycler.adapter = adapter
         pickerRecycler.setHasFixedSize(true)
@@ -56,7 +55,7 @@ class PickerController : MoxyController(), AudioView {
         }, layoutManager))
     }
 
-    override fun showAudio(audioResponse: AudioResponse): Unit = adapter!!.addAndNotify(audioResponse.items)
+//    override fun showAudio(audioResponse: Base<AudioResponse>): Unit = adapter!!.addAndNotify(audioResponse.response?.items)
 
     override fun showAuthController() = router.setRoot(RouterTransaction.with(AuthController())
             .pushChangeHandler(HorizontalChangeHandler())

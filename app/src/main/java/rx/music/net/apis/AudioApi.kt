@@ -1,6 +1,6 @@
 package rx.music.net.apis
 
-import io.reactivex.Single
+import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
@@ -19,5 +19,5 @@ interface AudioApi {
                  @Query("count") count: Int,
                  @Query("offset") offset: Int,
                  @Query("access_token") accessToken: String,
-                 @Query("sig") sig: String): Single<Base<AudioResponse>>
+                 @Query("sig") sig: String): Observable<Base<AudioResponse>>
 }

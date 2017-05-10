@@ -11,7 +11,7 @@ import rx.music.net.models.Audio
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 5/5/2017. */
-class MediaPlayerRepositoryImpl : MediaPlayerRepository {
+class MediaPlayerRepoImpl : MediaPlayerRepo {
 
     @Inject lateinit var mediaPlayer: MediaPlayer
 

@@ -10,8 +10,8 @@ import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.ControllerChangeType
 import com.squareup.leakcanary.RefWatcher
 import io.realm.Realm
-import rx.music.App
 import rx.music.BuildConfig
+import rx.music.dagger.Dagger
 import javax.inject.Inject
 
 
@@ -21,7 +21,7 @@ abstract class MoxyController : Controller {
     @Inject lateinit protected var realm: Realm
 
     init {
-        @Suppress("LeakingThis") App.appComponent.inject(this)
+        @Suppress("LeakingThis") Dagger.instance.userComponent?.inject(this)
     }
 
     val mvpDelegate by lazy { MvpDelegate(this) }

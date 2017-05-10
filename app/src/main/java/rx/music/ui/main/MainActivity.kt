@@ -68,14 +68,14 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     }
 
     override fun showPlayer(audio: Audio) {
-        if (audio.pic != null) {
-            Glide.with(this).load(audio.pic).centerCrop().error(R.drawable.cover1).into(playerPreviewImageView)
-            Glide.with(this).load(audio.pic).centerCrop().error(R.drawable.cover1).into(playerImageView)
-        }
         playerArtistTextView.text = audio.artist
         playerTitleTextView.text = audio.title
         artistTextView.text = audio.artist
         titleTextView.text = audio.title
+        if (!audio.pic.isNullOrEmpty()) {
+            Glide.with(this).load(audio.pic).centerCrop().into(playerPreviewImageView)
+            Glide.with(this).load(audio.pic).centerCrop().into(playerImageView)
+        }
     }
 
     override fun showSeekBar(mp: MediaPlayer) {

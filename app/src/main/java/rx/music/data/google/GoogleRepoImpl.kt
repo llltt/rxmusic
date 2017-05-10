@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 5/3/2017. */
 
-class GoogleRepositoryImpl : GoogleRepository {
+class GoogleRepoImpl : GoogleRepo {
     @Inject lateinit var googleApi: GoogleApi
 
     init {

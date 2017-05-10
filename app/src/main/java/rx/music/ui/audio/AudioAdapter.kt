@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import io.realm.OrderedRealmCollection
+import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.item_music.view.*
 import me.extensions.context
 import me.extensions.onClick
@@ -17,18 +19,23 @@ import rx.music.R
 import rx.music.net.models.Audio
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
-class AudioAdapter(var items: MutableList<Audio> = arrayListOf(),
-                   val onClick: (audio: Audio, position: Int) -> Unit = { _, _ -> {} })
-    : RecyclerView.Adapter<AudioAdapter.ViewHolder>() {
-
-    var selectedPos = -1
+class AudioAdapter(data: OrderedRealmCollection<Audio>?,
+                   val onClick: (audio: Audio, position: Int) -> Unit = { _, _ -> run {} })
+    : RealmRecyclerViewAdapter<Audio, AudioAdapter.ViewHolder>(data, true) {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        lateinit var data: Audio
         val vizualizerImageView: ImageView = view.vizualizerImageView
         val titleTextView: TextView = view.titleTextView
         val artistTextView: TextView = view.artistTextView
         val isLoadedImageView: ImageView = view.isLoadedImageView
         val durationTextView: TextView = view.durationTextView
+    }
+
+    var selectedPos = -1
+
+    init {
+        setHasStableIds(true)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,27 +44,28 @@ class AudioAdapter(var items: MutableList<Audio> = arrayListOf(),
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = with(holder) {
-        val item = items[position]
-        titleTextView.text = item.title
-        artistTextView.text = item.artist
-        durationTextView.text = item.duration.toTime()
+        val audio: Audio = getItem(position)!!
+        holder.data = audio
+        titleTextView.text = audio.title
+        artistTextView.text = audio.artist
+        durationTextView.text = audio.duration.toTime()
         itemView.vizualizerImageView.visibility = (if (position == selectedPos) VISIBLE else GONE)
-        Glide.with(context)
-                .load(R.drawable.audio_visualizer)
-                .into(itemView.vizualizerImageView)
+        Glide.with(context).load(R.drawable.audio_visualizer).into(itemView.vizualizerImageView)
         itemView.onClick {
             selectedPos = position
             notifyDataSetChanged()
-            onClick.invoke(item, selectedPos)
+            onClick.invoke(audio, selectedPos)
         }
     }
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = data!!.size
 
-    fun addAndNotify(items: MutableList<Audio>) {
-        this.items.addAll(items)
-        notifyDataSetChanged()
-    }
+//    fun addAndNotify(items: MutableList<Audio>?) {
+//        if (items == null) return
+//        this.data!!.addAll(items)
+//        notifyDataSetChanged()
+//        Log.d(BaseFields.LOG_TAG, "audio showed in recycler\n")
+//    }
 
     fun selectAndNotify(position: Int) {
         this.selectedPos = position

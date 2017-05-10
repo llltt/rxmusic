@@ -8,6 +8,8 @@ class BaseFields {
         const val VK_API = "https://api.vk.com/method/"
         const val VK_VALIDATION_API = "https://oauth.vk.com/token/"
         const val GOOGLE_API = "https://www.googleapis.com/customsearch/v1"
+        const val LOG_TAG = "logtag"
+
         const val V = 5.63
         const val SCOPE = "nohttps,all"
         const val TWO_FA_SUPPORTED = 1

@@ -5,6 +5,6 @@ import rx.music.net.models.CustomSearch
 
 /** Created by Maksim Sukhotski on 5/3/2017. */
 
-interface GoogleRepository {
+interface GoogleRepo {
     fun getPicture(q: String, num: Int, imgSize: String): Single<CustomSearch>
 }

@@ -12,7 +12,6 @@ import me.base.MoxyController
 import rx.music.R
 import rx.music.dagger.Dagger
 import rx.music.net.models.Audio
-import rx.music.net.models.AudioResponse
 import rx.music.ui.auth.AuthController
 import rx.music.ui.main.MainActivity
 
@@ -21,18 +20,18 @@ import rx.music.ui.main.MainActivity
 class AudioController : MoxyController(), AudioView {
     @InjectPresenter lateinit var audioPresenter: AudioPresenter
 
-    private var adapter: AudioAdapter? = null
+    private var adapter: AudioAdapter? = AudioAdapter(realm.where(Audio::class.java).findAll(),
+            onClick = { audio, position ->
+                run {
+                    audioPresenter.handleAudio(realm.copyFromRealm(audio))
+                    audioPresenter.savePosition(position)
+                }
+            })
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View =
             inflater.inflate(R.layout.controller_audio, container, false)
 
     override fun onViewBound(view: View) = with(view) {
-        adapter = AudioAdapter(onClick = { audio, position ->
-            run {
-                audioPresenter.handleAudio(audio)
-                audioPresenter.savePosition(position)
-            }
-        })
         val layoutManager = LinearLayoutManager(activity)
         audioRecycler.adapter = adapter
         audioRecycler.setHasFixedSize(true)
@@ -46,15 +45,13 @@ class AudioController : MoxyController(), AudioView {
 
     override fun showSelectedPos(position: Int) = adapter!!.selectAndNotify(position)
 
-    override fun showAudio(audioResponse: AudioResponse): Unit = adapter!!.addAndNotify(audioResponse.items)
-
     override fun showAuthController() = router.setRoot(RouterTransaction.with(AuthController())
             .pushChangeHandler(HorizontalChangeHandler())
             .popChangeHandler(HorizontalChangeHandler()))
 
-
-    override fun onDetach(view: View) {
+    override fun onDetach(view: View) = with(view) {
         super.onDetach(view)
         Dagger.instance.userComponent = null
+        audioRecycler.adapter = null
     }
 }

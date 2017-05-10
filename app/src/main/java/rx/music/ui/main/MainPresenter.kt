@@ -5,7 +5,7 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.bluelinelabs.conductor.ChangeHandlerFrameLayout
 import rx.music.App
-import rx.music.data.preferences.PreferencesRepository
+import rx.music.data.preferences.PreferencesRepo
 import rx.music.net.models.Audio
 import java.util.*
 import javax.inject.Inject
@@ -16,7 +16,7 @@ import kotlin.concurrent.timer
 @InjectViewState
 class MainPresenter : MvpPresenter<MainView>() {
 
-    @Inject lateinit var preferencesRepository: PreferencesRepository
+    @Inject lateinit var preferencesRepo: PreferencesRepo
     @Inject lateinit var mediaPlayer: MediaPlayer
     lateinit var timer: Timer
 
@@ -32,7 +32,7 @@ class MainPresenter : MvpPresenter<MainView>() {
         viewState.showContainer(audioContainer!!, isReselected)
 
     fun logout() {
-        preferencesRepository.clear()
+        preferencesRepo.clear()
         viewState.showContainer(isReselected = true)
         viewState.showAuthController()
     }

@@ -101,7 +101,8 @@ dependencies {
             rootProject.constraint,
             rootProject.slidinguppanel,
             rootProject.bottomSheet,
-            rootProject.firebaseDatabase
+            rootProject.firebaseDatabase,
+            rootProject.realmAdapters
     )
     debugCompile(
             rootProject.stethoOkhttp,

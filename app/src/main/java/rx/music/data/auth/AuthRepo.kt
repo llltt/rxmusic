@@ -5,7 +5,7 @@ import io.reactivex.Single
 import rx.music.net.models.Credentials
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/
-interface AuthRepository {
+interface AuthRepo {
     fun getCredentials(username: String,
                        password: String,
                        captchaSid: String?,

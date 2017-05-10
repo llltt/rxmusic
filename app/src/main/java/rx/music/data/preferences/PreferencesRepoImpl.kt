@@ -5,7 +5,7 @@ import com.google.gson.Gson
 import rx.music.net.models.Credentials
 
 /** Created by Maksim Sukhotski on 3/30/2017.*/
-class PreferencesRepositoryImpl(context: Context) : PreferencesRepository {
+class PreferencesRepoImpl(context: Context) : PreferencesRepo {
     companion object {
         const val PREFS_NAME = "PREFS_NAME"
         const val KEY_CREDENTIALS = "KEY_CREDENTIALS"

@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/
 
-class AuthRepositoryImpl : AuthRepository {
+class AuthRepoImpl : AuthRepo {
     @Inject lateinit var authApi: AuthApi
 
     init {
