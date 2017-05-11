@@ -4,8 +4,6 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.util.Log
 import io.reactivex.Completable
-import io.reactivex.functions.Action
-import io.reactivex.internal.operators.completable.CompletableFromAction
 import rx.music.App
 import rx.music.net.models.Audio
 import javax.inject.Inject
@@ -26,7 +24,7 @@ class MediaPlayerRepoImpl : MediaPlayerRepo {
     var audio: Audio? = null
 
     override fun play(audio: Audio): Completable {
-        return CompletableFromAction(Action {
+        return Completable.fromAction {
             if (this.audio?.id == audio.id)
                 if (mediaPlayer.isPlaying) mediaPlayer.pause()
                 else mediaPlayer.start()
@@ -37,7 +35,7 @@ class MediaPlayerRepoImpl : MediaPlayerRepo {
                 mediaPlayer.setDataSource(audio.url)
                 mediaPlayer.prepareAsync()
             }
-        })
+        }
 
     }
 }

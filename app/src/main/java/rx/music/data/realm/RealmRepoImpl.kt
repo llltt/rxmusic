@@ -13,23 +13,23 @@ import javax.inject.Provider
 
 
 /** Created by Maksim Sukhotski on 5/9/2017. */
+
 class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Realm>) : RealmRepo {
-    override fun putAudio(item: Base<AudioResponse>): Completable = Completable.fromAction {
-        realmProvider.get().executeTransaction { it.insertOrUpdate(item.response?.items) }
-    }
+    override fun putAudio(item: Base<AudioResponse>): Completable =
+            Completable.fromAction {
+                realmProvider.get().executeTransaction { it.insertOrUpdate(item.response?.items) }
+            }
 
     override fun getAudio(ownerId: Long?): Observable<Base<AudioResponse>> =
             Observable.fromCallable {
-                if (!realmProvider.get().isEmpty)
-                    realmProvider.get().where(Audio::class.java).findAll().toBase()
-                else Base<AudioResponse>()
+                realmProvider.get()?.where(Audio::class.java)?.findAll()?.toBase() ?: Base<AudioResponse>()
             }
 
     override fun completeAudio(audio: Audio, customSearch: CustomSearch): Single<Audio> =
             Single.fromCallable {
-                audio.pic = customSearch.items[0].link
-                realmProvider.get().executeTransactionAsync { it.insertOrUpdate(audio) }
-                return@fromCallable audio
+                val t = realmProvider.get().where(Audio::class.java).equalTo(Audio::id.name, audio.id).findFirst()
+                realmProvider.get().executeTransaction { t.pic = customSearch.items[0].link }
+                return@fromCallable realmProvider.get().copyFromRealm(t)
             }
 }
 

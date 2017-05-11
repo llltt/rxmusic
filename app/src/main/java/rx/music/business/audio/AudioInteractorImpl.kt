@@ -1,7 +1,7 @@
 package rx.music.business.audio
 
-import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import rx.music.dagger.Dagger
 import rx.music.data.audio.AudioRepo
 import rx.music.data.google.GoogleRepo
@@ -33,11 +33,10 @@ class AudioInteractorImpl : AudioInteractor {
                     audioRepo.getAudio(ownerId, count, offset)
                             .doOnNext { realmRepo.putAudio(it).subscribe() })
 
-    override fun handleAudio(audio: Audio): Completable {
-        return mediaPlayerRepo.play(audio)
-                .andThen { googleRepo.getPicture(audio.artist, 1, IMG_SIZE).doOnSuccess { realmRepo.completeAudio(audio, it).subscribe() }.subscribe({ t1, t2 -> }) }
-    }
-
+    override fun handleAudio(audio: Audio): Single<Audio> =
+            mediaPlayerRepo.play(audio)
+                    .andThen(googleRepo.getPicture(audio.artist, 1, IMG_SIZE)
+                            .flatMap { pic -> realmRepo.completeAudio(audio, pic) })
 
     override val isAuthorized: Boolean get() = audioRepo.isAuthorized
 }

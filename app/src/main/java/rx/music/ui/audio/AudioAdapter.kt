@@ -60,13 +60,6 @@ class AudioAdapter(data: OrderedRealmCollection<Audio>?,
 
     override fun getItemCount(): Int = data!!.size
 
-//    fun addAndNotify(items: MutableList<Audio>?) {
-//        if (items == null) return
-//        this.data!!.addAll(items)
-//        notifyDataSetChanged()
-//        Log.d(BaseFields.LOG_TAG, "audio showed in recycler\n")
-//    }
-
     fun selectAndNotify(position: Int) {
         this.selectedPos = position
         notifyDataSetChanged()

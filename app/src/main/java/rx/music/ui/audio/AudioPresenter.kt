@@ -37,8 +37,7 @@ class AudioPresenter : MvpPresenter<AudioView>() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { viewState.showPlayer(audio) }
-//                .subscribe({ handled -> viewState.showPlayer(handled) }, { error -> })
-                .subscribe()
+                .subscribe({ audio, _ -> viewState.showPlayer(audio) })
     }
 
     fun savePosition(position: Int) {
