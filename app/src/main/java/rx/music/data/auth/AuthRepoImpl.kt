@@ -27,7 +27,7 @@ class AuthRepoImpl : AuthRepo {
     }
 
     override fun getCredentials(username: String, password: String, captchaSid: String?,
-                                captchaKey: String?, code: Int?): Single<Credentials> {
+                                captchaKey: String?, code: String?): Single<Credentials> {
         return authApi.getCredentials(VK_VALIDATION_API, SCOPE, VK_CLIENT_ID, VK_CLIENT_SECRET,
                 TWO_FA_SUPPORTED, LANG, GRANT_TYPE, LIBVERIFY_SUPPORT,
                 username, password, captchaSid, captchaKey, code)

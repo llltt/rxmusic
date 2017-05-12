@@ -10,7 +10,7 @@ interface AuthRepo {
                        password: String,
                        captchaSid: String?,
                        captchaKey: String?,
-                       code: Int?): Single<Credentials>
+                       code: String?): Single<Credentials>
 
     fun validatePhone(sid: String): Completable
 }

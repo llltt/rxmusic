@@ -15,4 +15,4 @@ open class Audio(@PrimaryKey var id: Long = 0,
                  var url: String = "",
                  var lyrics_id: Long = 0,
                  var genre_id: Long = 0,
-                 var pic: String? = "") : RealmObject()
+                 var pic: String = "") : RealmObject()

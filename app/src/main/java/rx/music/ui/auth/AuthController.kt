@@ -66,7 +66,7 @@ class AuthController : MoxyController(), AuthView {
         loginButton.onClick {
             authPresenter.login(usernameEditText.text.toString(),
                     passwordEditText.text.toString(),
-                    code = validationEditText.text.toString().toInt())
+                    code = validationEditText.text.toString())
         }
     }
 

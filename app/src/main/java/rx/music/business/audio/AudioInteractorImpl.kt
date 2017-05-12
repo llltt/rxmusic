@@ -2,6 +2,7 @@ package rx.music.business.audio
 
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import rx.music.dagger.Dagger
 import rx.music.data.audio.AudioRepo
 import rx.music.data.google.GoogleRepo
@@ -29,14 +30,17 @@ class AudioInteractorImpl : AudioInteractor {
     }
 
     override fun getAudio(ownerId: Long?, count: Int, offset: Int): Observable<Base<AudioResponse>> =
-            Observable.concat(realmRepo.getAudio(ownerId),
+            Observable.concat(
                     audioRepo.getAudio(ownerId, count, offset)
-                            .doOnNext { realmRepo.putAudio(it).subscribe() })
+                            .flatMap {
+                                realmRepo.putAudio(it).subscribeOn(AndroidSchedulers.mainThread())
+                            },
+                    realmRepo.getAudio(ownerId).subscribeOn(AndroidSchedulers.mainThread()))
 
     override fun handleAudio(audio: Audio): Single<Audio> =
             mediaPlayerRepo.play(audio)
                     .andThen(googleRepo.getPicture(audio.artist, 1, IMG_SIZE)
-                            .flatMap { pic -> realmRepo.completeAudio(audio, pic) })
+                            .flatMap { pic -> realmRepo.completeAudio(audio, pic).subscribeOn(AndroidSchedulers.mainThread()) })
 
     override val isAuthorized: Boolean get() = audioRepo.isAuthorized
 }

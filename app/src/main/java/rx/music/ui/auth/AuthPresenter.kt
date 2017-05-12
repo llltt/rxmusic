@@ -29,7 +29,7 @@ class AuthPresenter : MvpPresenter<AuthView>() {
     }
 
     fun login(username: String, password: String, captchaSid: String? = null,
-              captchaKey: String? = null, code: Int? = null) {
+              captchaKey: String? = null, code: String? = null) {
         if (username.isNotEmpty() && password.isNotEmpty())
             authInteractor.getCredentials(username, password, captchaSid, captchaKey, code)
                     .subscribeOn(Schedulers.io())
