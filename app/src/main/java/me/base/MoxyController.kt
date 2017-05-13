@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 4/6/2017. */
 abstract class MoxyController : Controller {
-    @Inject lateinit var refWatcher: RefWatcher
+    @Inject lateinit protected var refWatcher: RefWatcher
     @Inject lateinit protected var realm: Realm
 
     init {

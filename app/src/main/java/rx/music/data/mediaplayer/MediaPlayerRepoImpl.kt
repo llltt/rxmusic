@@ -2,7 +2,6 @@ package rx.music.data.mediaplayer
 
 import android.media.AudioManager
 import android.media.MediaPlayer
-import android.util.Log
 import io.reactivex.Completable
 import rx.music.App
 import rx.music.net.models.Audio
@@ -15,27 +14,26 @@ class MediaPlayerRepoImpl : MediaPlayerRepo {
 
     init {
         App.appComponent.inject(this)
-        mediaPlayer.setOnPreparedListener { mp ->
-            mp.start()
-            Log.d("ttt", "mp.start() -> ${mp.isPlaying}")
-        }
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)
+        mediaPlayer.setOnPreparedListener { it.start() }
     }
 
-    var audio: Audio? = null
+    var current: Audio? = null
 
-    override fun play(audio: Audio): Completable {
-        return Completable.fromAction {
-            if (this.audio?.id == audio.id)
-                if (mediaPlayer.isPlaying) mediaPlayer.pause()
-                else mediaPlayer.start()
+    override fun play(audio: Audio): Completable = with(mediaPlayer) {
+        Completable.fromAction {
+            if (current?.id == audio.id && !isPlaying) start()
+            else if (current?.id == audio.id && isPlaying) pause()
             else {
-                this.audio = audio
-                mediaPlayer.reset()
-                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)
-                mediaPlayer.setDataSource(audio.url)
-                mediaPlayer.prepareAsync()
+                current = audio
+                reset()
+                try {
+                    setDataSource(audio.url)
+                    prepareAsync()
+                } catch (e: IllegalStateException) {
+                    e.printStackTrace()
+                }
             }
         }
-
     }
 }

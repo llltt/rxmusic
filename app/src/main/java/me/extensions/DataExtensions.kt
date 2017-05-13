@@ -20,6 +20,8 @@ fun Int.toSp(r: Resources): Float {
     return this / r.displayMetrics.scaledDensity
 }
 
+val Any.isNotNull: Boolean get() = this != null
+
 fun android.content.Context.isNetworkConnected() = (this.getSystemService(android.content.Context.CONNECTIVITY_SERVICE) as android.net.ConnectivityManager).activeNetworkInfo != null
 
 /**

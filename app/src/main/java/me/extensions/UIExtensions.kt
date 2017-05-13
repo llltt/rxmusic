@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import me.base.MoxyController
+import rx.music.ui.main.MainActivity
 
 @Suppress("UNCHECKED_CAST")
 fun <T> Activity.findView(id: Int): Lazy<T> = lazy { this.findViewById(id) as T }
@@ -56,5 +57,8 @@ fun View.showKeyboard() {
     val im = this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     im.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
 }
+
+fun Activity.toMain(): MainActivity = this as MainActivity
+
 
 

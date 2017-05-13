@@ -17,12 +17,12 @@ import kotlinx.android.synthetic.main.part_validation.view.*
 import me.base.MoxyController
 import me.extensions.hideKeyboard
 import me.extensions.onClick
+import me.extensions.toMain
 import rx.music.R
 import rx.music.dagger.Dagger
 import rx.music.net.models.Captcha
 import rx.music.net.models.Validation
 import rx.music.ui.audio.AudioController
-import rx.music.ui.main.MainActivity
 
 
 class AuthController : MoxyController(), AuthView {
@@ -80,19 +80,19 @@ class AuthController : MoxyController(), AuthView {
     }
 
     fun showNavigation() {
-        (activity as MainActivity).bottomNavigation.animate().translationY(0f)
-                .withStartAction { (activity as MainActivity).bottomNavigation.visibility = View.VISIBLE }
+        activity!!.toMain().bottomNavigation.animate().translationY(0f)
+                .withStartAction { activity!!.toMain().bottomNavigation.visibility = View.VISIBLE }
                 .withEndAction {
-                    (activity as MainActivity).slidingLayout.panelHeight =
+                    activity!!.toMain().slidingLayout.panelHeight =
                             resources!!.getDimension(R.dimen.navigation).toInt()
                 }
                 .startDelay = 300
     }
 
     override fun hideNavigation() {
-        (activity as MainActivity).slidingLayout.panelHeight = 0
-        (activity as MainActivity).bottomNavigation.animate()
+        activity!!.toMain().slidingLayout.panelHeight = 0
+        activity!!.toMain().bottomNavigation.animate()
                 .translationY(resources!!.getDimension(R.dimen.navigation))
-                .withEndAction { (activity as MainActivity).bottomNavigation.visibility = View.GONE }
+                .withEndAction { activity!!.toMain().bottomNavigation.visibility = View.GONE }
     }
 }

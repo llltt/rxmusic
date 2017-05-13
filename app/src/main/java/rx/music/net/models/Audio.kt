@@ -5,8 +5,10 @@ import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
+
 @RealmClass
-open class Audio(@PrimaryKey var id: Long = 0,
+open class Audio(var id: Long = 0,
+                 @PrimaryKey var pos: Int = 0,
                  var owner_id: Long = 0,
                  var artist: String = "",
                  var title: String = "",

@@ -4,6 +4,7 @@ import android.media.MediaPlayer
 import android.view.View
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
+import com.arellomobile.mvp.viewstate.strategy.SkipStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.bluelinelabs.conductor.ChangeHandlerFrameLayout
 import rx.music.net.models.Audio
@@ -15,5 +16,7 @@ interface MainView : MvpView {
     fun showAuthController()
     fun showPlayer(audio: Audio)
     fun showAlpha(view: View?)
+
+    @StateStrategyType(SkipStrategy::class)
     fun showSeekBar(mp: MediaPlayer)
 }

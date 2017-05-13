@@ -9,24 +9,20 @@ import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import kotlinx.android.synthetic.main.controller_audio.view.*
 import me.base.MoxyController
+import me.extensions.toMain
 import rx.music.R
 import rx.music.dagger.Dagger
 import rx.music.net.models.Audio
 import rx.music.ui.auth.AuthController
-import rx.music.ui.main.MainActivity
 
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
 class AudioController : MoxyController(), AudioView {
     @InjectPresenter lateinit var audioPresenter: AudioPresenter
 
-    private var adapter: AudioAdapter? = AudioAdapter(realm.where(Audio::class.java).findAll(),
-            onClick = { audio, position ->
-                run {
-                    audioPresenter.handleAudio(realm.copyFromRealm(audio))
-                    audioPresenter.savePosition(position)
-                }
-            })
+    private var adapter: AudioAdapter? = AudioAdapter(
+            realm.where(Audio::class.java).findAllSortedAsync(Audio::pos.name),
+            onClick = { audio, pos -> audioPresenter.handleAudio(realm.copyFromRealm(audio), pos) })
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View =
             inflater.inflate(R.layout.controller_audio, container, false)
@@ -37,11 +33,11 @@ class AudioController : MoxyController(), AudioView {
         audioRecycler.setHasFixedSize(true)
         audioRecycler.layoutManager = layoutManager
         audioRecycler.addOnScrollListener(InfiniteScrollListener({
-            audioPresenter.getAudio(offset = adapter?.itemCount!!)
+            audioPresenter.getAudio(offset = adapter!!.itemCount)
         }, layoutManager))
     }
 
-    override fun showPlayer(audio: Audio) = (activity as MainActivity).mainPresenter.updatePlayer(audio)
+    override fun showPlayer(audio: Audio) = activity!!.toMain().mainPresenter.updatePlayer(audio)
 
     override fun showSelectedPos(position: Int) = adapter!!.selectAndNotify(position)
 
@@ -49,8 +45,8 @@ class AudioController : MoxyController(), AudioView {
             .pushChangeHandler(HorizontalChangeHandler())
             .popChangeHandler(HorizontalChangeHandler()))
 
-    override fun onDetach(view: View) = with(view) {
-        super.onDetach(view)
+    override fun onDestroyView(view: View) = with(view) {
+        super.onDestroyView(view)
         Dagger.instance.userComponent = null
         audioRecycler.adapter = null
     }

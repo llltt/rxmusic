@@ -32,14 +32,15 @@ import javax.inject.Provider
 
     @Provides @PerUser fun provideGoogleApi(): GoogleApi = Retrofit.build(GoogleApi::class.java)
 
-    @Provides @PerUser fun provideRealmRepo(realmProvider: Provider<Realm>): RealmRepo = RealmRepoImpl(realmProvider)
+    @Provides @PerUser fun provideRealmRepo(realmProvider: Provider<Realm>):
+            RealmRepo = RealmRepoImpl(realmProvider)
 
     @Provides @PerUser fun provideRealm(realmConfiguration: RealmConfiguration): Realm =
             Realm.getInstance(realmConfiguration)
 
     @Provides @PerUser fun provideRealmConfiguration(): RealmConfiguration {
-        var builder = RealmConfiguration.Builder()
-        if (BuildConfig.DEBUG) builder = builder.deleteRealmIfMigrationNeeded()
-        return builder.rxFactory(RealmObservableFactory()).build()
+        if (BuildConfig.DEBUG)
+            return RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build()
+        return RealmConfiguration.Builder().rxFactory(RealmObservableFactory()).build()
     }
 }

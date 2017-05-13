@@ -4,6 +4,7 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import me.extensions.isNotNull
 import rx.music.business.audio.AudioInteractor
 import rx.music.dagger.Dagger
 import rx.music.net.models.Audio
@@ -32,16 +33,12 @@ class AudioPresenter : MvpPresenter<AudioView>() {
                 .subscribe()
     }
 
-    fun handleAudio(audio: Audio) {
+    fun handleAudio(audio: Audio, pos: Int) {
         audioInteractor.handleAudio(audio)
+                .filter { audio.isNotNull }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { viewState.showPlayer(audio) }
-                .subscribe({ audio, _ -> viewState.showPlayer(audio) })
+                .doOnSubscribe { viewState.showPlayer(audio); viewState.showSelectedPos(pos) }
+                .subscribe({ audio -> viewState.showPlayer(audio) })
     }
-
-    fun savePosition(position: Int) {
-        viewState.showSelectedPos(position)
-    }
-
 }

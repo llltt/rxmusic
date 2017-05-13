@@ -15,8 +15,8 @@ import me.base.MoxyController
 import me.changehandlers.FabToDialogTransitionChangeHandler
 import me.extensions.onClick
 import me.extensions.toDp
+import me.extensions.toMain
 import rx.music.R
-import rx.music.ui.main.MainActivity
 import rx.music.ui.picker.PickerController
 import rx.music.ui.room.RoomPresenter
 
@@ -39,39 +39,39 @@ class RoomController : MoxyController(), RoomView {
     override fun onAttach(view: View) = with(view) {
         super.onAttach(view)
         floatingActionButton.onClick {
-            if (!(activity as MainActivity).isAnimate) {
-                (activity as MainActivity).isAnimate = true
-                (activity as MainActivity).slidingLayout.setParallaxOffset(0)
+            if (!activity!!.toMain().isAnimate) {
+                activity!!.toMain().isAnimate = true
+                activity!!.toMain().slidingLayout.setParallaxOffset(0)
                 postDelayed({
-                    (activity as MainActivity).slidingLayout.panelHeight = 0
+                    activity!!.toMain().slidingLayout.panelHeight = 0
                 }, 1)
                 postDelayed({
-                    (activity as MainActivity).roomContainer.elevation = (9).toDp(resources)
+                    activity!!.toMain().roomContainer.elevation = (9).toDp(resources)
                     router.pushController(RouterTransaction.with(PickerController())
                             .pushChangeHandler(TransitionChangeHandlerCompat(FabToDialogTransitionChangeHandler(), FadeChangeHandler(false)))
                             .popChangeHandler(TransitionChangeHandlerCompat(FabToDialogTransitionChangeHandler(), FadeChangeHandler())))
-                    (activity as MainActivity).resetAnimationMode()
+                    activity!!.toMain().resetAnimationMode()
                 }, 200)
             }
         }
     }
 
     override fun handleBack(): Boolean {
-        if (!(activity as MainActivity).isAnimate) return super.handleBack()
+        if (!activity!!.toMain().isAnimate) return super.handleBack()
         return false
     }
 
     override fun onRestoreViewState(view: View, savedViewState: Bundle) = with(view) {
         super.onRestoreViewState(view, savedViewState)
         floatingActionButton.visibility = savedViewState.getInt(KEY_FAB_VISIBILITY)
-        (activity as MainActivity).roomContainer.elevation = savedViewState.getFloat(KEY_PICKER_ELEVATION)
-        (activity as MainActivity).slidingLayout.panelHeight = savedViewState.getInt(KEY_PLAYER_HEIGHT)
+        activity!!.toMain().roomContainer.elevation = savedViewState.getFloat(KEY_PICKER_ELEVATION)
+        activity!!.toMain().slidingLayout.panelHeight = savedViewState.getInt(KEY_PLAYER_HEIGHT)
     }
 
     override fun onSaveViewState(view: View, outState: Bundle) = with(view) {
         super.onSaveViewState(view, outState)
         outState.putInt(KEY_FAB_VISIBILITY, floatingActionButton.visibility)
-        outState.putFloat(KEY_PICKER_ELEVATION, (activity as MainActivity).roomContainer.elevation)
-        outState.putInt(KEY_PLAYER_HEIGHT, (activity as MainActivity).slidingLayout.panelHeight)
+        outState.putFloat(KEY_PICKER_ELEVATION, activity!!.toMain().roomContainer.elevation)
+        outState.putInt(KEY_PLAYER_HEIGHT, activity!!.toMain().slidingLayout.panelHeight)
     }
 }

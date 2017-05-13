@@ -11,6 +11,7 @@ import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import kotlinx.android.synthetic.main.controller_picker.view.*
 import me.base.MoxyController
 import me.extensions.onClick
+import me.extensions.toMain
 import rx.music.R
 import rx.music.net.models.Audio
 import rx.music.ui.audio.AudioAdapter
@@ -18,7 +19,6 @@ import rx.music.ui.audio.AudioPresenter
 import rx.music.ui.audio.AudioView
 import rx.music.ui.audio.InfiniteScrollListener
 import rx.music.ui.auth.AuthController
-import rx.music.ui.main.MainActivity
 
 /** Created by Maksim Sukhotski on 5/6/2017. */
 class PickerController : MoxyController(), AudioView {
@@ -27,8 +27,7 @@ class PickerController : MoxyController(), AudioView {
     private var adapter: AudioAdapter? = AudioAdapter(realm.where(Audio::class.java).findAll(),
             onClick = { audio, position ->
                 run {
-                    audioPresenter.handleAudio(audio)
-                    audioPresenter.savePosition(position)
+                    audioPresenter.handleAudio(audio, position)
                 }
             })
 
@@ -62,17 +61,17 @@ class PickerController : MoxyController(), AudioView {
             .popChangeHandler(HorizontalChangeHandler()))
 
     override fun handleBack(): Boolean {
-        if (!(activity as MainActivity).isAnimate) {
-            (activity as MainActivity).isAnimate = true
+        if (!activity!!.toMain().isAnimate) {
+            activity!!.toMain().isAnimate = true
             view?.postDelayed({
-                (activity as MainActivity).resetSlidingPanel()
+                activity!!.toMain().resetSlidingPanel()
             }, 200)
             return super.handleBack()
         }
         return false
     }
 
-    override fun showPlayer(audio: Audio) = (activity as MainActivity).mainPresenter.updatePlayer(audio)
+    override fun showPlayer(audio: Audio) = activity!!.toMain().mainPresenter.updatePlayer(audio)
 
     override fun showSelectedPos(position: Int) = adapter!!.selectAndNotify(position)
 }

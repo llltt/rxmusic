@@ -18,14 +18,14 @@ class MainPresenter : MvpPresenter<MainView>() {
 
     @Inject lateinit var preferencesRepo: PreferencesRepo
     @Inject lateinit var mediaPlayer: MediaPlayer
-    lateinit var timer: Timer
+
+    var timer: Timer? = null
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         App.appComponent.inject(this)
         viewState.showContainer(isReselected = true)
         viewState.showAlpha(null)
-        timer = timer(period = 3000) {}
     }
 
     fun showContainer(audioContainer: ChangeHandlerFrameLayout?, isReselected: Boolean) =
@@ -39,7 +39,7 @@ class MainPresenter : MvpPresenter<MainView>() {
 
     fun updatePlayer(audio: Audio) {
         viewState.showPlayer(audio)
-        timer.cancel()
+        timer?.cancel()
         timer = timer(initialDelay = 0, period = 100) { viewState.showSeekBar(mediaPlayer) }
     }
 }
