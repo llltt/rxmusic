@@ -79,20 +79,19 @@ class AuthController : MoxyController(), AuthView {
                 .popChangeHandler(HorizontalChangeHandler()))
     }
 
-    fun showNavigation() {
-        activity!!.toMain().bottomNavigation.animate().translationY(0f)
-                .withStartAction { activity!!.toMain().bottomNavigation.visibility = View.VISIBLE }
+    fun showNavigation(): Unit = with(activity!!.toMain()) {
+        bottomNavigation.animate().translationY(0f)
+                .withStartAction { bottomNavigation.visibility = View.VISIBLE }
                 .withEndAction {
-                    activity!!.toMain().slidingLayout.panelHeight =
-                            resources!!.getDimension(R.dimen.navigation).toInt()
-                }
-                .startDelay = 300
+                    val height = resources.getDimension(R.dimen.navigation).toInt()
+                    slidingLayout.panelHeight = height
+                }.startDelay = 300
     }
 
-    override fun hideNavigation() {
-        activity!!.toMain().slidingLayout.panelHeight = 0
-        activity!!.toMain().bottomNavigation.animate()
-                .translationY(resources!!.getDimension(R.dimen.navigation))
-                .withEndAction { activity!!.toMain().bottomNavigation.visibility = View.GONE }
+    override fun hideNavigation(): Unit = with(activity!!.toMain()) {
+        slidingLayout.panelHeight = 0
+        bottomNavigation.animate()
+                .translationY(resources.getDimension(R.dimen.navigation))
+                .withEndAction { bottomNavigation.visibility = View.GONE }
     }
 }

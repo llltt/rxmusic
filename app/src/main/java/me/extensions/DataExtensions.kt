@@ -2,7 +2,10 @@ package me.extensions
 
 import android.content.res.Resources
 import android.util.TypedValue
-
+import okhttp3.FormBody
+import okhttp3.Request
+import okio.Buffer
+import java.io.IOException
 
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
@@ -20,7 +23,27 @@ fun Int.toSp(r: Resources): Float {
     return this / r.displayMetrics.scaledDensity
 }
 
-val Any.isNotNull: Boolean get() = this != null
+val Any?.isNotNull: Boolean get() = this != null
+
+fun Request.toRaw(): String {
+    try {
+        val buffer = Buffer()
+        this.newBuilder().build().body().writeTo(buffer)
+        return buffer.readUtf8()
+    } catch (e: IOException) {
+        return "did not work"
+    }
+}
+
+fun FormBody.toRaw(): String {
+    try {
+        val buffer = Buffer()
+        this.writeTo(buffer)
+        return buffer.readUtf8()
+    } catch (e: IOException) {
+        return "did not work"
+    }
+}
 
 fun android.content.Context.isNetworkConnected() = (this.getSystemService(android.content.Context.CONNECTIVITY_SERVICE) as android.net.ConnectivityManager).activeNetworkInfo != null
 

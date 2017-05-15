@@ -23,8 +23,7 @@ import rx.music.ui.room.RoomPresenter
 /** Created by Maksim Sukhotski on 5/1/2017. */
 class RoomController : MoxyController(), RoomView {
 
-    @InjectPresenter
-    lateinit var roomPresenter: RoomPresenter
+    @InjectPresenter lateinit var roomPresenter: RoomPresenter
 
     private val KEY_FAB_VISIBILITY = "RoomController.fabVisibility"
     private val KEY_PICKER_ELEVATION = "RoomController.pickerElevation"
@@ -34,17 +33,12 @@ class RoomController : MoxyController(), RoomView {
         return inflater.inflate(R.layout.controller_room, container, false)
     }
 
-    override fun onViewBound(view: View) = with(view) { }
-
-    override fun onAttach(view: View) = with(view) {
-        super.onAttach(view)
+    override fun onViewBound(view: View) = with(view) {
         floatingActionButton.onClick {
             if (!activity!!.toMain().isAnimate) {
                 activity!!.toMain().isAnimate = true
                 activity!!.toMain().slidingLayout.setParallaxOffset(0)
-                postDelayed({
-                    activity!!.toMain().slidingLayout.panelHeight = 0
-                }, 1)
+                postDelayed({ activity!!.toMain().slidingLayout.panelHeight = 0 }, 1)
                 postDelayed({
                     activity!!.toMain().roomContainer.elevation = (9).toDp(resources)
                     router.pushController(RouterTransaction.with(PickerController())

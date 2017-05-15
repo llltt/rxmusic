@@ -4,10 +4,12 @@ import dagger.Subcomponent
 import io.realm.Realm
 import me.base.MoxyController
 import rx.music.business.audio.AudioInteractorImpl
+import rx.music.business.users.UsersInteractorImpl
 import rx.music.dagger.modules.UserModule
 import rx.music.dagger.scopes.PerUser
-import rx.music.data.audio.AudioRepoImpl
 import rx.music.data.google.GoogleRepoImpl
+import rx.music.data.realm.RealmRepoImpl
+import rx.music.data.vk.VkRepoImpl
 import rx.music.ui.audio.AudioPresenter
 import rx.music.ui.player.PlayerPresenter
 import rx.music.ui.popular.PopularPresenter
@@ -20,9 +22,11 @@ import rx.music.ui.room.RoomPresenter
     fun inject(audioController: AudioPresenter)
     fun inject(popularPresenter: PopularPresenter)
     fun inject(roomPresenter: RoomPresenter)
-    fun inject(audioRepositoryImpl: AudioRepoImpl)
+    fun inject(audioRepositoryImpl: VkRepoImpl)
     fun inject(playerPresenter: PlayerPresenter)
     fun inject(googleRepositoryImpl: GoogleRepoImpl)
     fun inject(audioInteractorImpl: AudioInteractorImpl)
     fun inject(moxyController: MoxyController)
+    fun inject(usersInteractorImpl: UsersInteractorImpl)
+    fun inject(realmRepoImpl: RealmRepoImpl)
 }

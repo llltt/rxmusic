@@ -13,7 +13,7 @@ class PreferencesRepoImpl(context: Context) : PreferencesRepo {
 
     private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
-    override var isNotEmpty: Boolean
+    override var isAuthorized: Boolean
         get() = prefs.getString(KEY_CREDENTIALS, "").isNotEmpty()
         set(value) {}
 

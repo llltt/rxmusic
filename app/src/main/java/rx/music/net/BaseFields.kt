@@ -18,6 +18,7 @@ class BaseFields {
         const val HTTPS = 1
         const val SEARCH_TYPE = "image"
         const val IMG_SIZE = "large"
+        const val MIN_USER_INFO = "photo_max_orig,music,can_see_audio"
         val LANG = Locale.getDefault().language!!
     }
 }

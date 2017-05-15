@@ -12,11 +12,8 @@ class PlayerPresenter : MvpPresenter<PlayerView>() {
 
     @Inject lateinit var audioInteractor: AudioInteractor
 
-    init {
-        Dagger.instance.userComponent?.inject(this)
-    }
-
     override fun onFirstViewAttach() {
+        Dagger.instance.userComponent?.inject(this)
         super.onFirstViewAttach()
     }
 }

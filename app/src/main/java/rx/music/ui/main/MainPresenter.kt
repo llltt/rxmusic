@@ -26,6 +26,8 @@ class MainPresenter : MvpPresenter<MainView>() {
         App.appComponent.inject(this)
         viewState.showContainer(isReselected = true)
         viewState.showAlpha(null)
+        if (preferencesRepo.isAuthorized) viewState.showOnAuthorized()
+        else viewState.showAuthController()
     }
 
     fun showContainer(audioContainer: ChangeHandlerFrameLayout?, isReselected: Boolean) =

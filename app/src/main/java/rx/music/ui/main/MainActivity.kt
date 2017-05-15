@@ -1,6 +1,7 @@
 package rx.music.ui.main
 
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Handler
 import android.support.design.widget.BottomNavigationView
 import android.view.MenuItem
@@ -52,6 +53,9 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
         audioRouter = Conductor.attachRouter(this, audioContainer, savedInstanceState)
         popularRouter = Conductor.attachRouter(this, popularContainer, savedInstanceState)
         roomRouter = Conductor.attachRouter(this, roomContainer, savedInstanceState)
+    }
+
+    override fun showOnAuthorized() {
         if (!audioRouter!!.hasRootController())
             audioRouter!!.setRoot(RouterTransaction.with(AudioController()).tag("audio"))
         if (!popularRouter!!.hasRootController())
@@ -194,7 +198,9 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     }
 
     fun resetSlidingPanel() = Handler().postDelayed({
-        roomContainer.elevation = 0f
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            roomContainer.elevation = 0f
+        }
         slidingLayout.panelHeight = resources!!.getDimension(R.dimen.navigation).toInt()
         resetParallax()
     }, 200)

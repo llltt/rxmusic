@@ -19,11 +19,8 @@ class AuthPresenter : MvpPresenter<AuthView>() {
 
     @Inject lateinit var authInteractor: AuthInteractor
 
-    init {
-        Dagger.instance.authComponent?.inject(this)
-    }
-
     override fun onFirstViewAttach() {
+        Dagger.instance.authComponent?.inject(this)
         super.onFirstViewAttach()
         viewState.hideNavigation()
     }

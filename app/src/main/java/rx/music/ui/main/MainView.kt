@@ -19,4 +19,6 @@ interface MainView : MvpView {
 
     @StateStrategyType(SkipStrategy::class)
     fun showSeekBar(mp: MediaPlayer)
+
+    fun showOnAuthorized()
 }

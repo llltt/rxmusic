@@ -17,13 +17,10 @@ class AudioPresenter : MvpPresenter<AudioView>() {
 
     @Inject lateinit var audioInteractor: AudioInteractor
 
-    init {
-        Dagger.instance.userComponent?.inject(this)
-    }
-
     override fun onFirstViewAttach() {
+        Dagger.instance.userComponent?.inject(this)
         super.onFirstViewAttach()
-        if (audioInteractor.isAuthorized) getAudio() else viewState.showAuthController()
+        getAudio()
     }
 
     fun getAudio(ownerId: Long? = null, count: Int = 30, offset: Int = 0) {

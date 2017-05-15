@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.bluelinelabs.conductor.RouterTransaction
-import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import kotlinx.android.synthetic.main.controller_picker.view.*
 import me.base.MoxyController
 import me.extensions.onClick
@@ -18,7 +16,6 @@ import rx.music.ui.audio.AudioAdapter
 import rx.music.ui.audio.AudioPresenter
 import rx.music.ui.audio.AudioView
 import rx.music.ui.audio.InfiniteScrollListener
-import rx.music.ui.auth.AuthController
 
 /** Created by Maksim Sukhotski on 5/6/2017. */
 class PickerController : MoxyController(), AudioView {
@@ -54,11 +51,11 @@ class PickerController : MoxyController(), AudioView {
         }, layoutManager))
     }
 
-//    override fun showAudio(audioResponse: Base<AudioResponse>): Unit = adapter!!.addAndNotify(audioResponse.response?.items)
+//    override fun showAudio(audioResponse: Response<AudioResponse>): Unit = adapter!!.addAndNotify(audioResponse.response?.items)
 
-    override fun showAuthController() = router.setRoot(RouterTransaction.with(AuthController())
-            .pushChangeHandler(HorizontalChangeHandler())
-            .popChangeHandler(HorizontalChangeHandler()))
+//    override fun showAuthController() = router.setRoot(RouterTransaction.with(AuthController())
+//            .pushChangeHandler(HorizontalChangeHandler())
+//            .popChangeHandler(HorizontalChangeHandler()))
 
     override fun handleBack(): Boolean {
         if (!activity!!.toMain().isAnimate) {

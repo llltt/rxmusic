@@ -3,15 +3,14 @@ package rx.music.data.realm
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
-import rx.music.net.models.Audio
-import rx.music.net.models.AudioResponse
-import rx.music.net.models.Base
-import rx.music.net.models.CustomSearch
+import rx.music.net.models.*
 
 /** Created by Maksim Sukhotski on 5/9/2017. */
 
 interface RealmRepo {
-    fun putAudio(audio: Base<AudioResponse>, offset: Int): Completable
-    fun getAudio(ownerId: Long?): Observable<Base<AudioResponse>>
+    fun putAudio(audio: Response<AudioResponse>, offset: Int): Completable
+    fun getAudio(ownerId: Long?): Observable<Response<AudioResponse>>
     fun completeAudio(audio: Audio, customSearch: CustomSearch): Single<Audio>
+    fun getUsers(userIds: String? = null): Single<Response<List<User>>>
+    fun putUsers(audio: Response<List<User>>): Completable
 }
