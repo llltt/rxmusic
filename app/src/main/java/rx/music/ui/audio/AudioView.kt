@@ -8,6 +8,7 @@ import rx.music.net.models.Audio
 /** Created by Maksim Sukhotski on 4/8/2017. */
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface AudioView : MvpView {
+    fun showRecycler(audioAdapter: AudioAdapter)
     fun showPlayer(audio: Audio)
     fun showSelectedPos(position: Int)
 }

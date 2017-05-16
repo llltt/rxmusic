@@ -4,23 +4,32 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import io.realm.Realm
 import me.extensions.isNotNull
 import rx.music.business.audio.AudioInteractor
 import rx.music.dagger.Dagger
+import rx.music.data.preferences.PreferencesRepo
 import rx.music.net.models.Audio
+import rx.music.net.models.User
 import javax.inject.Inject
 
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
 @InjectViewState
-class AudioPresenter : MvpPresenter<AudioView>() {
-
+class AudioPresenter(val realm: Realm) : MvpPresenter<AudioView>() {
     @Inject lateinit var audioInteractor: AudioInteractor
+    @Inject lateinit var preferencesRepo: PreferencesRepo
 
-    override fun onFirstViewAttach() {
-        Dagger.instance.userComponent?.inject(this)
+    init {
+        Dagger.instance.userComponent?.inject(this@AudioPresenter)
+    }
+
+    override fun onFirstViewAttach() = with(preferencesRepo.credentials) {
         super.onFirstViewAttach()
         getAudio()
+        viewState.showRecycler(AudioAdapter(
+                realm.where(User::class.java).equalTo(User::id.name, user_id).findFirst().audioList,
+                onClick = { audio, pos -> handleAudio(realm.copyFromRealm(audio), pos) }))
     }
 
     fun getAudio(ownerId: Long? = null, count: Int = 30, offset: Int = 0) {

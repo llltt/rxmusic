@@ -27,7 +27,10 @@ class AudioInteractorImpl : AudioInteractor {
 
     override fun getAudio(ownerId: Long?, count: Int, offset: Int): Observable<Response<AudioResponse>> =
             Observable.concat(vkRepo.getAudio(ownerId, count, offset)
-                    .doOnNext { realmRepo.putAudio(it, offset).subscribe() },
+                    .doOnNext {
+                        realmRepo.putAudio(it, offset).subscribe()
+                        realmRepo.updateUserAudio(ownerId, it, count, offset).subscribe()
+                    },
                     realmRepo.getAudio(ownerId))
 
     override fun handleAudio(audio: Audio): Single<Audio> =

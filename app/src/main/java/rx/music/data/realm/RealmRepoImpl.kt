@@ -5,6 +5,10 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.realm.Realm
+import me.extensions.inQuery
+import me.extensions.toAudioResponse
+import me.extensions.toUserIds
+import me.extensions.toUsersResponse
 import rx.music.dagger.Dagger
 import rx.music.data.preferences.PreferencesRepo
 import rx.music.net.models.*
@@ -24,11 +28,7 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
     override fun putAudio(audio: Response<AudioResponse>, offset: Int): Completable =
             with(realmProvider.get()) {
                 Completable.fromCallable {
-                    executeTransactionAsync {
-                        val items = audio.response?.items
-                        items?.forEachIndexed { index, audio -> audio.pos = offset + index }
-                        it.insertOrUpdate(items)
-                    }
+                    executeTransactionAsync { it.insertOrUpdate(audio.response?.items) }
                 }.subscribeOn(AndroidSchedulers.mainThread())
             }
 
@@ -48,26 +48,30 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
                 }.subscribeOn(AndroidSchedulers.mainThread())
             }
 
-    override fun getUsers(userIds: String?): Single<Response<List<User>>> =
-            with(Pair(realmProvider.get(), preferencesRepo.credentials)) {
-                Single.fromCallable {
-                    first.where(User::class.java).equalTo(User::id.name, second.user_id)
-                            .findAll()?.toUsersResponse() ?: Response<List<User>>()
-                }.subscribeOn(AndroidSchedulers.mainThread())
-            }
+    override fun getUsers(userIds: String?): Single<Response<List<User>>> = Single.fromCallable {
+        realmProvider.get().where(User::class.java)
+                .inQuery(User::id.name, userIds?.toUserIds())
+                .findAll().toUsersResponse() ?: Response<List<User>>()
+    }.subscribeOn(AndroidSchedulers.mainThread())
 
-    override fun putUsers(audio: Response<List<User>>): Completable =
-            with(realmProvider.get()) {
-                Completable.fromAction {
-                    executeTransactionAsync { it.insertOrUpdate(audio.response) }
-                }.subscribeOn(AndroidSchedulers.mainThread())
+
+    override fun putUsers(users: Response<List<User>>): Completable = with(realmProvider.get()) {
+        Completable.fromAction { executeTransactionAsync { it.insertOrUpdate(users.response) } }
+                .subscribeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun updateUserAudio(ownerId: Long?, audio: Response<AudioResponse>, count: Int,
+                                 offset: Int): Completable = with(preferencesRepo.credentials) {
+        Completable.fromAction {
+            realmProvider.get().executeTransactionAsync {
+                val user = realmProvider.get().where(User::class.java)
+                        .equalTo(User::id.name, ownerId ?: user_id).findFirst()
+                user.audioList.removeAll { it.pos > offset && it.pos < offset + count }
+                user.audioList.addAll(offset, audio.response?.items ?: arrayListOf())
+                realmProvider.get().insertOrUpdate(user)
             }
+        }.subscribeOn(AndroidSchedulers.mainThread())
+    }
+
+
 }
-
-@Suppress("UNCHECKED_CAST")
-private fun <E> MutableList<E>.toAudioResponse(): Response<AudioResponse> =
-        Response(response = AudioResponse(this.size, this as MutableList<Audio>))
-
-@Suppress("UNCHECKED_CAST")
-private fun <E> MutableList<E>.toUsersResponse(): Response<List<E>>? =
-        Response(response = this)

@@ -1,6 +1,8 @@
 package me.extensions
 
 import android.os.Handler
+import io.realm.RealmModel
+import io.realm.RealmQuery
 
 /** Created by Maksim Sukhotski on 4/10/2017. */
 fun isLollipopOrAbove(func: () -> Unit) {
@@ -11,6 +13,13 @@ fun isLollipopOrAbove(func: () -> Unit) {
 
 fun runAsync(func: () -> Unit) {
     Thread(Runnable { func() }).start()
+}
+
+fun <E : RealmModel> RealmQuery<E>.inQuery(fieldName: String, values: LongArray?): RealmQuery<E> {
+    if (values == null || values.isEmpty()) throw IllegalArgumentException("EMPTY_VALUES")
+    this.beginGroup().equalTo(fieldName, values[0])
+    values.forEachIndexed { index, l -> or().equalTo(fieldName, values[index]) }
+    return endGroup()
 }
 
 fun runAfter(func: () -> Unit) {
@@ -30,7 +39,6 @@ fun tryCatchAsync(func: () -> Unit) {
         }
     }
 }
-
 
 fun tryCatch(func: () -> Unit) {
     runAfter {

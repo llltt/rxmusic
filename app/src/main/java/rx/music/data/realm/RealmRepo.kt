@@ -12,5 +12,6 @@ interface RealmRepo {
     fun getAudio(ownerId: Long?): Observable<Response<AudioResponse>>
     fun completeAudio(audio: Audio, customSearch: CustomSearch): Single<Audio>
     fun getUsers(userIds: String? = null): Single<Response<List<User>>>
-    fun putUsers(audio: Response<List<User>>): Completable
+    fun putUsers(users: Response<List<User>>): Completable
+    fun updateUserAudio(ownerId: Long?, audio: Response<AudioResponse>, count: Int, offset: Int): Completable
 }
