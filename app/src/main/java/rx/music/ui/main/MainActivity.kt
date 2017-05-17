@@ -21,8 +21,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_player.*
 import kotlinx.android.synthetic.main.part_containers.*
 import kotlinx.android.synthetic.main.part_player_preview.*
+import me.extensions.audioController
 import rx.music.R
-import rx.music.net.models.Audio
+import rx.music.data.realm.models.Audio
+import rx.music.data.realm.models.User
+import rx.music.net.models.Response
 import rx.music.ui.audio.AudioController
 import rx.music.ui.auth.AuthController
 import rx.music.ui.popular.PopularController
@@ -62,6 +65,10 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
             popularRouter!!.setRoot(RouterTransaction.with(PopularController()))
         if (!roomRouter!!.hasRootController())
             roomRouter!!.setRoot(RouterTransaction.with(RoomController()))
+    }
+
+    override fun showOnUserReceived(users: Response<List<User>>) {
+        audioRouter!!.audioController.audioPresenter.initAdapter(users)
     }
 
     private fun showMoreMenu() {
@@ -214,3 +221,4 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
         isAnimate = false; bottomNavigation.isClickable = true
     }, 100)
 }
+

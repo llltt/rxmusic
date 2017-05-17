@@ -1,11 +1,12 @@
 package rx.music.business.users
 
 import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import rx.music.dagger.Dagger
 import rx.music.data.realm.RealmRepo
+import rx.music.data.realm.models.User
 import rx.music.data.vk.VkRepo
 import rx.music.net.models.Response
-import rx.music.net.models.User
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 5/14/2017. */
@@ -18,6 +19,11 @@ class UsersInteractorImpl : UsersInteractor {
     }
 
     override fun getAuthorized(): Observable<Response<List<User>>> = Observable.concat(
-            vkRepo.getUsers().toObservable().doOnNext { realmRepo.putUsers(it).subscribe() },
-            realmRepo.getUsers().toObservable())
+            realmRepo.getUsers()
+                    .toObservable(),
+            vkRepo.getUsers()
+                    .subscribeOn(Schedulers.io())
+                    .map { realmRepo.putUsers(it).subscribe() }
+                    .flatMap { realmRepo.getUsers() }
+                    .toObservable())
 }

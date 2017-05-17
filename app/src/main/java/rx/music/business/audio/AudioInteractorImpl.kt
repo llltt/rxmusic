@@ -6,9 +6,9 @@ import rx.music.dagger.Dagger
 import rx.music.data.google.GoogleRepo
 import rx.music.data.mediaplayer.MediaPlayerRepo
 import rx.music.data.realm.RealmRepo
+import rx.music.data.realm.models.Audio
 import rx.music.data.vk.VkRepo
 import rx.music.net.BaseFields.Companion.IMG_SIZE
-import rx.music.net.models.Audio
 import rx.music.net.models.AudioResponse
 import rx.music.net.models.Response
 import javax.inject.Inject
@@ -25,13 +25,12 @@ class AudioInteractorImpl : AudioInteractor {
         Dagger.instance.userComponent?.inject(this)
     }
 
-    override fun getAudio(ownerId: Long?, count: Int, offset: Int): Observable<Response<AudioResponse>> =
-            Observable.concat(vkRepo.getAudio(ownerId, count, offset)
-                    .doOnNext {
-                        realmRepo.putAudio(it, offset).subscribe()
-                        realmRepo.updateUserAudio(ownerId, it, count, offset).subscribe()
-                    },
-                    realmRepo.getAudio(ownerId))
+    override fun getAudio(ownerId: Long?, count: Int, offset: Int)
+            : Observable<Response<AudioResponse>> =
+            Observable.concat(vkRepo.getAudio(ownerId, count, offset).doOnNext {
+                realmRepo.putAudioWithUserUpdate(ownerId, it, count, offset)
+                        .subscribe()
+            }, realmRepo.getAudio(ownerId))
 
     override fun handleAudio(audio: Audio): Single<Audio> =
             mediaPlayerRepo.play(audio).andThen(

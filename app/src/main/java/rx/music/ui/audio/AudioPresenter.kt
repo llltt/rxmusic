@@ -3,14 +3,16 @@ package rx.music.ui.audio
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.realm.Realm
 import me.extensions.isNotNull
 import rx.music.business.audio.AudioInteractor
 import rx.music.dagger.Dagger
 import rx.music.data.preferences.PreferencesRepo
-import rx.music.net.models.Audio
-import rx.music.net.models.User
+import rx.music.data.realm.models.Audio
+import rx.music.data.realm.models.User
+import rx.music.net.models.Response
 import javax.inject.Inject
 
 
@@ -27,8 +29,12 @@ class AudioPresenter(val realm: Realm) : MvpPresenter<AudioView>() {
     override fun onFirstViewAttach() = with(preferencesRepo.credentials) {
         super.onFirstViewAttach()
         getAudio()
-        viewState.showRecycler(AudioAdapter(
-                realm.where(User::class.java).equalTo(User::id.name, user_id).findFirst().audioList,
+    }
+
+    fun initAdapter(users: Response<List<User>>) = with(preferencesRepo.credentials) {
+        viewState.showRecycler(AudioAdapter(realm.where(User::class.java)
+                .equalTo(User::id.name, users.response?.get(0)?.id ?: user_id)
+                .findFirst()?.audioList,
                 onClick = { audio, pos -> handleAudio(realm.copyFromRealm(audio), pos) }))
     }
 
@@ -39,12 +45,12 @@ class AudioPresenter(val realm: Realm) : MvpPresenter<AudioView>() {
                 .subscribe()
     }
 
-    fun handleAudio(audio: Audio, pos: Int) {
+    fun handleAudio(audio: Audio, pos: Int): Disposable = with(viewState) {
         audioInteractor.handleAudio(audio)
                 .filter { audio.isNotNull }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { viewState.showPlayer(audio); viewState.showSelectedPos(pos) }
-                .subscribe({ audio -> viewState.showPlayer(audio) })
+                .doOnSubscribe { showPlayer(audio); showSelectedPos(pos) }
+                .subscribe({ audio -> showPlayer(audio) })
     }
 }

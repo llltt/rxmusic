@@ -1,4 +1,4 @@
-package rx.music.net.models
+package rx.music.data.realm.models
 
 import com.google.gson.annotations.SerializedName
 import io.realm.RealmObject
@@ -8,7 +8,7 @@ import io.realm.annotations.RealmClass
 /** Created by Maksim Sukhotski on 4/9/2017. */
 
 @RealmClass
-open class Audio(@PrimaryKey @SerializedName("id") var id: Long = 0,
+open class Audio(@PrimaryKey var id: Long = 0,
                  @SerializedName("owner_id") var ownerId: Long = 0,
                  @SerializedName("genre_id") var genreId: Long = 0,
                  var artist: String = "",

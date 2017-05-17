@@ -4,7 +4,7 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import io.reactivex.Completable
 import rx.music.App
-import rx.music.net.models.Audio
+import rx.music.data.realm.models.Audio
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 5/5/2017. */

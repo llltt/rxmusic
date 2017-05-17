@@ -17,6 +17,8 @@ import me.extensions.onClick
 import me.extensions.toDp
 import me.extensions.toMain
 import rx.music.R
+import rx.music.data.realm.models.User
+import rx.music.net.models.Response
 import rx.music.ui.picker.PickerController
 import rx.music.ui.room.RoomPresenter
 
@@ -48,6 +50,10 @@ class RoomController : MoxyController(), RoomView {
                 }, 200)
             }
         }
+    }
+
+    override fun showOnUserReceived(users: Response<List<User>>) {
+        activity!!.toMain().showOnUserReceived(users)
     }
 
     override fun handleBack(): Boolean {

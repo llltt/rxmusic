@@ -18,7 +18,7 @@ fun runAsync(func: () -> Unit) {
 fun <E : RealmModel> RealmQuery<E>.inQuery(fieldName: String, values: LongArray?): RealmQuery<E> {
     if (values == null || values.isEmpty()) throw IllegalArgumentException("EMPTY_VALUES")
     this.beginGroup().equalTo(fieldName, values[0])
-    values.forEachIndexed { index, l -> or().equalTo(fieldName, values[index]) }
+    values.forEachIndexed { index, _ -> or().equalTo(fieldName, values[index]) }
     return endGroup()
 }
 

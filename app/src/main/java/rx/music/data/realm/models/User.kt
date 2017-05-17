@@ -1,4 +1,4 @@
-package rx.music.net.models
+package rx.music.data.realm.models
 
 import com.google.gson.annotations.SerializedName
 import io.realm.RealmList

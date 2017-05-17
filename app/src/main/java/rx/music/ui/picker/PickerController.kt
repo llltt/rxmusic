@@ -14,7 +14,7 @@ import me.base.MoxyController
 import me.extensions.onClick
 import me.extensions.toMain
 import rx.music.R
-import rx.music.net.models.Audio
+import rx.music.data.realm.models.Audio
 import rx.music.ui.audio.AudioAdapter
 import rx.music.ui.audio.AudioPresenter
 import rx.music.ui.audio.AudioView

@@ -18,18 +18,12 @@ class RoomPresenter : MvpPresenter<RoomView>() {
     @Inject lateinit var usersInteractor: UsersInteractor
 
     override fun onFirstViewAttach() {
-        Dagger.instance.userComponent?.inject(this)
         super.onFirstViewAttach()
+        Dagger.instance.userComponent?.inject(this)
         usersInteractor.getAuthorized()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
+                .filter { it.response?.isNotEmpty() ?: false }
+                .subscribe({ viewState.showOnUserReceived(it) })
     }
-
-//    fun getUser() {
-//        usersInteractor.getAuthorized()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe({ it. })
-//    }
 }
