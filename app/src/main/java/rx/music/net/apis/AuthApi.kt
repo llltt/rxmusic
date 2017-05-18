@@ -5,7 +5,7 @@ import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.http.Url
-import rx.music.net.models.Credentials
+import rx.music.net.models.auth.Credentials
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/
 

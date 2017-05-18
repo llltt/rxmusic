@@ -1,12 +1,12 @@
 package rx.music.business.users
 
+import Response
+import User
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import rx.music.dagger.Dagger
 import rx.music.data.realm.RealmRepo
-import rx.music.data.realm.models.User
 import rx.music.data.vk.VkRepo
-import rx.music.net.models.Response
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 5/14/2017. */
@@ -23,7 +23,7 @@ class UsersInteractorImpl : UsersInteractor {
                     .toObservable(),
             vkRepo.getUsers()
                     .subscribeOn(Schedulers.io())
-                    .map { realmRepo.putUsers(it).subscribe() }
-                    .flatMap { realmRepo.getUsers() }
-                    .toObservable())
+                    .flatMap { realmRepo.putUsers(it) }
+                    .toObservable()
+    )
 }

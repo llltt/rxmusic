@@ -1,5 +1,6 @@
 package rx.music.ui.picker
 
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.method.LinkMovementMethod
@@ -9,12 +10,13 @@ import android.view.ViewGroup
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.controller_audio.view.*
+import kotlinx.android.synthetic.main.controller_auth.view.*
 import kotlinx.android.synthetic.main.controller_picker.view.*
 import me.base.MoxyController
 import me.extensions.onClick
 import me.extensions.toMain
 import rx.music.R
-import rx.music.data.realm.models.Audio
+import rx.music.net.models.audio.Audio
 import rx.music.ui.audio.AudioAdapter
 import rx.music.ui.audio.AudioPresenter
 import rx.music.ui.audio.AudioView
@@ -23,7 +25,6 @@ import rx.music.ui.audio.InfiniteScrollListener
 /** Created by Maksim Sukhotski on 5/6/2017. */
 class PickerController : MoxyController(), AudioView {
     @ProvidePresenter fun providePresenter() = AudioPresenter(realm)
-
     @InjectPresenter lateinit var audioPresenter: AudioPresenter
 
     private lateinit var audioAdapter: AudioAdapter
@@ -63,6 +64,10 @@ class PickerController : MoxyController(), AudioView {
             return super.handleBack()
         }
         return false
+    }
+
+    override fun showSnackbar(text: String) = with(view!!) {
+        Snackbar.make(loginLayout, text, Snackbar.LENGTH_LONG).show()
     }
 
     override fun showPlayer(audio: Audio) = activity!!.toMain().mainPresenter.updatePlayer(audio)

@@ -14,7 +14,7 @@ import rx.music.net.BaseFields.Companion.TWO_FA_SUPPORTED
 import rx.music.net.BaseFields.Companion.V
 import rx.music.net.BaseFields.Companion.VK_VALIDATION_API
 import rx.music.net.apis.AuthApi
-import rx.music.net.models.Credentials
+import rx.music.net.models.auth.Credentials
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/

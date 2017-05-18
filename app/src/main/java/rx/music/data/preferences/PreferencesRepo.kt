@@ -1,6 +1,6 @@
 package rx.music.data.preferences
 
-import rx.music.net.models.Credentials
+import rx.music.net.models.auth.Credentials
 
 /** Created by Maksim Sukhotski on 3/30/2017.*/
 interface PreferencesRepo {

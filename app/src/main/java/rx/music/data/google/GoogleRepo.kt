@@ -1,7 +1,7 @@
 package rx.music.data.google
 
 import io.reactivex.Single
-import rx.music.net.models.CustomSearch
+import rx.music.net.models.audio.CustomSearch
 
 /** Created by Maksim Sukhotski on 5/3/2017. */
 

@@ -13,7 +13,6 @@ import javax.inject.Inject
 /** Created by Maksim Sukhotski on 5/1/2017. */
 @InjectViewState
 class RoomPresenter : MvpPresenter<RoomView>() {
-
     @Inject lateinit var audioInteractor: AudioInteractor
     @Inject lateinit var usersInteractor: UsersInteractor
 
@@ -24,6 +23,6 @@ class RoomPresenter : MvpPresenter<RoomView>() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter { it.response?.isNotEmpty() ?: false }
-                .subscribe({ viewState.showOnUserReceived(it) })
+                .subscribe { viewState.showOnUserReceived(it) }
     }
 }

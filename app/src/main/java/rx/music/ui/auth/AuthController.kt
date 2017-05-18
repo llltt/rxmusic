@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.bluelinelabs.conductor.RouterTransaction
-import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_auth.view.*
@@ -20,9 +18,8 @@ import me.extensions.onClick
 import me.extensions.toMain
 import rx.music.R
 import rx.music.dagger.Dagger
-import rx.music.net.models.Captcha
-import rx.music.net.models.Validation
-import rx.music.ui.audio.AudioController
+import rx.music.net.models.auth.Captcha
+import rx.music.net.models.auth.Validation
 
 
 class AuthController : MoxyController(), AuthView {
@@ -70,13 +67,11 @@ class AuthController : MoxyController(), AuthView {
         }
     }
 
-    override fun showAudioController() {
+    override fun showOnAuthorized() {
         showNavigation()
         view?.hideKeyboard()
         Dagger.instance.authComponent = null
-        router.setRoot(RouterTransaction.with(AudioController())
-                .pushChangeHandler(HorizontalChangeHandler())
-                .popChangeHandler(HorizontalChangeHandler()))
+        activity?.toMain()?.showOnAuthorized(true)
     }
 
     fun showNavigation(): Unit = with(activity!!.toMain()) {

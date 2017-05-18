@@ -4,8 +4,8 @@ import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
-import rx.music.net.models.Captcha
-import rx.music.net.models.Validation
+import rx.music.net.models.auth.Captcha
+import rx.music.net.models.auth.Validation
 
 /** Created by Maksim Sukhotski on 4/1/2017.*/
 @StateStrategyType(AddToEndSingleStrategy::class)
@@ -21,7 +21,7 @@ interface AuthView : MvpView {
     fun showLogin(string: Any)
 
     @StateStrategyType(SkipStrategy::class)
-    fun showAudioController()
+    fun showOnAuthorized()
 
     fun hideNavigation()
 }

@@ -1,7 +1,10 @@
 package rx.music.ui.main
 
+import Response
+import User
 import android.media.MediaPlayer
 import android.os.Build
+import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.BottomNavigationView
 import android.view.MenuItem
@@ -23,9 +26,7 @@ import kotlinx.android.synthetic.main.part_containers.*
 import kotlinx.android.synthetic.main.part_player_preview.*
 import me.extensions.audioController
 import rx.music.R
-import rx.music.data.realm.models.Audio
-import rx.music.data.realm.models.User
-import rx.music.net.models.Response
+import rx.music.net.models.audio.Audio
 import rx.music.ui.audio.AudioController
 import rx.music.ui.auth.AuthController
 import rx.music.ui.popular.PopularController
@@ -46,7 +47,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     private var isRoom: Boolean = false
     var isAnimate: Boolean = false
 
-    override fun onCreate(savedInstanceState: android.os.Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         artistTextView; titleTextView
@@ -58,8 +59,13 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
         roomRouter = Conductor.attachRouter(this, roomContainer, savedInstanceState)
     }
 
-    override fun showOnAuthorized() {
-        if (!audioRouter!!.hasRootController())
+    override fun showOnAuthorized(isAfterAuth: Boolean) {
+        if (isAfterAuth) audioRouter!!.setRoot(RouterTransaction.with(AudioController())
+                .tag("audio")
+                .pushChangeHandler(HorizontalChangeHandler())
+                .popChangeHandler(HorizontalChangeHandler()))
+        if (!audioRouter!!.hasRootController()) {
+        }
             audioRouter!!.setRoot(RouterTransaction.with(AudioController()).tag("audio"))
         if (!popularRouter!!.hasRootController())
             popularRouter!!.setRoot(RouterTransaction.with(PopularController()))
@@ -68,7 +74,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     }
 
     override fun showOnUserReceived(users: Response<List<User>>) {
-        audioRouter!!.audioController.audioPresenter.initAdapter(users)
+        audioRouter!!.audioController.audioPresenter.onUserReceived(users)
     }
 
     private fun showMoreMenu() {
@@ -83,9 +89,9 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
         playerTitleTextView.text = audio.title
         artistTextView.text = audio.artist
         titleTextView.text = audio.title
-        if (!audio.pic.isNullOrEmpty()) {
-            Glide.with(this).load(audio.pic).centerCrop().into(playerPreviewImageView)
-            Glide.with(this).load(audio.pic).centerCrop().into(playerImageView)
+        if (!audio.googleThumb.isNullOrEmpty()) {
+            Glide.with(this).load(audio.googleThumb).centerCrop().into(playerPreviewImageView)
+            Glide.with(this).load(audio.googleThumb).centerCrop().into(playerImageView)
         }
     }
 

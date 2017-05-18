@@ -7,7 +7,7 @@ import io.reactivex.schedulers.Schedulers
 import rx.music.dagger.Dagger
 import rx.music.data.auth.AuthRepo
 import rx.music.data.preferences.PreferencesRepo
-import rx.music.net.models.Credentials
+import rx.music.net.models.auth.Credentials
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 3/27/2017.*/

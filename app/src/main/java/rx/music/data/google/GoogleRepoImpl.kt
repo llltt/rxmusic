@@ -7,7 +7,7 @@ import rx.music.dagger.Dagger
 import rx.music.net.BaseFields.Companion.GOOGLE_API
 import rx.music.net.BaseFields.Companion.SEARCH_TYPE
 import rx.music.net.apis.GoogleApi
-import rx.music.net.models.CustomSearch
+import rx.music.net.models.audio.CustomSearch
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 5/3/2017. */

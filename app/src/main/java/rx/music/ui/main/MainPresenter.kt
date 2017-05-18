@@ -6,7 +6,7 @@ import com.arellomobile.mvp.MvpPresenter
 import com.bluelinelabs.conductor.ChangeHandlerFrameLayout
 import rx.music.App
 import rx.music.data.preferences.PreferencesRepo
-import rx.music.data.realm.models.Audio
+import rx.music.net.models.audio.Audio
 import java.util.*
 import javax.inject.Inject
 import kotlin.concurrent.timer
@@ -26,7 +26,7 @@ class MainPresenter : MvpPresenter<MainView>() {
         App.appComponent.inject(this)
         viewState.showContainer(isReselected = true)
         viewState.showAlpha(null)
-        if (preferencesRepo.isAuthorized) viewState.showOnAuthorized()
+        if (preferencesRepo.isAuthorized) viewState.showOnAuthorized(false)
         else viewState.showAuthController()
     }
 

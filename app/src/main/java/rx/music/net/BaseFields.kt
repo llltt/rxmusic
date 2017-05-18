@@ -10,7 +10,7 @@ class BaseFields {
         const val GOOGLE_API = "https://www.googleapis.com/customsearch/v1"
         const val LOG_TAG = "logtag"
 
-        const val V = 5.63
+        const val V = 5.65
         const val SCOPE = "nohttps,all"
         const val TWO_FA_SUPPORTED = 1
         const val GRANT_TYPE = "password"

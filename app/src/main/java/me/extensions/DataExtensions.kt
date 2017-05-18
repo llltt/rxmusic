@@ -28,7 +28,7 @@ val Any?.isNotNull: Boolean get() = this != null
 fun Request.toRaw(): String {
     try {
         val buffer = Buffer()
-        this.newBuilder().build().body().writeTo(buffer)
+        this.newBuilder().build().body()?.writeTo(buffer)
         return buffer.readUtf8()
     } catch (e: IOException) {
         return "did not work"

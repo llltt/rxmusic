@@ -1,7 +1,7 @@
 package rx.music.data.mediaplayer
 
 import io.reactivex.Completable
-import rx.music.data.realm.models.Audio
+import rx.music.net.models.audio.Audio
 
 /** Created by Maksim Sukhotski on 5/5/2017. */
 interface MediaPlayerRepo {

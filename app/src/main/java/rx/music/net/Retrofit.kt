@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import rx.music.BuildConfig
 import rx.music.net.BaseFields.Companion.VK_API
 import rx.music.net.interceptors.VkInterceptor
-import rx.music.net.models.Credentials
+import rx.music.net.models.auth.Credentials
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
 object Retrofit {

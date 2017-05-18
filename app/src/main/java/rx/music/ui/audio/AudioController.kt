@@ -1,5 +1,6 @@
 package rx.music.ui.audio
 
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -12,7 +13,7 @@ import me.base.MoxyController
 import me.extensions.toMain
 import rx.music.R
 import rx.music.dagger.Dagger
-import rx.music.data.realm.models.Audio
+import rx.music.net.models.audio.Audio
 
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
@@ -45,6 +46,10 @@ class AudioController : MoxyController(), AudioView {
     override fun showPlayer(audio: Audio) = activity!!.toMain().mainPresenter.updatePlayer(audio)
 
     override fun showSelectedPos(position: Int) = audioAdapter.selectAndNotify(position)
+
+    override fun showSnackbar(text: String) = with(view!!) {
+        Snackbar.make(audioRecycler, text, Snackbar.LENGTH_LONG).show()
+    }
 
     override fun onDestroyView(view: View) = with(view.audioRecycler) {
         super.onDestroyView(view)
