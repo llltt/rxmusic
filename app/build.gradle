@@ -9,10 +9,28 @@ def vkSecret = (new JsonSlurper().parseText(file(fileName).text)).vkClientSecret
 def vkClientId = (new JsonSlurper().parseText(file(fileName).text)).vkClientId
 def googleKey = (new JsonSlurper().parseText(file(fileName).text)).googleKey
 def googleCx = (new JsonSlurper().parseText(file(fileName).text)).googleCx
-def c2dmApp = (new JsonSlurper().parseText(file(fileName).text)).c2dmApp
-def c2dmSender = (new JsonSlurper().parseText(file(fileName).text)).c2dmSender
-def c2dmDevice = (new JsonSlurper().parseText(file(fileName).text)).c2dmDevice
-def c2dmAuthorization = (new JsonSlurper().parseText(file(fileName).text)).c2dmAuthorization
+def GCM_X_subtype = (new JsonSlurper().parseText(file(fileName).text)).GCM_X_subtype
+def GCM_X_X_subscription = (new JsonSlurper().parseText(file(fileName).text)).GCM_X_X_subscription
+def GCM_X_X_subtype = (new JsonSlurper().parseText(file(fileName).text)).GCM_X_X_subtype
+def GCM_X_app_ver = (new JsonSlurper().parseText(file(fileName).text)).GCM_X_app_ver
+def GCM_X_kid = (new JsonSlurper().parseText(file(fileName).text)).GCM_X_kid
+def GCM_X_osv = (new JsonSlurper().parseText(file(fileName).text)).GCM_X_osv
+def GCM_X_sig = (new JsonSlurper().parseText(file(fileName).text)).GCM_X_sig
+def GCM_X_cliv = (new JsonSlurper().parseText(file(fileName).text)).GCM_X_cliv
+def GCM_X_gmsv = (new JsonSlurper().parseText(file(fileName).text)).GCM_X_gmsv
+def GCM_X_X_kid = (new JsonSlurper().parseText(file(fileName).text)).GCM_X_X_kid
+def GCM_X_appid = (new JsonSlurper().parseText(file(fileName).text)).GCM_X_appid
+def GCM_X_scope = (new JsonSlurper().parseText(file(fileName).text)).GCM_X_scope
+def GCM_X_subscription = (new JsonSlurper().parseText(file(fileName).text)).GCM_X_subscription
+def GCM_X_app_ver_name = (new JsonSlurper().parseText(file(fileName).text)).GCM_X_app_ver_name
+def GCM_app = (new JsonSlurper().parseText(file(fileName).text)).GCM_app
+def GCM_sender = (new JsonSlurper().parseText(file(fileName).text)).GCM_sender
+def GCM_device = (new JsonSlurper().parseText(file(fileName).text)).GCM_device
+def GCM_cert = (new JsonSlurper().parseText(file(fileName).text)).GCM_cert
+def GCM_app_ver = (new JsonSlurper().parseText(file(fileName).text)).GCM_app_ver
+def GCM_info = (new JsonSlurper().parseText(file(fileName).text)).GCM_info
+def GCM_gcm_ver = (new JsonSlurper().parseText(file(fileName).text)).GCM_gcm_ver
+def GCM_AUTHORIZATION = (new JsonSlurper().parseText(file(fileName).text)).GCM_AUTHORIZATION
 
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
@@ -34,7 +52,7 @@ android {
     buildToolsVersion rootProject.buildToolsV
     defaultConfig {
         versionCode 1
-        versionName "0.3"
+        versionName "0.4"
         applicationId "rx.music"
         vectorDrawables.useSupportLibrary true
         minSdkVersion rootProject.minSdkV
@@ -58,10 +76,12 @@ android {
             variant.outputs.each { output ->
                 def alignedOutputFile = output.outputFile
                 def unalignedOutputFile = output.packageApplication.outputFile
-                def s1 = alignedOutputFile.name.replace(".apk", "-v${defaultConfig.versionName}.apk")
-                def s2 = unalignedOutputFile.name.replace(".apk", "-v${defaultConfig.versionName}.apk")
-                if (variant.buildType.zipAlignEnabled) output.outputFile = new File(alignedOutputFile.parent, s1)
-                output.packageApplication.outputFile = new File(unalignedOutputFile.parent, s2)
+                if (variant.buildType.zipAlignEnabled) output.outputFile = new File(
+                        alignedOutputFile.parent, alignedOutputFile.name.replace(
+                        ".apk", "-v${defaultConfig.versionName}.apk"))
+                output.packageApplication.outputFile = new File(
+                        unalignedOutputFile.parent, unalignedOutputFile.name.replace(
+                        ".apk", "-v${defaultConfig.versionName}.apk"))
             }
         }
     }
@@ -72,10 +92,28 @@ android {
             buildConfigField("int", "VK_CLIENT_ID", vkClientId)
             buildConfigField("String", "GOOGLE_KEY", "\"" + googleKey + "\"")
             buildConfigField("String", "GOOGLE_CX", "\"" + googleCx + "\"")
-            buildConfigField("String", "C2DM_APP", "\"" + c2dmApp + "\"")
-            buildConfigField("String", "C2DM_SENDER", "\"" + c2dmSender + "\"")
-            buildConfigField("String", "C2DM_DEVICE", "\"" + c2dmDevice + "\"")
-            buildConfigField("String", "C2DM_AUTHORIZATION", "\"" + c2dmAuthorization + "\"")
+            buildConfigField("String", "GCM_X_subtype", "\"" + GCM_X_subtype + "\"")
+            buildConfigField("String", "GCM_X_X_subscription", "\"" + GCM_X_X_subscription + "\"")
+            buildConfigField("String", "GCM_X_X_subtype", "\"" + GCM_X_X_subtype + "\"")
+            buildConfigField("String", "GCM_X_app_ver", "\"" + GCM_X_app_ver + "\"")
+            buildConfigField("String", "GCM_X_kid", "\"" + GCM_X_kid + "\"")
+            buildConfigField("String", "GCM_X_osv", "\"" + GCM_X_osv + "\"")
+            buildConfigField("String", "GCM_X_sig", "\"" + GCM_X_sig + "\"")
+            buildConfigField("String", "GCM_X_cliv", "\"" + GCM_X_cliv + "\"")
+            buildConfigField("String", "GCM_X_gmsv", "\"" + GCM_X_gmsv + "\"")
+            buildConfigField("String", "GCM_X_X_kid", "\"" + GCM_X_X_kid + "\"")
+            buildConfigField("String", "GCM_X_appid", "\"" + GCM_X_appid + "\"")
+            buildConfigField("String", "GCM_X_scope", "\"" + GCM_X_scope + "\"")
+            buildConfigField("String", "GCM_X_subscription", "\"" + GCM_X_subscription + "\"")
+            buildConfigField("String", "GCM_X_app_ver_name", "\"" + GCM_X_app_ver_name + "\"")
+            buildConfigField("String", "GCM_app", "\"" + GCM_app + "\"")
+            buildConfigField("String", "GCM_sender", "\"" + GCM_sender + "\"")
+            buildConfigField("String", "GCM_device", "\"" + GCM_device + "\"")
+            buildConfigField("String", "GCM_cert", "\"" + GCM_cert + "\"")
+            buildConfigField("String", "GCM_app_ver", "\"" + GCM_app_ver + "\"")
+            buildConfigField("String", "GCM_info", "\"" + GCM_info + "\"")
+            buildConfigField("String", "GCM_gcm_ver", "\"" + GCM_gcm_ver + "\"")
+            buildConfigField("String", "GCM_AUTHORIZATION", "\"" + GCM_AUTHORIZATION + "\"")
         }
     }
     compileOptions {

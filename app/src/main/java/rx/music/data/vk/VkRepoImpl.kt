@@ -35,13 +35,18 @@ class VkRepoImpl : VkRepo {
     override fun getUsers(userIds: String?, fields: String?): Single<Response<List<User>>> =
             vkApi.getUsers(userIds ?: preferencesRepo.credentials.userId.toString(), fields)
 
-    override fun refreshToken(receipt: String): Single<Response<Credentials>> =
-            vkApi.refreshToken(receipt).doOnSuccess {
-                if (it.response != null) {
-                    val newCred = preferencesRepo.credentials
-                    if (((it.response as LinkedTreeMap<String, String>)["token"])?.isNotBlank() ?: false) newCred.token = (it.response as LinkedTreeMap<String, String>)["token"] ?: preferencesRepo.credentials.token
-                    if (((it.response as LinkedTreeMap<String, String>)["secret"])?.isNotBlank() ?: false) newCred.secret = (it.response as LinkedTreeMap<String, String>)["secret"] ?: preferencesRepo.credentials.secret
-                    preferencesRepo.credentials = newCred
-                }
+    @Suppress("CAST_NEVER_SUCCEEDS")
+    override fun refreshToken(receipt: String):
+            Single<Response<Credentials>> = with(preferencesRepo.credentials) {
+        vkApi.refreshToken(receipt).doOnSuccess {
+            if (it.response != null) {
+                val newCred = preferencesRepo.credentials
+                val tok = (it.response as LinkedTreeMap<String, String>)["token"]
+                val sec = (it.response as LinkedTreeMap<String, String>)["secret"]
+                if (tok?.isNotBlank() ?: false) newCred.token = tok ?: token
+                if (sec?.isNotBlank() ?: false) newCred.secret = sec ?: secret
+                preferencesRepo.credentials = newCred
             }
+        }
+    }
 }

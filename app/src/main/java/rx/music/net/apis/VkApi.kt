@@ -24,6 +24,7 @@ interface VkApi {
                  @Field("offset") offset: Int?): Observable<Response<Items<MutableList<Audio>>>>
 
     @FormUrlEncoded
+    @Headers("User-Agent: $USER_AGENT")
     @POST("execute.getMusicPage")
     fun getMusicPage(@Field("owner_id") ownerId: Long? = null,
                      @Field("need_owner") needOwner: Int? = 1,

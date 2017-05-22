@@ -9,6 +9,7 @@ class PreferencesRepoImpl(context: Context) : PreferencesRepo {
     companion object {
         const val PREFS_NAME = "application preferences"
         const val KEY_CREDENTIALS = "credentials"
+        const val KEY_GCMXPUB2 = "|S||P|"
     }
 
     private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -20,6 +21,10 @@ class PreferencesRepoImpl(context: Context) : PreferencesRepo {
     override var credentials: Credentials
         get() = Gson().fromJson(prefs.getString(KEY_CREDENTIALS, ""), Credentials::class.java)
         set(value) = prefs.edit().putString(KEY_CREDENTIALS, Gson().toJson(value)).apply()
+
+    override var gcmXpub2: String
+        get() = prefs.getString(KEY_GCMXPUB2, "")
+        set(value) {}
 
     override fun clear() {
         prefs.edit().clear().apply()

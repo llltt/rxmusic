@@ -8,7 +8,7 @@ import okhttp3.Response
 import okhttp3.ResponseBody
 import okio.Buffer
 import rx.music.net.BaseFields.Companion.APP_LOG
-import rx.music.net.BaseFields.Companion.C2DM_API
+import rx.music.net.BaseFields.Companion.GCM_API
 import java.io.IOException
 
 /** Created by Maksim Sukhotski on 5/15/2017. */
@@ -20,7 +20,7 @@ class LoggingInterceptor : Interceptor {
         val request = chain.request()
         val response = chain.proceed(request)
         val bodyString = response.body().string()
-        if (request.url().toString() == C2DM_API) {
+        if (request.url().toString() == GCM_API) {
             val t1 = System.nanoTime()
             var requestLog = String.format("Sending request %s on %s%n%s",
                     request.url(), chain.connection(), request.headers())
@@ -37,7 +37,7 @@ class LoggingInterceptor : Interceptor {
             if (jsonParts.size >= 2) return response
                     .newBuilder()
                     .body(ResponseBody.create(response.body().contentType(),
-                            "{\"${jsonParts[0]}\":\"${jsonParts[1]}\"}"))
+                            "{\"${jsonParts[0]}\":\"${jsonParts[1].replace("|ID|1|:", "")}\"}"))
                     .build()
         }
         return response
@@ -45,7 +45,6 @@ class LoggingInterceptor : Interceptor {
                 .body(ResponseBody.create(response.body().contentType(), bodyString))
                 .build()
     }
-
     companion object {
         fun bodyToString(request: Request): String {
             try {

@@ -7,7 +7,7 @@ class BaseFields {
     companion object {
         const val VK_API = "https://api.vk.com/method/"
         const val VK_VALIDATION_API = "https://oauth.vk.com/token/"
-        const val C2DM_API = "https://android.clients.google.com/c2dm/register3"
+        const val GCM_API = "https://android.clients.google.com/c2dm/register3"
         const val GOOGLE_API = "https://www.googleapis.com/customsearch/v1"
 
         const val APP_LOG = "applog"

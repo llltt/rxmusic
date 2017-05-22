@@ -6,5 +6,6 @@ import rx.music.net.models.auth.Credentials
 interface PreferencesRepo {
     var credentials: Credentials
     var isAuthorized: Boolean
+    var gcmXpub2: String
     fun clear()
 }
