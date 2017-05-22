@@ -5,12 +5,14 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.realm.Realm
-import me.extensions.toAudioResponse
-import me.extensions.toLongArray
+import me.extensions.*
 import rx.music.dagger.Dagger
 import rx.music.data.preferences.PreferencesRepo
-import rx.music.net.models.audio.Audio
-import rx.music.net.models.audio.CustomSearch
+import rx.music.net.models.base.Items
+import rx.music.net.models.base.Response
+import rx.music.net.models.google.CustomSearch
+import rx.music.net.models.vk.Audio
+import rx.music.net.models.vk.User
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -29,7 +31,7 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
             with(preferencesRepo.credentials) {
                 Completable.fromCallable {
                     realmProvider.get().executeTransactionAsync {
-                        it.insertOrUpdate(audioResponse.response.items)
+                        it.insertOrUpdate(audioResponse.response?.items)
                     }
                 }.subscribeOn(AndroidSchedulers.mainThread())
             }
@@ -40,13 +42,13 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
                 Completable.fromCallable {
                     realmProvider.get().executeTransactionAsync {
                         val user = it.where(User::class.java)
-                                .equalTo(User::id.name, ownerId ?: user_id)
+                                .equalTo(User::id.name, ownerId ?: userId)
                                 .findFirst()
-                        audioResponse.response.items.forEachIndexed { index, audio ->
+                        audioResponse.response?.items?.forEachIndexed { index, audio ->
                             audio.pos = offset + index
                         }
                         user.audioList.removeAll { it.pos > offset && it.pos < offset + count }
-                        user.audioList.addAll(offset, audioResponse.response.items ?: arrayListOf())
+                        user.audioList.addAll(offset, audioResponse.response?.items ?: arrayListOf())
                     }
                 }.subscribeOn(AndroidSchedulers.mainThread())
             }
@@ -71,7 +73,7 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
             with(preferencesRepo.credentials) {
                 Single.fromCallable {
                     realmProvider.get().where(User::class.java)
-                            .inQuery(User::id.name, userIds?.toLongArray() ?: longArrayOf(user_id))
+                            .inQuery(User::id.name, userIds?.toLongArray() ?: longArrayOf(userId))
                             .findAll().toUsersResponse() ?: Response<List<User>>()
                 }.subscribeOn(AndroidSchedulers.mainThread())
             }
@@ -82,7 +84,7 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
                 Single.fromCallable {
                     realmProvider.get().executeTransaction { it.insertOrUpdate(users.response) }
                     realmProvider.get().where(User::class.java)
-                            .inQuery(User::id.name, users.toStringArray() ?: longArrayOf(user_id))
+                            .inQuery(User::id.name, users.toStringArray() ?: longArrayOf(userId))
                             .findAll().toUsersResponse() ?: Response<List<User>>()
                 }.subscribeOn(AndroidSchedulers.mainThread())
             }

@@ -16,7 +16,7 @@ import me.base.MoxyController
 import me.extensions.onClick
 import me.extensions.toMain
 import rx.music.R
-import rx.music.net.models.audio.Audio
+import rx.music.net.models.vk.Audio
 import rx.music.ui.audio.AudioAdapter
 import rx.music.ui.audio.AudioPresenter
 import rx.music.ui.audio.AudioView
@@ -42,7 +42,7 @@ class PickerController : MoxyController(), AudioView {
         adapter = audioAdapter
         setHasFixedSize(true)
         addOnScrollListener(InfiniteScrollListener({
-            audioPresenter.getAudio(offset = adapter.itemCount)
+            //            audioPresenter.getMusicPage(audioOffset = adapter.itemCount)
         }, linearLayoutManager))
         dialogContainer.onClick {
             handleBack()

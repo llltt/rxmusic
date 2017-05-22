@@ -1,4 +1,4 @@
-package rx.music.net.models.audio
+package rx.music.net.models.google
 
 /** Created by Maksim Sukhotski on 5/3/2017. */
 

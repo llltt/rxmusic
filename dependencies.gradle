@@ -51,4 +51,5 @@ ext {
     jsoup = "org.jsoup:jsoup:1.8.3"
     firebaseDatabase = "com.google.firebase:firebase-database:$firebaseV"
     realmAdapters = "io.realm:android-adapters:2.0.0"
+    retrofitScalars = "com.squareup.retrofit2:converter-scalars:$retrofitV"
 }

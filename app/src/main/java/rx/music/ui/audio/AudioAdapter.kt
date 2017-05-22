@@ -16,7 +16,7 @@ import me.extensions.context
 import me.extensions.onClick
 import me.extensions.toTime
 import rx.music.R
-import rx.music.net.models.audio.Audio
+import rx.music.net.models.vk.Audio
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
 class AudioAdapter(data: OrderedRealmCollection<Audio>?,

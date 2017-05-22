@@ -1,4 +1,4 @@
-package rx.music.net.models.audio
+package rx.music.net.models.vk
 
 import com.google.gson.annotations.SerializedName
 import io.realm.RealmList
@@ -15,10 +15,10 @@ open class Playlist(@PrimaryKey var id: Long = 0,
                     @SerializedName("create_time") var createTime: Int = 0,
                     @SerializedName("update_time") var updateTime: Int = 0,
                     var thumbs: RealmList<Photo> = RealmList(),
+                    var photo: Photo = Photo(),
                     var type: Int = 0,
                     var title: String = "",
                     var description: String = "",
                     var count: Int = 0,
                     var followers: Int = 0,
-                    var plays: Int = 0,
-                    var photo: Photo = Photo()) : RealmObject()
+                    var plays: Int = 0) : RealmObject()

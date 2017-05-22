@@ -22,9 +22,9 @@ class VkInterceptor(private val credentials: Credentials) : Interceptor {
             with(credentials) {
                 val newBody = FormBody.Builder()
                         .add("v", V.toString())
-                        .add("access_token", access_token)
+                        .add("access_token", token)
                         .add("sig", ("${request.url().encodedPath()}?${request.toRaw()}" +
-                                "&v=$V&access_token=$access_token$secret").toMd5()).build()
+                                "&v=$V&access_token=$token$secret").toMd5()).build()
                 return RequestBody.create(request.body()?.contentType(), request.toRaw() +
                         (if (request.toRaw().isNotEmpty()) "&" else "") + newBody.toRaw())
             }

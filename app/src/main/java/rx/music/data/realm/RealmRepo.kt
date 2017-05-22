@@ -1,13 +1,13 @@
 package rx.music.data.realm
 
-import Items
-import Response
-import User
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
-import rx.music.net.models.audio.Audio
-import rx.music.net.models.audio.CustomSearch
+import rx.music.net.models.base.Items
+import rx.music.net.models.base.Response
+import rx.music.net.models.google.CustomSearch
+import rx.music.net.models.vk.Audio
+import rx.music.net.models.vk.User
 
 /** Created by Maksim Sukhotski on 5/9/2017. */
 

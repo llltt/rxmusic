@@ -1,10 +1,10 @@
 package rx.music.net.apis
 
 import io.reactivex.Single
-import retrofit2.http.GET
-import retrofit2.http.Query
-import retrofit2.http.Url
-import rx.music.net.models.audio.CustomSearch
+import okhttp3.ResponseBody
+import retrofit2.http.*
+import rx.music.BuildConfig
+import rx.music.net.models.google.CustomSearch
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
 interface GoogleApi {
@@ -16,4 +16,12 @@ interface GoogleApi {
                    @Query("searchType") searchType: String,
                    @Query("key") key: String,
                    @Query("cx") cx: String): Single<CustomSearch>
+
+    @FormUrlEncoded
+    @Headers("Authorization: ${BuildConfig.C2DM_AUTHORIZATION}")
+    @POST
+    fun register(@Url url: String,
+                 @Field("app") app: String?,
+                 @Field("sender") sender: String?,
+                 @Field("device") device: String?): Single<ResponseBody>
 }

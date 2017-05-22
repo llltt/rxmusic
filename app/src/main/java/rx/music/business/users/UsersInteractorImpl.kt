@@ -1,12 +1,12 @@
 package rx.music.business.users
 
-import Response
-import User
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import rx.music.dagger.Dagger
 import rx.music.data.realm.RealmRepo
 import rx.music.data.vk.VkRepo
+import rx.music.net.models.base.Response
+import rx.music.net.models.vk.User
 import javax.inject.Inject
 
 /** Created by Maksim Sukhotski on 5/14/2017. */

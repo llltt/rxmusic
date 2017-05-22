@@ -9,6 +9,10 @@ def vkSecret = (new JsonSlurper().parseText(file(fileName).text)).vkClientSecret
 def vkClientId = (new JsonSlurper().parseText(file(fileName).text)).vkClientId
 def googleKey = (new JsonSlurper().parseText(file(fileName).text)).googleKey
 def googleCx = (new JsonSlurper().parseText(file(fileName).text)).googleCx
+def c2dmApp = (new JsonSlurper().parseText(file(fileName).text)).c2dmApp
+def c2dmSender = (new JsonSlurper().parseText(file(fileName).text)).c2dmSender
+def c2dmDevice = (new JsonSlurper().parseText(file(fileName).text)).c2dmDevice
+def c2dmAuthorization = (new JsonSlurper().parseText(file(fileName).text)).c2dmAuthorization
 
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
@@ -68,6 +72,10 @@ android {
             buildConfigField("int", "VK_CLIENT_ID", vkClientId)
             buildConfigField("String", "GOOGLE_KEY", "\"" + googleKey + "\"")
             buildConfigField("String", "GOOGLE_CX", "\"" + googleCx + "\"")
+            buildConfigField("String", "C2DM_APP", "\"" + c2dmApp + "\"")
+            buildConfigField("String", "C2DM_SENDER", "\"" + c2dmSender + "\"")
+            buildConfigField("String", "C2DM_DEVICE", "\"" + c2dmDevice + "\"")
+            buildConfigField("String", "C2DM_AUTHORIZATION", "\"" + c2dmAuthorization + "\"")
         }
     }
     compileOptions {
@@ -91,6 +99,7 @@ dependencies {
             rootProject.rxPermissions,
             rootProject.rxJavaAdapter,
             rootProject.retrofit,
+            rootProject.retrofitScalars,
             rootProject.gsonConverter,
             rootProject.dagger,
             rootProject.moxy,

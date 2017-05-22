@@ -7,8 +7,8 @@ import rx.music.net.models.auth.Credentials
 /** Created by Maksim Sukhotski on 3/30/2017.*/
 class PreferencesRepoImpl(context: Context) : PreferencesRepo {
     companion object {
-        const val PREFS_NAME = "PREFS_NAME"
-        const val KEY_CREDENTIALS = "KEY_CREDENTIALS"
+        const val PREFS_NAME = "application preferences"
+        const val KEY_CREDENTIALS = "credentials"
     }
 
     private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)

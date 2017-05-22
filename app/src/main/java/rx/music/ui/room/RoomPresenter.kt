@@ -2,8 +2,6 @@ package rx.music.ui.room
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import rx.music.business.audio.AudioInteractor
 import rx.music.business.users.UsersInteractor
 import rx.music.dagger.Dagger
@@ -19,10 +17,10 @@ class RoomPresenter : MvpPresenter<RoomView>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         Dagger.instance.userComponent?.inject(this)
-        usersInteractor.getAuthorized()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .filter { it.response?.isNotEmpty() ?: false }
-                .subscribe { viewState.showOnUserReceived(it) }
+//        usersInteractor.getAuthorized()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .filter { it.response?.isNotEmpty() ?: false }
+//                .subscribe { viewState.showOnUserReceived(it) }
     }
 }

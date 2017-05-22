@@ -13,7 +13,7 @@ import me.base.MoxyController
 import me.extensions.toMain
 import rx.music.R
 import rx.music.dagger.Dagger
-import rx.music.net.models.audio.Audio
+import rx.music.net.models.vk.Audio
 
 
 /** Created by Maksim Sukhotski on 4/8/2017. */
@@ -34,7 +34,7 @@ class AudioController : MoxyController(), AudioView {
         layoutManager = linearLayoutManager
         setHasFixedSize(true)
         addOnScrollListener(InfiniteScrollListener({
-            audioPresenter.getAudio(offset = adapter.itemCount)
+            //            audioPresenter.getMusicPage(audioOffset = adapter.itemCount)
         }, linearLayoutManager))
     }
 

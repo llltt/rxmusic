@@ -1,11 +1,13 @@
 package me.extensions
 
-import Items
-import Response
-import User
 import android.app.Activity
 import com.bluelinelabs.conductor.Router
-import rx.music.net.models.audio.Audio
+import rx.music.net.models.base.Error
+import rx.music.net.models.base.Items
+import rx.music.net.models.base.Response
+import rx.music.net.models.vk.Audio
+import rx.music.net.models.vk.MusicPage
+import rx.music.net.models.vk.User
 import rx.music.ui.audio.AudioController
 import rx.music.ui.main.MainActivity
 
@@ -37,3 +39,12 @@ fun Response<List<User>>.toStringArray(): LongArray? {
 
 val Router.audioController: AudioController
     get() = this.getControllerWithTag("audio") as AudioController
+
+fun MutableList<Error>.toStr(): String {
+    var s = ""
+    this.forEach { s = "$s ${it.error_msg}" }
+    return s
+}
+
+val Response<MusicPage>.tokenNotConfirmed: Boolean
+    get() = this.executeErrors?.toStr()?.contains("Token confirmation required") ?: false

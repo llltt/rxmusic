@@ -1,7 +1,5 @@
 package rx.music.ui.main
 
-import Response
-import User
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
@@ -24,9 +22,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_player.*
 import kotlinx.android.synthetic.main.part_containers.*
 import kotlinx.android.synthetic.main.part_player_preview.*
-import me.extensions.audioController
 import rx.music.R
-import rx.music.net.models.audio.Audio
+import rx.music.net.models.vk.Audio
 import rx.music.ui.audio.AudioController
 import rx.music.ui.auth.AuthController
 import rx.music.ui.popular.PopularController
@@ -73,9 +70,9 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
             roomRouter!!.setRoot(RouterTransaction.with(RoomController()))
     }
 
-    override fun showOnUserReceived(users: Response<List<User>>) {
-        audioRouter!!.audioController.audioPresenter.onUserReceived(users)
-    }
+//    override fun showOnUserReceived(users: Response<List<User>>) {
+//        audioRouter!!.audioController.audioPresenter.onUserReceived(users)
+//    }
 
     private fun showMoreMenu() {
         BottomSheet.Builder(this)

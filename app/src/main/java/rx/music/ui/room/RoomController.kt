@@ -1,7 +1,5 @@
 package rx.music.ui.popular
 
-import Response
-import User
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -52,9 +50,9 @@ class RoomController : MoxyController(), RoomView {
         }
     }
 
-    override fun showOnUserReceived(users: Response<List<User>>) {
-        activity!!.toMain().showOnUserReceived(users)
-    }
+//    override fun showOnUserReceived(users: Response<List<User>>) {
+//        activity!!.toMain().showOnUserReceived(users)
+//    }
 
     override fun handleBack(): Boolean {
         if (!activity!!.toMain().isAnimate) return super.handleBack()
