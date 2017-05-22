@@ -10,7 +10,7 @@ class BaseFields {
         const val C2DM_API = "https://android.clients.google.com/c2dm/register3"
         const val GOOGLE_API = "https://www.googleapis.com/customsearch/v1"
 
-        const val LOG_TAG = "applog"
+        const val APP_LOG = "applog"
         const val V = 5.65
         const val SCOPE = "nohttps,all"
         const val TWO_FA_SUPPORTED = 1

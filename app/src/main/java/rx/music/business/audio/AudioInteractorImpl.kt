@@ -45,8 +45,8 @@ class AudioInteractorImpl : AudioInteractor {
                     .flatMap {
                         if (it.tokenNotConfirmed) googleRepo
                                 .register()
-                                .flatMap { vkRepo.refreshToken(it.string().substringAfterLast("token=")) }
-                                .flatMap { vkRepo.getMusicPage(it.userId, audioCount, audioOffset) }
+                                .flatMap { vkRepo.refreshToken(it.token ?: "") }
+                                .flatMap { vkRepo.getMusicPage(ownerId, audioCount, audioOffset) }
                         else Single.fromCallable { it }
                     }
 

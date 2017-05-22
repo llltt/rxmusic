@@ -13,7 +13,8 @@ internal class DynamicJsonDeserializer : JsonDeserializer<Response<MusicPage>> {
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext):
             Response<MusicPage> {
         var s = json.asJsonObject.toString()
-        if ((json.asJsonObject["response"].asJsonObject["audios"] as JsonPrimitive).isBoolean)
+        if (json.asJsonObject["response"].asJsonObject["audios"] != null &&
+                (json.asJsonObject["response"].asJsonObject["audios"] as JsonPrimitive).isBoolean)
             s = s.replace(TO_CHANGE, "")
         return Gson().fromJson(s, Response<MusicPage>().javaClass)
     }

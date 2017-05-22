@@ -2,7 +2,10 @@ package rx.music.net.apis
 
 import io.reactivex.Observable
 import io.reactivex.Single
-import retrofit2.http.*
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.Headers
+import retrofit2.http.POST
 import rx.music.BuildConfig.USER_AGENT
 import rx.music.net.models.auth.Credentials
 import rx.music.net.models.base.Items
@@ -34,6 +37,8 @@ interface VkApi {
     fun getUsers(@Field("user_ids") userIds: String,
                  @Field("fields") fields: String?): Single<Response<List<User>>>
 
-    @GET("auth.refreshToken")
-    fun refreshToken(@Query("receipt") receipt: String): Single<Credentials>
+    @FormUrlEncoded
+    @Headers("User-Agent: $USER_AGENT")
+    @POST("auth.refreshToken")
+    fun refreshToken(@Field("receipt") receipt: String): Single<Response<Credentials>>
 }

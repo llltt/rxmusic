@@ -38,7 +38,8 @@ class AudioPresenter(val realm: Realm) : MvpPresenter<AudioView>() {
                 audioInteractor.getMusicPage(audioCount = audioCount, audioOffset = audioOffset)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ audio, error -> handleMusicPage(audio, error) })
+//                        .subscribe({ audio, error -> handleMusicPage(audio, error) })
+                        .subscribe()
             }
 
     private fun handleMusicPage(audio: Response<MusicPage>?, error: Throwable?) {

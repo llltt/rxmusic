@@ -21,5 +21,5 @@ interface VkRepo {
     fun getUsers(userIds: String? = null, fields: String? = MIN_USER_INFO):
             Single<Response<List<User>>>
 
-    fun refreshToken(receipt: String): Single<Credentials>
+    fun refreshToken(receipt: String): Single<Response<Credentials>>
 }

@@ -11,6 +11,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import rx.music.BuildConfig
 import rx.music.net.BaseFields.Companion.VK_API
 import rx.music.net.deserializers.DynamicJsonDeserializer
+import rx.music.net.interceptors.LoggingInterceptor
 import rx.music.net.interceptors.VkInterceptor
 import rx.music.net.models.auth.Credentials
 import rx.music.net.models.base.Response
@@ -30,19 +31,17 @@ object Retrofit {
                     .client(createClient(credentials))
                     .build()
 
-    private fun createClient(credentials: Credentials?): OkHttpClient = with(OkHttpClient.Builder()) {
-        if (BuildConfig.DEBUG) addNetworkInterceptor(StethoInterceptor())
-        if (credentials != null) addInterceptor(VkInterceptor(credentials))
-        return build()
-    }
+    private fun createClient(credentials: Credentials?): OkHttpClient =
+            with(OkHttpClient.Builder()) {
+                if (BuildConfig.DEBUG) addNetworkInterceptor(StethoInterceptor())
+                if (credentials != null) addInterceptor(VkInterceptor(credentials))
+                addInterceptor(LoggingInterceptor())
+                return build()
+            }
 
-    private fun createGsonConverter(): Converter.Factory {
-        return GsonConverterFactory
-                .create(
-                        GsonBuilder()
-                                .setLenient()
-                                .registerTypeAdapter(Response::class.java, DynamicJsonDeserializer())
-//                        .registerTypeAdapter(GcmToken::class.java, EqualsJsonDeserializer())
-                                .create())
-    }
+    private fun createGsonConverter(): Converter.Factory =
+            GsonConverterFactory.create(GsonBuilder()
+                    .setLenient()
+                    .registerTypeAdapter(Response::class.java, DynamicJsonDeserializer())
+                    .create())
 }
