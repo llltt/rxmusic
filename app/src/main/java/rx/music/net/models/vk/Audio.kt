@@ -10,14 +10,13 @@ import io.realm.annotations.RealmClass
 @RealmClass
 open class Audio(@PrimaryKey var id: Long = 0,
                  @SerializedName("owner_id") var ownerId: Long = 0,
-                 @SerializedName("genre_id") var genreId: Long = 0,
                  @SerializedName("is_licensed") var isLicensed: Boolean = false,
                  @SerializedName("access_key") var accessKey: String = "",
-        //                 var album: Album = Album(),
+                 var album: Album = Album(),
                  var artist: String = "",
                  var title: String = "",
                  var duration: Int = 0,
-                 var date: String = "",
+                 var date: Int = 0,
                  var url: String = "",
                  var googleThumb: String = "",
                  var pos: Int = 0) : RealmObject()

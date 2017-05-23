@@ -30,7 +30,7 @@ class VkRepoImpl : VkRepo {
     override fun getMusicPage(ownerId: Long?, audioCount: Int?,
                               audioOffset: Int?): Single<Response<MusicPage>> =
             vkApi.getMusicPage(ownerId = ownerId ?: preferencesRepo.credentials.userId,
-                    audioCount = audioCount, audioOffset = audioOffset)
+                    audioCount = audioCount ?: 50, audioOffset = audioOffset ?: 0)
 
     override fun getUsers(userIds: String?, fields: String?): Single<Response<List<User>>> =
             vkApi.getUsers(userIds ?: preferencesRepo.credentials.userId.toString(), fields)

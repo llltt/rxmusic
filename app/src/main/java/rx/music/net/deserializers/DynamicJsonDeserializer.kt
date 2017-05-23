@@ -1,6 +1,8 @@
 package rx.music.net.deserializers
 
 import com.google.gson.*
+import com.google.gson.reflect.TypeToken
+import org.json.JSONObject
 import rx.music.net.models.base.Response
 import rx.music.net.models.vk.MusicPage
 import java.lang.reflect.Type
@@ -20,6 +22,11 @@ internal class DynamicJsonDeserializer : JsonDeserializer<Response<MusicPage>> {
                 json.asJsonObject["response"].asJsonObject["audios"] is JsonPrimitive &&
                 (json.asJsonObject["response"].asJsonObject["audios"] as JsonPrimitive).isBoolean)
             s = s.replace(TO_CHANGE, "")
-        return Gson().fromJson(s, Response<MusicPage>().javaClass)
+
+        val out = Response<MusicPage>()
+        val gson = Gson()
+        val jsonObj = JSONObject(s)
+        val type = object : TypeToken<Response<MusicPage>>() {}.type
+        return gson.fromJson(jsonObj.toString(), type)
     }
 }

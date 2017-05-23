@@ -4,6 +4,7 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.internal.operators.completable.CompletableFromCallable
 import io.realm.Realm
 import me.extensions.*
 import rx.music.dagger.Dagger
@@ -12,6 +13,7 @@ import rx.music.net.models.base.Items
 import rx.music.net.models.base.Response
 import rx.music.net.models.google.CustomSearch
 import rx.music.net.models.vk.Audio
+import rx.music.net.models.vk.MusicPage
 import rx.music.net.models.vk.User
 import javax.inject.Inject
 import javax.inject.Provider
@@ -36,22 +38,22 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
                 }.subscribeOn(AndroidSchedulers.mainThread())
             }
 
-    override fun putAudioToUser(ownerId: Long?, audioResponse: Response<Items<MutableList<Audio>>>,
-                                count: Int, offset: Int): Completable =
-            with(preferencesRepo.credentials) {
-                Completable.fromCallable {
-                    realmProvider.get().executeTransactionAsync {
-                        val user = it.where(User::class.java)
-                                .equalTo(User::id.name, ownerId ?: userId)
-                                .findFirst()
-                        audioResponse.response?.items?.forEachIndexed { index, audio ->
-                            audio.pos = offset + index
-                        }
-                        user.audioList.removeAll { it.pos > offset && it.pos < offset + count }
-                        user.audioList.addAll(offset, audioResponse.response?.items ?: arrayListOf())
-                    }
-                }.subscribeOn(AndroidSchedulers.mainThread())
-            }
+//    override fun putAudioToUser(ownerId: Long?, audioResponse: Response<Items<MutableList<Audio>>>,
+//                                count: Int, offset: Int): Completable =
+//            with(preferencesRepo.credentials) {
+//                Completable.fromCallable {
+//                    realmProvider.get().executeTransactionAsync {
+//                        val user = it.where(User::class.java)
+//                                .equalTo(User::id.name, ownerId ?: userId)
+//                                .findFirst()
+//                        audioResponse.response?.items?.forEachIndexed { index, audio ->
+//                            audio.pos = offset + index
+//                        }
+//                        user.audioList.removeAll { it.pos > offset && it.pos < offset + count }
+//                        user.audioList.addAll(offset, audioResponse.response?.items ?: arrayListOf())
+//                    }
+//                }.subscribeOn(AndroidSchedulers.mainThread())
+//            }
 
     override fun getAudio(ownerId: Long?): Observable<Response<Items<MutableList<Audio>>>> =
             with(realmProvider.get()) {
@@ -88,5 +90,18 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
                             .findAll().toUsersResponse() ?: Response<List<User>>()
                 }.subscribeOn(AndroidSchedulers.mainThread())
             }
+
+    override fun putMusicPage(response: MusicPage?): Completable =
+            CompletableFromCallable {
+                realmProvider.get().executeTransactionAsync {
+                    it.insertOrUpdate(response?.owner)
+//                    it.where(User::class.java)
+//                            .equalTo(User::id.name, response?.owner?.id)
+//                            .findFirst().audioList.addAll(response?.audios?.items ?: RealmList())
+                    it.insertOrUpdate(response?.audios)
+                    it.insertOrUpdate(response?.playlists)
+                }
+            }.subscribeOn(AndroidSchedulers.mainThread())
+
 }
 

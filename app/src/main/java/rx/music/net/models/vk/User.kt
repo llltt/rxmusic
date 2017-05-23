@@ -1,7 +1,6 @@
 package rx.music.net.models.vk
 
 import com.google.gson.annotations.SerializedName
-import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
@@ -10,7 +9,10 @@ import io.realm.annotations.RealmClass
 
 @RealmClass
 open class User(@PrimaryKey var id: Long = 0,
-                var audioList: RealmList<Audio> = RealmList(),
+        //                var audioList: RealmList<Audio> = RealmList(),
+                var sex: Int = 0,
+                var online: Int = 0,
+                @SerializedName("screen_name") var screenName: String = "",
                 @SerializedName("first_name") var firstName: String = "",
                 @SerializedName("first_name_gen") var firstNameGen: String = "",
                 @SerializedName("last_name") var lastName: String = "",
