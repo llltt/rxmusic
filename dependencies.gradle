@@ -3,7 +3,7 @@ ext {
     compileSdkV = 25
     targetSdkV = 23
     buildToolsV = "25.0.2"
-    kotlin_V = "1.1.1"
+    kotlin_V = "1.1.2-4"
     supportV = "25.3.1"
     retrofitV = "2.2.0"
     okhttpV = "3.4.1"

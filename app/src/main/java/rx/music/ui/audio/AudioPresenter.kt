@@ -15,7 +15,6 @@ import rx.music.net.models.base.Response
 import rx.music.net.models.vk.Audio
 import rx.music.net.models.vk.Audios
 import rx.music.net.models.vk.MusicPage
-import rx.music.net.models.vk.User
 import javax.inject.Inject
 
 
@@ -43,12 +42,12 @@ class AudioPresenter(val realm: Realm) : MvpPresenter<AudioView>() {
     }
 
     private fun handleMusicPage(musicPage: Response<MusicPage>?, error: Throwable?) {
-        if (musicPage?.response?.owner != null) onUserReceived(musicPage.response.owner!!)
+        if (musicPage?.response?.owner != null) onUserReceived()
         if (musicPage?.executeErrors != null) viewState.showSnackbar(musicPage.executeErrors.toStr())
         if (error != null) viewState.showSnackbar(error.localizedMessage)
     }
 
-    fun onUserReceived(user: User) = with(preferencesRepo.credentials) {
+    fun onUserReceived() = with(preferencesRepo.credentials) {
         viewState.showRecycler(AudioAdapter(realm
                 .where(Audios::class.java)
                 .findAll()[0]

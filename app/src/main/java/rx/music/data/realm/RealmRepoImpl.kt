@@ -94,12 +94,9 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
     override fun putMusicPage(response: MusicPage?): Completable =
             CompletableFromCallable {
                 realmProvider.get().executeTransactionAsync {
-                    it.insertOrUpdate(response?.owner)
-//                    it.where(User::class.java)
-//                            .equalTo(User::id.name, response?.owner?.id)
-//                            .findFirst().audioList.addAll(response?.audios?.items ?: RealmList())
-                    it.insertOrUpdate(response?.audios)
-                    it.insertOrUpdate(response?.playlists)
+                    if (response?.owner != null) it.insertOrUpdate(response.owner)
+                    if (response?.audios != null) it.insertOrUpdate(response.audios)
+                    if (response?.playlists != null) it.insertOrUpdate(response.playlists)
                 }
             }.subscribeOn(AndroidSchedulers.mainThread())
 

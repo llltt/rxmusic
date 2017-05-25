@@ -1,6 +1,5 @@
 package rx.music.data.vk
 
-import com.google.gson.internal.LinkedTreeMap
 import io.reactivex.Observable
 import io.reactivex.Single
 import rx.music.dagger.Dagger
@@ -35,18 +34,13 @@ class VkRepoImpl : VkRepo {
     override fun getUsers(userIds: String?, fields: String?): Single<Response<List<User>>> =
             vkApi.getUsers(userIds ?: preferencesRepo.credentials.userId.toString(), fields)
 
-    @Suppress("CAST_NEVER_SUCCEEDS")
-    override fun refreshToken(receipt: String):
-            Single<Response<Credentials>> = with(preferencesRepo.credentials) {
-        vkApi.refreshToken(receipt).doOnSuccess {
-            if (it.response != null) {
-                val newCred = preferencesRepo.credentials
-                val tok = (it.response as LinkedTreeMap<String, String>)["token"]
-                val sec = (it.response as LinkedTreeMap<String, String>)["secret"]
-                if (tok?.isNotBlank() ?: false) newCred.token = tok ?: token
-                if (sec?.isNotBlank() ?: false) newCred.secret = sec ?: secret
-                preferencesRepo.credentials = newCred
-            }
-        }
+    override fun refreshToken(receipt: String): Single<Response<Credentials>> {
+        return vkApi.refreshToken(receipt)
+                .doOnSuccess {
+                    var newPrefs = preferencesRepo.credentials
+                    newPrefs.token = it.response?.token ?: newPrefs.token
+                    newPrefs.secret = it.response?.secret ?: newPrefs.secret
+                    preferencesRepo.credentials = newPrefs
+                }
     }
 }

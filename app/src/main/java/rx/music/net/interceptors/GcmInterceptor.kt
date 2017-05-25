@@ -13,13 +13,13 @@ import java.io.IOException
 
 /** Created by Maksim Sukhotski on 5/15/2017. */
 
-class LoggingInterceptor : Interceptor {
+class GcmInterceptor : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
-        Log.i("LoggingInterceptor", "inside intercept callback")
+        Log.i("GcmInterceptor", "inside intercept callback")
         val request = chain.request()
         val response = chain.proceed(request)
-        val bodyString = response.body().string()
+        val bodyString = response.body()?.string() ?: ""
         if (request.url().toString() == GCM_API) {
             val t1 = System.nanoTime()
             var requestLog = String.format("Sending request %s on %s%n%s",
@@ -36,13 +36,13 @@ class LoggingInterceptor : Interceptor {
             val jsonParts = bodyString.split("=")
             if (jsonParts.size >= 2) return response
                     .newBuilder()
-                    .body(ResponseBody.create(response.body().contentType(),
+                    .body(ResponseBody.create(response.body()!!.contentType(),
                             "{\"${jsonParts[0]}\":\"${jsonParts[1].replace("|ID|1|:", "")}\"}"))
                     .build()
         }
         return response
                 .newBuilder()
-                .body(ResponseBody.create(response.body().contentType(), bodyString))
+                .body(ResponseBody.create(response.body()!!.contentType(), bodyString))
                 .build()
     }
     companion object {
@@ -50,7 +50,7 @@ class LoggingInterceptor : Interceptor {
             try {
                 val copy = request.newBuilder().build()
                 val buffer = Buffer()
-                copy.body().writeTo(buffer)
+                copy.body()!!.writeTo(buffer)
                 return buffer.readUtf8()
             } catch (e: IOException) {
                 return "did not work"

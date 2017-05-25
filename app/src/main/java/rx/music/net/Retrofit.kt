@@ -10,11 +10,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import rx.music.BuildConfig
 import rx.music.net.BaseFields.Companion.VK_API
-import rx.music.net.deserializers.DynamicJsonDeserializer
-import rx.music.net.interceptors.LoggingInterceptor
+import rx.music.net.deserializers.MusicPageDeserializer
+import rx.music.net.interceptors.GcmInterceptor
 import rx.music.net.interceptors.SecretsInterceptor
 import rx.music.net.models.auth.Credentials
 import rx.music.net.models.base.Response
+import rx.music.net.models.vk.MusicPage
 
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
@@ -35,13 +36,13 @@ object Retrofit {
             with(OkHttpClient.Builder()) {
                 if (BuildConfig.DEBUG) addNetworkInterceptor(StethoInterceptor())
                 if (credentials != null) addInterceptor(SecretsInterceptor())
-                addInterceptor(LoggingInterceptor())
+                addInterceptor(GcmInterceptor())
                 return build()
             }
 
     private fun createGsonConverter(): Converter.Factory =
             GsonConverterFactory.create(GsonBuilder()
                     .setLenient()
-                    .registerTypeAdapter(Response::class.java, DynamicJsonDeserializer())
+                    .registerTypeAdapter(Response<MusicPage>().javaClass, MusicPageDeserializer())
                     .create())
 }
