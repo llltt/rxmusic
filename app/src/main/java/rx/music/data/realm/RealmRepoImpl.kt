@@ -13,6 +13,7 @@ import rx.music.net.models.base.Items
 import rx.music.net.models.base.Response
 import rx.music.net.models.google.CustomSearch
 import rx.music.net.models.vk.Audio
+import rx.music.net.models.vk.Audios
 import rx.music.net.models.vk.MusicPage
 import rx.music.net.models.vk.User
 import javax.inject.Inject
@@ -91,14 +92,36 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
                 }.subscribeOn(AndroidSchedulers.mainThread())
             }
 
-    override fun putMusicPage(response: MusicPage?): Completable =
-            CompletableFromCallable {
-                realmProvider.get().executeTransactionAsync {
-                    if (response?.owner != null) it.insertOrUpdate(response.owner)
-                    if (response?.audios != null) it.insertOrUpdate(response.audios)
-                    if (response?.playlists != null) it.insertOrUpdate(response.playlists)
+    override fun putMusicPage(response: MusicPage?, audioOffset: Int?): Completable = with(response!!) {
+        CompletableFromCallable {
+            realmProvider.get().executeTransaction({
+                if (owner != null) {
+                    it.insertOrUpdate(owner)
+                    if (audios != null && audios.items.size > 0) {
+                        val realmAudios = it.where(Audios::class.java)
+                                .equalTo(Audios::userId.name, owner.id)
+                                .findFirst()
+                        if (realmAudios != null) {
+                            for (i in (audioOffset ?: 0)..(audioOffset ?: 0) + audios.items.size - 1)
+                                if (realmAudios.items.size > i)
+                                    realmAudios.items[i] = audios.items.removeFirst()
+                                else {
+                                    realmAudios.items.addAll(audios.items)
+                                    break
+                                }
+                        } else {
+                            audios.userId = owner.id
+                            it.insertOrUpdate(audios)
+                        }
+                    }
+                    if (playlists != null) {
+                        playlists.userId = owner.id
+                        it.insertOrUpdate(playlists)
+                    }
                 }
-            }.subscribeOn(AndroidSchedulers.mainThread())
-
+            })
+        }.subscribeOn(AndroidSchedulers.mainThread())
+    }
 }
+
 

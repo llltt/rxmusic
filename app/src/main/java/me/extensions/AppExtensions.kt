@@ -2,6 +2,8 @@ package me.extensions
 
 import android.app.Activity
 import com.bluelinelabs.conductor.Router
+import io.realm.RealmList
+import io.realm.RealmObject
 import rx.music.net.models.base.Error
 import rx.music.net.models.base.Items
 import rx.music.net.models.base.Response
@@ -48,3 +50,5 @@ fun MutableList<Error>.toStr(): String {
 
 val Response<MusicPage>.tokenNotConfirmed: Boolean
     get() = this.executeErrors?.toStr()?.contains("Token confirmation required") ?: false
+
+fun <E : RealmObject> RealmList<E>.removeFirst(): E = this.removeAt(0)

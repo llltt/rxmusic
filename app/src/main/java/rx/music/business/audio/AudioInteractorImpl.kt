@@ -26,23 +26,8 @@ class AudioInteractorImpl : AudioInteractor {
         Dagger.instance.userComponent?.inject(this)
     }
 
-//    override fun getAudio(ownerId: Long?, count: Int, offset: Int):
-//            Observable<Response<Items<MutableList<Audio>>>> =
-//            Observable.concat(
-//                    vkRepo.getAudio(ownerId, count, offset)
-//                            .doOnNext {
-//                                if (it.response.isNotNull) {
-//                                    realmRepo.putAudio(ownerId, it, count, offset)
-//                                            .subscribe()
-//                                    realmRepo.putAudioToUser(ownerId, it, count, offset)
-//                                            .subscribe()
-//                                }
-//                            },
-//                    realmRepo.getAudio(ownerId))
-
     override fun getMusicPage(ownerId: Long?, audioCount: Int?, audioOffset: Int?): Single<Response<MusicPage>> =
-            vkRepo
-                    .getMusicPage(ownerId, audioCount, audioOffset)
+            vkRepo.getMusicPage(ownerId, audioCount, audioOffset)
                     .flatMap {
                         if (it.tokenNotConfirmed) googleRepo
                                 .register()
@@ -50,11 +35,15 @@ class AudioInteractorImpl : AudioInteractor {
                                 .flatMap { vkRepo.getMusicPage(ownerId, audioCount, audioOffset) }
                         else Single.fromCallable { it }
                     }
-                    .doOnSuccess { realmRepo.putMusicPage(it.response).subscribe() }
+                    .flatMap {
+                        realmRepo.putMusicPage(it.response, audioOffset)
+                                .toSingle { it }
+                                .flatMap { Single.fromCallable { it } }
+                    }
+
 
     override fun handleAudio(audio: Audio): Single<Audio> =
-            mediaPlayerRepo
-                    .play(audio)
+            mediaPlayerRepo.play(audio)
                     .andThen(
                             if (audio.googleThumb.isNotEmpty()) Single.fromCallable { audio }
                             else googleRepo

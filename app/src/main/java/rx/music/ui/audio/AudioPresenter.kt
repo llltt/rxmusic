@@ -8,6 +8,7 @@ import io.reactivex.schedulers.Schedulers
 import io.realm.Realm
 import me.extensions.isNotNull
 import me.extensions.toStr
+import rx.Subscription
 import rx.music.business.audio.AudioInteractor
 import rx.music.dagger.Dagger
 import rx.music.data.preferences.PreferencesRepo
@@ -24,6 +25,8 @@ class AudioPresenter(val realm: Realm) : MvpPresenter<AudioView>() {
     @Inject lateinit var audioInteractor: AudioInteractor
     @Inject lateinit var preferencesRepo: PreferencesRepo
 
+    private var isRecyclerLoaded = false
+
     init {
         Dagger.instance.userComponent?.inject(this@AudioPresenter)
     }
@@ -38,30 +41,28 @@ class AudioPresenter(val realm: Realm) : MvpPresenter<AudioView>() {
         audioInteractor.getMusicPage(audioCount = audioCount, audioOffset = audioOffset)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ audio, error -> handleMusicPage(audio, error) })
+                .doOnSubscribe({ setRecycler() })
+                .subscribe({ response, error -> handleMusicPageResponse(response, error) })
     }
 
-    private fun handleMusicPage(musicPage: Response<MusicPage>?, error: Throwable?) {
-        if (musicPage?.response?.owner != null) onUserReceived()
+    private fun handleMusicPageResponse(musicPage: Response<MusicPage>?, error: Throwable?) {
+        if (musicPage?.response?.owner != null && !isRecyclerLoaded) setRecycler()
         if (musicPage?.executeErrors != null) viewState.showSnackbar(musicPage.executeErrors.toStr())
         if (error != null) viewState.showSnackbar(error.localizedMessage)
     }
 
-    fun onUserReceived() = with(preferencesRepo.credentials) {
-        viewState.showRecycler(AudioAdapter(realm
-                .where(Audios::class.java)
-                .findAll()[0]
-                .items, onClick =
-        { audio, pos -> handleAudio(realm.copyFromRealm(audio), pos) }))
+    fun setRecycler(): Subscription = with(preferencesRepo.credentials) {
+        realm.where(Audios::class.java)
+                .equalTo(Audios::userId.name, userId)
+                .findFirstAsync()
+                .asObservable<Audios>()
+                .filter({ audios -> audios.isValid && !isRecyclerLoaded })
+                .subscribe {
+                    viewState.showRecycler(AudioAdapter(it.items,
+                            onClick = { audio, pos -> handleAudio(realm.copyFromRealm(audio), pos) }))
+                            .also { isRecyclerLoaded = true }
+                }
     }
-
-//    fun getAudio(ownerId: Long? = null, count: Int = 15, offset: Int = 0) {
-//        audioInteractor.getAudio(ownerId, count, offset)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .filter { it.error.isNotNull }
-//                .subscribe({ viewState.showSnackbar(it.error!!.error_msg) })
-//    }
 
     fun handleAudio(audio: Audio, pos: Int): Disposable = with(viewState) {
         audioInteractor.handleAudio(audio)

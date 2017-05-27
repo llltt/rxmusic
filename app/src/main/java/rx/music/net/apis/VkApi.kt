@@ -30,8 +30,8 @@ interface VkApi {
                      @Field("need_owner") needOwner: Int? = 1,
                      @Field("need_playlists") needPlaylists: Int? = 1,
                      @Field("playlists_count") playlistsCount: Int? = 12,
-                     @Field("audio_offset") audioOffset: Int? = 50,
-                     @Field("audio_count") audioCount: Int? = 100): Single<Response<MusicPage>>
+                     @Field("audio_offset") audioOffset: Int? = 0,
+                     @Field("audio_count") audioCount: Int? = 50): Single<Response<MusicPage>>
 
     @FormUrlEncoded
     @POST("users.get")

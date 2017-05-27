@@ -71,7 +71,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     }
 
 //    override fun showOnUserReceived(users: Response<List<User>>) {
-//        audioRouter!!.audioController.audioPresenter.onUserReceived(users)
+//        audioRouter!!.audioController.audioPresenter.setRecycler(users)
 //    }
 
     private fun showMoreMenu() {

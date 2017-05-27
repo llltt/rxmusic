@@ -2,7 +2,6 @@ package rx.music.ui.audio
 
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,18 +22,16 @@ class AudioController : MoxyController(), AudioView {
     @InjectPresenter lateinit var audioPresenter: AudioPresenter
 
     private lateinit var audioAdapter: AudioAdapter
-    private lateinit var audioRecycler: RecyclerView
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View =
             inflater.inflate(R.layout.controller_audio, container, false)
 
     override fun onViewBound(view: View) = with(view.audioRecycler) {
         val linearLayoutManager = LinearLayoutManager(activity)
-        this@AudioController.audioRecycler = audioRecycler
         layoutManager = linearLayoutManager
         setHasFixedSize(true)
         addOnScrollListener(InfiniteScrollListener({
-            //            audioPresenter.getMusicPage(audioOffset = adapter.itemCount)
+            audioPresenter.getMusicPage(audioOffset = adapter.itemCount)
         }, linearLayoutManager))
     }
 
