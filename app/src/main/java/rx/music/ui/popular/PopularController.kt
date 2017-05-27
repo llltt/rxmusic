@@ -23,7 +23,7 @@ class PopularController : MoxyController(), PopularView {
 //            audioRecyclerView.setHasFixedSize(true)
 //            audioRecyclerView.layoutManager = linearLayoutManager
 //            audioRecyclerView.adapter = adapter
-//            audioRecyclerView.addOnScrollListener(InfiniteScrollListener({
+//            audioRecyclerView.addOnScrollListener(PaginationScrollListener({
 //                offset += 30
 //                audioPresenter.getAudio(offset = offset.toString())
 //            }, linearLayoutManager))

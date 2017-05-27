@@ -2,16 +2,17 @@ package rx.music.ui.audio
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
+import rx.music.net.BaseFields.Companion.PAGINATION_COUNT
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
-class InfiniteScrollListener(
-        val func: () -> Unit,
+class PaginationScrollListener(
+        val func: (paginationCount: Int) -> Unit = { _ -> run {} },
         val layoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
 
     private var previousTotal = 0
     private var loading = true
     private var visibleThreshold = 4
+    private var paginationCount = PAGINATION_COUNT
     private var firstVisibleItem = 0
     private var visibleItemCount = 0
     private var totalItemCount = 0
@@ -30,12 +31,12 @@ class InfiniteScrollListener(
                     previousTotal = totalItemCount
                 }
             }
-            if (!loading && (totalItemCount - visibleItemCount)
-                    <= (firstVisibleItem + visibleThreshold)) {
-                // End has been reached
-                Log.i("InfiniteScrollListener", "End reached")
-                func()
+            if (!loading
+                    && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)
+                    || firstVisibleItem > paginationCount) {
+                func(paginationCount)
                 loading = true
+                paginationCount += PAGINATION_COUNT
             }
         }
     }

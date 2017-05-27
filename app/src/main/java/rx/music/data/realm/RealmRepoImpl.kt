@@ -1,10 +1,10 @@
 package rx.music.data.realm
 
 import io.reactivex.Completable
+import io.reactivex.CompletableEmitter
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.internal.operators.completable.CompletableFromCallable
 import io.realm.Realm
 import me.extensions.*
 import rx.music.dagger.Dagger
@@ -93,34 +93,45 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
             }
 
     override fun putMusicPage(response: MusicPage?, audioOffset: Int?): Completable = with(response!!) {
-        CompletableFromCallable {
-            realmProvider.get().executeTransaction({
-                if (owner != null) {
-                    it.insertOrUpdate(owner)
-                    if (audios != null && audios.items.size > 0) {
-                        val realmAudios = it.where(Audios::class.java)
-                                .equalTo(Audios::userId.name, owner.id)
-                                .findFirst()
-                        if (realmAudios != null) {
-                            for (i in (audioOffset ?: 0)..(audioOffset ?: 0) + audios.items.size - 1)
-                                if (realmAudios.items.size > i)
-                                    realmAudios.items[i] = audios.items.removeFirst()
-                                else {
-                                    realmAudios.items.addAll(audios.items)
-                                    break
+        Completable.create { e: CompletableEmitter? ->
+            realmProvider.get().executeTransactionAsync(Realm.Transaction { realm ->
+                run {
+                    if (owner != null) {
+                        realm.insertOrUpdate(owner)
+                        if (audios != null && audios.items.size > 0) {
+                            val realmAudios = realm.where(Audios::class.java)
+                                    .equalTo(Audios::userId.name, owner.id)
+                                    .findFirst()
+                            if (realmAudios != null) {
+                                for (i in (audioOffset ?: 0)..(audioOffset ?: 0) + audios.items.size - 1) {
+                                    audios.items.forEach {
+                                        it.album.thumb.id = it.id
+                                        realm.insertOrUpdate(it.album)
+                                        realm.insertOrUpdate(it.album.thumb)
+                                    }
+                                    if (realmAudios.items.size > i) {
+                                        if (realmAudios.items[i].id != audios.items[0].id)
+                                            realmAudios.items[i] = audios.items.removeFirst()
+                                        else audios.items.removeFirst()
+                                    } else {
+                                        realmAudios.items.addAll(audios.items)
+                                        break
+                                    }
                                 }
-                        } else {
-                            audios.userId = owner.id
-                            it.insertOrUpdate(audios)
+                            } else {
+                                audios.userId = owner.id
+                                realm.insertOrUpdate(audios)
+                            }
+                        }
+                        if (playlists != null) {
+                            playlists.userId = owner.id
+                            realm.insertOrUpdate(playlists)
                         }
                     }
-                    if (playlists != null) {
-                        playlists.userId = owner.id
-                        it.insertOrUpdate(playlists)
-                    }
                 }
-            })
-        }.subscribeOn(AndroidSchedulers.mainThread())
+            }, Realm.Transaction.OnSuccess { e!!.onComplete() })
+        }
+                .subscribeOn(AndroidSchedulers.mainThread())
     }
 }
 

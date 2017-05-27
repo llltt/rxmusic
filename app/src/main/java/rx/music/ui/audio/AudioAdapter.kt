@@ -3,8 +3,6 @@ package rx.music.ui.audio
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -49,8 +47,8 @@ class AudioAdapter(data: OrderedRealmCollection<Audio>?,
         titleTextView.text = audio.title
         artistTextView.text = audio.artist
         durationTextView.text = audio.duration.toTime()
-        itemView.vizualizerImageView.visibility = (if (position == selectedPos) VISIBLE else GONE)
-        Glide.with(context).load(R.drawable.audio_visualizer).into(itemView.vizualizerImageView)
+//        itemView.vizualizerImageView.visibility = (if (position == selectedPos) VISIBLE else GONE)
+        Glide.with(context).load(audio.album.thumb.photo34).into(itemView.vizualizerImageView)
         itemView.onClick {
             selectedPos = position
             notifyDataSetChanged()

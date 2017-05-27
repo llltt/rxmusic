@@ -7,6 +7,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import rx.music.BuildConfig.USER_AGENT
+import rx.music.net.BaseFields.Companion.PAGINATION_COUNT
 import rx.music.net.models.auth.Credentials
 import rx.music.net.models.base.Items
 import rx.music.net.models.base.Response
@@ -31,7 +32,7 @@ interface VkApi {
                      @Field("need_playlists") needPlaylists: Int? = 1,
                      @Field("playlists_count") playlistsCount: Int? = 12,
                      @Field("audio_offset") audioOffset: Int? = 0,
-                     @Field("audio_count") audioCount: Int? = 50): Single<Response<MusicPage>>
+                     @Field("audio_count") audioCount: Int? = PAGINATION_COUNT): Single<Response<MusicPage>>
 
     @FormUrlEncoded
     @POST("users.get")

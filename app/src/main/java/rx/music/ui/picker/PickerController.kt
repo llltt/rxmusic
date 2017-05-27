@@ -20,7 +20,7 @@ import rx.music.net.models.vk.Audio
 import rx.music.ui.audio.AudioAdapter
 import rx.music.ui.audio.AudioPresenter
 import rx.music.ui.audio.AudioView
-import rx.music.ui.audio.InfiniteScrollListener
+import rx.music.ui.audio.PaginationScrollListener
 
 /** Created by Maksim Sukhotski on 5/6/2017. */
 class PickerController : MoxyController(), AudioView {
@@ -41,7 +41,7 @@ class PickerController : MoxyController(), AudioView {
         descriptionTextView.movementMethod = LinkMovementMethod.getInstance()
         adapter = audioAdapter
         setHasFixedSize(true)
-        addOnScrollListener(InfiniteScrollListener({
+        addOnScrollListener(PaginationScrollListener({
             //            audioPresenter.getMusicPage(audioOffset = adapter.itemCount)
         }, linearLayoutManager))
         dialogContainer.onClick {
