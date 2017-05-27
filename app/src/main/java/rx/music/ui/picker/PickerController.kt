@@ -2,20 +2,18 @@ package rx.music.ui.picker
 
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
-import kotlinx.android.synthetic.main.controller_audio.view.*
 import kotlinx.android.synthetic.main.controller_auth.view.*
 import kotlinx.android.synthetic.main.controller_picker.view.*
 import me.base.MoxyController
-import me.extensions.onClick
 import me.extensions.toMain
 import rx.music.R
+import rx.music.dagger.Dagger
 import rx.music.net.models.vk.Audio
 import rx.music.ui.audio.AudioAdapter
 import rx.music.ui.audio.AudioPresenter
@@ -27,32 +25,35 @@ class PickerController : MoxyController(), AudioView {
     @ProvidePresenter fun providePresenter() = AudioPresenter(realm)
     @InjectPresenter lateinit var audioPresenter: AudioPresenter
 
-    private lateinit var audioAdapter: AudioAdapter
-    private lateinit var audioRecycler: RecyclerView
+    private lateinit var pickerAdapter: AudioAdapter
 
-    override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View {
-        return inflater.inflate(R.layout.controller_picker, container, false)
-    }
+    override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View =
+            inflater.inflate(R.layout.controller_picker, container, false)
 
     override fun onViewBound(view: View) = with(view.pickerRecycler) {
         val linearLayoutManager = LinearLayoutManager(activity)
-        this@PickerController.audioRecycler = audioRecycler
         layoutManager = linearLayoutManager
-        descriptionTextView.movementMethod = LinkMovementMethod.getInstance()
-        adapter = audioAdapter
         setHasFixedSize(true)
+//        descriptionTextView.movementMethod = LinkMovementMethod.getInstance()
         addOnScrollListener(PaginationScrollListener({
-            //            audioPresenter.getMusicPage(audioOffset = adapter.itemCount)
+            audioPresenter.getMusicPage(audioOffset = it)
+            Toast.makeText(activity, "$it : ${pickerAdapter.itemCount})", Toast.LENGTH_SHORT).show()
         }, linearLayoutManager))
-        dialogContainer.onClick {
-            handleBack()
-            router.popCurrentController()
-        }
     }
 
-    override fun showRecycler(audioAdapter: AudioAdapter) = with(view!!.audioRecycler) {
-        this@PickerController.audioAdapter = audioAdapter
-        adapter = audioAdapter
+    override fun showRecycler(audioAdapter: AudioAdapter) {
+        this@PickerController.pickerAdapter = audioAdapter
+        view!!.pickerRecycler.adapter = audioAdapter
+    }
+
+    override fun showPlayer(audio: Audio) = activity!!.toMain().mainPresenter.updatePlayer(audio)
+
+    override fun showSelectedPos(position: Int) = pickerAdapter.selectAndNotify(position)
+
+    override fun onDestroyView(view: View) {
+        super.onDestroyView(view)
+        Dagger.instance.userComponent = null
+        view.pickerRecycler.adapter = null
     }
 
     override fun handleBack(): Boolean {
@@ -69,8 +70,4 @@ class PickerController : MoxyController(), AudioView {
     override fun showSnackbar(text: String) = with(view!!) {
         Snackbar.make(loginLayout, text, Snackbar.LENGTH_LONG).show()
     }
-
-    override fun showPlayer(audio: Audio) = activity!!.toMain().mainPresenter.updatePlayer(audio)
-
-    override fun showSelectedPos(position: Int) = audioAdapter.selectAndNotify(position)
 }

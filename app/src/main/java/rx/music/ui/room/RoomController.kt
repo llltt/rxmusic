@@ -37,15 +37,11 @@ class RoomController : MoxyController(), RoomView {
         floatingActionButton.onClick {
             if (!activity!!.toMain().isAnimate) {
                 activity!!.toMain().isAnimate = true
-                activity!!.toMain().slidingLayout.setParallaxOffset(0)
-                postDelayed({ activity!!.toMain().slidingLayout.panelHeight = 0 }, 1)
-                postDelayed({
-                    activity!!.toMain().roomContainer.elevation = (9).toDp(resources)
-                    router.pushController(RouterTransaction.with(PickerController())
-                            .pushChangeHandler(TransitionChangeHandlerCompat(FabToDialogTransitionChangeHandler(), FadeChangeHandler(false)))
-                            .popChangeHandler(TransitionChangeHandlerCompat(FabToDialogTransitionChangeHandler(), FadeChangeHandler())))
-                    activity!!.toMain().resetAnimationMode()
-                }, 200)
+                activity!!.toMain().roomContainer.elevation = (9).toDp(resources)
+                router.pushController(RouterTransaction.with(PickerController())
+                        .pushChangeHandler(TransitionChangeHandlerCompat(FabToDialogTransitionChangeHandler(), FadeChangeHandler(false)))
+                        .popChangeHandler(TransitionChangeHandlerCompat(FabToDialogTransitionChangeHandler(), FadeChangeHandler())))
+                activity!!.toMain().resetAnimationMode()
             }
         }
     }

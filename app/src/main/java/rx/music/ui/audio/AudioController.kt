@@ -19,7 +19,6 @@ import rx.music.net.models.vk.Audio
 /** Created by Maksim Sukhotski on 4/8/2017. */
 class AudioController : MoxyController(), AudioView {
     @ProvidePresenter fun providePresenter() = AudioPresenter(realm)
-
     @InjectPresenter lateinit var audioPresenter: AudioPresenter
 
     private lateinit var audioAdapter: AudioAdapter

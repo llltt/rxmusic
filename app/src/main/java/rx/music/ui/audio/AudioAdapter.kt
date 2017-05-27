@@ -23,7 +23,8 @@ class AudioAdapter(data: OrderedRealmCollection<Audio>?,
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         lateinit var data: Audio
-        val vizualizerImageView: ImageView = view.vizualizerImageView
+        val vizualizerImageView: ImageView = view.visualizerImageView
+        val audioImageView: ImageView = view.audioImageView
         val titleTextView: TextView = view.titleTextView
         val artistTextView: TextView = view.artistTextView
         val isLoadedImageView: ImageView = view.isLoadedImageView
@@ -47,8 +48,18 @@ class AudioAdapter(data: OrderedRealmCollection<Audio>?,
         titleTextView.text = audio.title
         artistTextView.text = audio.artist
         durationTextView.text = audio.duration.toTime()
-//        itemView.vizualizerImageView.visibility = (if (position == selectedPos) VISIBLE else GONE)
-        Glide.with(context).load(audio.album.thumb.photo34).into(itemView.vizualizerImageView)
+        if (position == selectedPos) {
+            vizualizerImageView.visibility = View.VISIBLE
+            Glide.with(context)
+                    .load(R.drawable.dance)
+                    .asGif()
+                    .animate { it.animate().alpha(1F) }
+                    .into(vizualizerImageView)
+        } else vizualizerImageView.visibility = View.INVISIBLE
+        Glide.with(context)
+                .load(audio.album.thumb.photo34)
+                .error(R.drawable.audio_row_placeholder_2x)
+                .into(audioImageView)
         itemView.onClick {
             selectedPos = position
             notifyDataSetChanged()

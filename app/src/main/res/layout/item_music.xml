@@ -5,8 +5,9 @@
     android:layout_height="@dimen/list"
     android:orientation="vertical">
 
+
     <ImageView
-        android:id="@+id/vizualizerImageView"
+        android:id="@+id/audioImageView"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
@@ -14,6 +15,18 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/visualizerImageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:scaleType="fitCenter"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -46,9 +59,9 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="0dp"
         android:gravity="start|center_vertical"
-        app:layout_constraintLeft_toRightOf="@+id/vizualizerImageView"
+        app:layout_constraintLeft_toRightOf="@+id/audioImageView"
         app:layout_constraintRight_toLeftOf="@+id/isLoadedImageView"
-        app:layout_constraintTop_toTopOf="@+id/vizualizerImageView" />
+        app:layout_constraintTop_toTopOf="@+id/audioImageView" />
 
     <TextView
         android:id="@+id/titleTextView"
@@ -59,7 +72,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:gravity="start|center_vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/vizualizerImageView"
-        app:layout_constraintLeft_toRightOf="@+id/vizualizerImageView"
+        app:layout_constraintBottom_toBottomOf="@+id/audioImageView"
+        app:layout_constraintLeft_toRightOf="@+id/audioImageView"
         app:layout_constraintRight_toLeftOf="@+id/isLoadedImageView" />
 </android.support.constraint.ConstraintLayout>
