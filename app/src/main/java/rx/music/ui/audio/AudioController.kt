@@ -5,7 +5,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.controller_audio.view.*
@@ -30,10 +29,9 @@ class AudioController : MoxyController(), AudioView {
         val linearLayoutManager = LinearLayoutManager(activity)
         layoutManager = linearLayoutManager
         setHasFixedSize(true)
-        addOnScrollListener(PaginationScrollListener({
-            audioPresenter.getMusicPage(audioOffset = it)
-            Toast.makeText(activity, "$it : ${audioAdapter.itemCount})", Toast.LENGTH_SHORT).show()
-        }, linearLayoutManager))
+        addOnScrollListener(PaginationScrollListener(
+                { audioPresenter.getMusicPage(audioOffset = it) },
+                linearLayoutManager))
     }
 
     override fun showRecycler(audioAdapter: AudioAdapter) {

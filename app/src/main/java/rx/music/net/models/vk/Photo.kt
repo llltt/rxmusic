@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
+import rx.music.net.BaseFields.Companion.MUSIC_HEIGHT
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
 
@@ -16,4 +17,15 @@ open class Photo(@PrimaryKey var id: Long = 0,
                  @SerializedName("photo_300") var photo300: String? = "",
                  @SerializedName("photo_600") var photo600: String? = "",
                  var width: Int? = 0,
-                 var height: Int? = 0) : RealmObject()
+                 var height: Int? = 0) : RealmObject() {
+    fun getSuitablePhoto(): String {
+        when (MUSIC_HEIGHT) {
+            34 -> return photo34 ?: ""
+            68 -> return photo68 ?: ""
+            135 -> return photo135 ?: ""
+            270 -> return photo270 ?: ""
+            300 -> return photo300 ?: ""
+            else -> return photo600 ?: ""
+        }
+    }
+}

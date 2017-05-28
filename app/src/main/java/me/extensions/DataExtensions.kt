@@ -1,6 +1,7 @@
 package me.extensions
 
 import android.content.res.Resources
+import android.util.DisplayMetrics
 import android.util.TypedValue
 import okhttp3.FormBody
 import okhttp3.Request
@@ -15,13 +16,18 @@ fun String.toMd5(): String {
     return String.format("%032X", java.math.BigInteger(1, md5sum)).toLowerCase()
 }
 
-fun Int.toDp(r: Resources): Float {
-    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), r.displayMetrics)
+fun Int.toDp(r: Resources): Float =
+        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), r.displayMetrics)
+
+fun Int.toPx(r: Resources): Int =
+        Math.round(this * (r.displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
+
+fun Int.closestFrom(list: MutableList<Int>): Int {
+    list.forEach { if (this <= it) return it }
+    return list.last()
 }
 
-fun Int.toSp(r: Resources): Float {
-    return this / r.displayMetrics.scaledDensity
-}
+fun Int.toSp(r: Resources): Float = this / r.displayMetrics.scaledDensity
 
 val Any?.isNotNull: Boolean get() = this != null
 

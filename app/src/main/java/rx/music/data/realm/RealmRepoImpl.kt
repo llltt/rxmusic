@@ -99,20 +99,19 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
                     if (owner != null) {
                         realm.insertOrUpdate(owner)
                         if (audios != null && audios.items.size > 0) {
+                            audios.items.forEach {
+                                it.album.thumb.id = it.id
+                                realm.insertOrUpdate(it.album)
+                            }
                             val realmAudios = realm.where(Audios::class.java)
                                     .equalTo(Audios::userId.name, owner.id)
                                     .findFirst()
                             if (realmAudios != null) {
                                 for (i in (audioOffset ?: 0)..(audioOffset ?: 0) + audios.items.size - 1) {
-                                    audios.items.forEach {
-                                        it.album.thumb.id = it.id
-                                        realm.insertOrUpdate(it.album)
-                                        realm.insertOrUpdate(it.album.thumb)
-                                    }
                                     if (realmAudios.items.size > i) {
-                                        if (realmAudios.items[i].id != audios.items[0].id)
+                                        if (realmAudios.items[i].id != audios.items[0].id) {
                                             realmAudios.items[i] = audios.items.removeFirst()
-                                        else audios.items.removeFirst()
+                                        } else audios.items.removeFirst()
                                     } else {
                                         realmAudios.items.addAll(audios.items)
                                         break
@@ -130,8 +129,7 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
                     }
                 }
             }, Realm.Transaction.OnSuccess { e!!.onComplete() })
-        }
-                .subscribeOn(AndroidSchedulers.mainThread())
+        }.subscribeOn(AndroidSchedulers.mainThread())
     }
 }
 

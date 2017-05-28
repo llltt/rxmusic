@@ -27,5 +27,6 @@ open class PlayLists(@PrimaryKey var userId: Long = 0,
 
 @RealmClass
 open class Audios(@PrimaryKey var userId: Long = 0,
+                  var count: Int = 0,
                   var items: RealmList<Audio> = RealmList(),
                   var profiles: RealmList<User> = RealmList()) : RealmObject()

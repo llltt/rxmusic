@@ -20,8 +20,9 @@ class BaseFields {
         const val SEARCH_TYPE = "image"
         const val IMG_SIZE = "large"
         const val MIN_USER_INFO = "photo_max_orig,music,can_see_audio"
-        const val PAGINATION_COUNT = 50
+        const val PAGINATION_COUNT = 100
 
+        var MUSIC_HEIGHT = 0
         val LANG = Locale.getDefault().language!!
     }
 }

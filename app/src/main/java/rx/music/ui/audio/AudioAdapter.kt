@@ -50,14 +50,15 @@ class AudioAdapter(data: OrderedRealmCollection<Audio>?,
         durationTextView.text = audio.duration.toTime()
         if (position == selectedPos) {
             vizualizerImageView.visibility = View.VISIBLE
-            Glide.with(context)
-                    .load(R.drawable.dance)
-                    .asGif()
-                    .animate { it.animate().alpha(1F) }
-                    .into(vizualizerImageView)
+//            Glide.with(context)
+//                    .load(R.drawable.dance)
+//                    .asGif()
+//                    .animate { it.animate().alpha(1F) }
+//                    .into(vizualizerImageView)
         } else vizualizerImageView.visibility = View.INVISIBLE
         Glide.with(context)
-                .load(audio.album.thumb.photo34)
+                .load(if (audio.album.thumb.getSuitablePhoto().isNotBlank())
+                    audio.album.thumb.getSuitablePhoto() else audio.googleThumb)
                 .error(R.drawable.audio_row_placeholder_2x)
                 .into(audioImageView)
         itemView.onClick {

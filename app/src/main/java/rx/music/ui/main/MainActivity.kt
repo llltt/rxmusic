@@ -22,7 +22,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_player.*
 import kotlinx.android.synthetic.main.part_containers.*
 import kotlinx.android.synthetic.main.part_player_preview.*
+import me.extensions.closestFrom
+import me.extensions.toPx
 import rx.music.R
+import rx.music.net.BaseFields
 import rx.music.net.models.vk.Audio
 import rx.music.ui.audio.AudioController
 import rx.music.ui.auth.AuthController
@@ -47,6 +50,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        BaseFields.MUSIC_HEIGHT = (50).toPx(resources).closestFrom(mutableListOf(34, 68, 135, 270, 300, 600))
         artistTextView; titleTextView
         slidingLayout.addPanelSlideListener(this)
         moreImageView.setOnClickListener { _ -> showMoreMenu() }
@@ -63,7 +67,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
                 .popChangeHandler(HorizontalChangeHandler()))
         if (!audioRouter!!.hasRootController()) {
         }
-            audioRouter!!.setRoot(RouterTransaction.with(AudioController()).tag("audio"))
+        audioRouter!!.setRoot(RouterTransaction.with(AudioController()).tag("audio"))
         if (!popularRouter!!.hasRootController())
             popularRouter!!.setRoot(RouterTransaction.with(PopularController()))
         if (!roomRouter!!.hasRootController())
@@ -86,10 +90,18 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
         playerTitleTextView.text = audio.title
         artistTextView.text = audio.artist
         titleTextView.text = audio.title
-        if (!audio.googleThumb.isNullOrEmpty()) {
-            Glide.with(this).load(audio.googleThumb).centerCrop().into(playerPreviewImageView)
-            Glide.with(this).load(audio.googleThumb).centerCrop().into(playerImageView)
-        }
+        Glide.with(this)
+                .load(if (audio.album.thumb.photo600!!.isNotBlank())
+                    audio.album.thumb.getSuitablePhoto() else audio.googleThumb)
+                .error(R.drawable.audio_row_placeholder_2x)
+                .centerCrop()
+                .into(playerPreviewImageView)
+        Glide.with(this)
+                .load(if (audio.album.thumb.photo600!!.isNotBlank())
+                    audio.album.thumb.getSuitablePhoto() else audio.googleThumb)
+                .error(R.drawable.audio_row_placeholder_2x)
+                .centerCrop()
+                .into(playerImageView)
     }
 
     override fun showSeekBar(mp: MediaPlayer) {
@@ -224,4 +236,5 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
         isAnimate = false; bottomNavigation.isClickable = true
     }, 100)
 }
+
 

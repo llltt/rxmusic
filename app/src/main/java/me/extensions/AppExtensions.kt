@@ -9,6 +9,7 @@ import rx.music.net.models.base.Items
 import rx.music.net.models.base.Response
 import rx.music.net.models.vk.Audio
 import rx.music.net.models.vk.MusicPage
+import rx.music.net.models.vk.Photo
 import rx.music.net.models.vk.User
 import rx.music.ui.audio.AudioController
 import rx.music.ui.main.MainActivity
@@ -52,3 +53,7 @@ val Response<MusicPage>.tokenNotConfirmed: Boolean
     get() = this.executeErrors?.toStr()?.contains("Token confirmation required") ?: false
 
 fun <E : RealmObject> RealmList<E>.removeFirst(): E = this.removeAt(0)
+
+fun Photo.isNotEmpty(): Boolean {
+    return this.photo34?.isNotEmpty() ?: false
+}
