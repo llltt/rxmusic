@@ -48,12 +48,14 @@ class AudioInteractorImpl : AudioInteractor {
             mediaPlayerRepo.play(audio)
                     .andThen(
                             if (audio.album.thumb.isNotEmpty()
-                                    || audio.googleThumb.isNotEmpty())
+                                    || audio.googlePhoto.photo?.isNotBlank() ?: false)
                                 Single.fromCallable { audio }
-                            else googleRepo
-                                    .getPicture(audio.artist, 1, IMG_SIZE)
-                                    .flatMap { realmRepo.completeAudio(audio, it) })
-                    .onErrorResumeNext { Single.fromCallable { audio } }
+                            else googleRepo.getPicture(audio.artist, 1, IMG_SIZE)
+                                    .flatMap {
+                                        realmRepo.updateAudio(audio, it)
+                                                .toSingle({ audio })
+                                    }
+                                    .onErrorResumeNext { Single.fromCallable { audio } })
 }
 
 

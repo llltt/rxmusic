@@ -12,10 +12,7 @@ import rx.music.data.preferences.PreferencesRepo
 import rx.music.net.models.base.Items
 import rx.music.net.models.base.Response
 import rx.music.net.models.google.CustomSearch
-import rx.music.net.models.vk.Audio
-import rx.music.net.models.vk.Audios
-import rx.music.net.models.vk.MusicPage
-import rx.music.net.models.vk.User
+import rx.music.net.models.vk.*
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -39,36 +36,11 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
                 }.subscribeOn(AndroidSchedulers.mainThread())
             }
 
-//    override fun putAudioToUser(ownerId: Long?, audioResponse: Response<Items<MutableList<Audio>>>,
-//                                count: Int, offset: Int): Completable =
-//            with(preferencesRepo.credentials) {
-//                Completable.fromCallable {
-//                    realmProvider.get().executeTransactionAsync {
-//                        val user = it.where(User::class.java)
-//                                .equalTo(User::id.name, ownerId ?: userId)
-//                                .findFirst()
-//                        audioResponse.response?.items?.forEachIndexed { index, audio ->
-//                            audio.pos = offset + index
-//                        }
-//                        user.audioList.removeAll { it.pos > offset && it.pos < offset + count }
-//                        user.audioList.addAll(offset, audioResponse.response?.items ?: arrayListOf())
-//                    }
-//                }.subscribeOn(AndroidSchedulers.mainThread())
-//            }
-
     override fun getAudio(ownerId: Long?): Observable<Response<Items<MutableList<Audio>>>> =
             with(realmProvider.get()) {
                 Observable.fromCallable {
-                    where(Audio::class.java).findAll()?.toAudioResponse() ?: Response<Items<MutableList<Audio>>>()
-                }.subscribeOn(AndroidSchedulers.mainThread())
-            }
-
-    override fun completeAudio(audio: Audio, customSearch: CustomSearch): Single<Audio> =
-            with(realmProvider.get()) {
-                Single.fromCallable {
-                    val t = where(Audio::class.java).equalTo(Audio::id.name, audio.id).findFirst()
-                    executeTransaction { t.googleThumb = customSearch.items?.get(0)?.link ?: "" }
-                    return@fromCallable copyFromRealm(t)
+                    where(Audio::class.java)
+                            .findAll()?.toAudioResponse() ?: Response<Items<MutableList<Audio>>>()
                 }.subscribeOn(AndroidSchedulers.mainThread())
             }
 
@@ -96,41 +68,57 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
         Completable.create { e: CompletableEmitter? ->
             realmProvider.get().executeTransactionAsync(Realm.Transaction { realm ->
                 run {
-                    if (owner != null) {
-                        realm.insertOrUpdate(owner)
-                        if (audios != null && audios.items.size > 0) {
-                            audios.items.forEach {
-                                it.album.thumb.id = it.id
-                                realm.insertOrUpdate(it.album)
-                            }
-                            val realmAudios = realm.where(Audios::class.java)
-                                    .equalTo(Audios::userId.name, owner.id)
-                                    .findFirst()
-                            if (realmAudios != null) {
-                                for (i in (audioOffset ?: 0)..(audioOffset ?: 0) + audios.items.size - 1) {
-                                    if (realmAudios.items.size > i) {
-                                        if (realmAudios.items[i].id != audios.items[0].id) {
-                                            realmAudios.items[i] = audios.items.removeFirst()
-                                        } else audios.items.removeFirst()
-                                    } else {
-                                        realmAudios.items.addAll(audios.items)
-                                        break
-                                    }
-                                }
-                            } else {
-                                audios.userId = owner.id
-                                realm.insertOrUpdate(audios)
-                            }
+                    if (owner != null) realm.insertOrUpdate(owner) else return@run
+                    if (playlists != null) {
+                        playlists.userId = owner.id
+                        realm.insertOrUpdate(playlists)
+                    }
+                    if (audios != null && audios.items.size > 0) {
+                        audios.items.forEach {
+                            it.album.thumb.id = it.id
+                            realm.insertOrUpdate(it.album)
                         }
-                        if (playlists != null) {
-                            playlists.userId = owner.id
-                            realm.insertOrUpdate(playlists)
+                        val realmAudios = realm.where(Audios::class.java)
+                                .equalTo(Audios::userId.name, owner.id)
+                                .findFirst()
+                        if (realmAudios != null) {
+                            //todo: remake to inversed order update
+                            for (i in (audioOffset ?: 0)..(audioOffset ?: 0) + audios.items.size - 1) {
+                                if (realmAudios.items.size > i) {
+                                    if (realmAudios.items[i].id != audios.items[0].id) {
+                                        val googlePhoto = realm.where(GooglePhoto::class.java)
+                                                .equalTo(GooglePhoto::id.name, audios.items[0].id)
+                                                .findFirst()
+                                        if (googlePhoto != null)
+                                            audios.items[0].googlePhoto = googlePhoto
+                                        realmAudios.items[i] = audios.items.removeFirst()
+                                    } else audios.items.removeFirst()
+                                } else {
+                                    realmAudios.items.addAll(audios.items)
+                                    break
+                                }
+                            }
+                        } else {
+                            audios.userId = owner.id
+                            realm.insertOrUpdate(audios)
                         }
                     }
                 }
             }, Realm.Transaction.OnSuccess { e!!.onComplete() })
         }.subscribeOn(AndroidSchedulers.mainThread())
     }
+
+    override fun updateAudio(audio: Audio, cs: CustomSearch): Completable =
+            with(realmProvider.get()) {
+                Completable.fromAction {
+                    executeTransaction {
+                        audio.googlePhoto.id = audio.id
+                        audio.googlePhoto.photo = cs.items?.get(0)?.link
+                        it.insertOrUpdate(audio)
+//                        it.insertOrUpdate(audio.googlePhoto)
+                    }
+                }.subscribeOn(AndroidSchedulers.mainThread())
+            }
 }
 
 

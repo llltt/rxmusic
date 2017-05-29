@@ -13,12 +13,12 @@ open class Audio(@PrimaryKey var id: Long = 0,
                  @SerializedName("is_licensed") var isLicensed: Boolean = false,
                  @SerializedName("access_key") var accessKey: String = "",
                  var album: Album = Album(),
+                 var googlePhoto: GooglePhoto = GooglePhoto(),
                  var artist: String = "",
                  var title: String = "",
                  var duration: Int = 0,
                  var date: Int = 0,
                  var url: String = "",
-                 var googleThumb: String = "",
                  var pos: Int = 0) : RealmObject()
 
 @RealmClass

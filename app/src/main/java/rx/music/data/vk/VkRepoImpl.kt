@@ -4,6 +4,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import rx.music.dagger.Dagger
 import rx.music.data.preferences.PreferencesRepo
+import rx.music.net.BaseFields.Companion.PAGINATION_COUNT
 import rx.music.net.apis.VkApi
 import rx.music.net.models.auth.Credentials
 import rx.music.net.models.base.Items
@@ -29,7 +30,7 @@ class VkRepoImpl : VkRepo {
     override fun getMusicPage(ownerId: Long?, audioCount: Int?,
                               audioOffset: Int?): Single<Response<MusicPage>> =
             vkApi.getMusicPage(ownerId = ownerId ?: preferencesRepo.credentials.userId,
-                    audioCount = audioCount ?: 50, audioOffset = audioOffset ?: 0)
+                    audioCount = audioCount ?: PAGINATION_COUNT, audioOffset = audioOffset ?: 0)
 
     override fun getUsers(userIds: String?, fields: String?): Single<Response<List<User>>> =
             vkApi.getUsers(userIds ?: preferencesRepo.credentials.userId.toString(), fields)

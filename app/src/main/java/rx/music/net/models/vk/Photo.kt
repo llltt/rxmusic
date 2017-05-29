@@ -20,12 +20,12 @@ open class Photo(@PrimaryKey var id: Long = 0,
                  var height: Int? = 0) : RealmObject() {
     fun getSuitablePhoto(): String {
         when (MUSIC_HEIGHT) {
-            34 -> return photo34 ?: ""
-            68 -> return photo68 ?: ""
-            135 -> return photo135 ?: ""
-            270 -> return photo270 ?: ""
-            300 -> return photo300 ?: ""
-            else -> return photo600 ?: ""
+            34 -> if (photo34?.isNotBlank() ?: false) return photo34 ?: ""
+            68 -> if (photo68?.isNotBlank() ?: false) return photo68 ?: ""
+            135 -> if (photo135?.isNotBlank() ?: false) return photo135 ?: ""
+            270 -> if (photo270?.isNotBlank() ?: false) return photo270 ?: ""
+            300 -> if (photo300?.isNotBlank() ?: false) return photo300 ?: ""
         }
+        return photo600 ?: ""
     }
 }
