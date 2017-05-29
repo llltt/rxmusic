@@ -2,6 +2,7 @@ package rx.music.data.vk
 
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import rx.music.dagger.Dagger
 import rx.music.data.preferences.PreferencesRepo
 import rx.music.net.BaseFields.Companion.PAGINATION_COUNT
@@ -31,6 +32,7 @@ class VkRepoImpl : VkRepo {
                               audioOffset: Int?): Single<Response<MusicPage>> =
             vkApi.getMusicPage(ownerId = ownerId ?: preferencesRepo.credentials.userId,
                     audioCount = audioCount ?: PAGINATION_COUNT, audioOffset = audioOffset ?: 0)
+                    .subscribeOn(Schedulers.io())
 
     override fun getUsers(userIds: String?, fields: String?): Single<Response<List<User>>> =
             vkApi.getUsers(userIds ?: preferencesRepo.credentials.userId.toString(), fields)

@@ -27,9 +27,10 @@ class AudioInteractorImpl : AudioInteractor {
         Dagger.instance.userComponent?.inject(this)
     }
 
-    override fun getMusicPage(ownerId: Long?, audioCount: Int?, audioOffset: Int?): Single<Response<MusicPage>> =
-            vkRepo
-                    .getMusicPage(ownerId, audioCount, audioOffset)
+    override fun getMusicPage(ownerId: Long?, audioCount: Int?,
+                              audioOffset: Int?): Single<Response<MusicPage>> =
+            realmRepo.getAudioCountForRequest(ownerId, audioOffset)
+                    .flatMap { vkRepo.getMusicPage(ownerId, it, audioOffset) }
                     .flatMap {
                         if (it.tokenNotConfirmed)
                             googleRepo

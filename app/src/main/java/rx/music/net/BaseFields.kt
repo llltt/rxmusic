@@ -21,8 +21,10 @@ class BaseFields {
         const val IMG_SIZE = "large"
         const val MIN_USER_INFO = "photo_max_orig,music,can_see_audio"
         const val PAGINATION_COUNT = 100
+        const val MAX_PAGINATION_COUNT = 500
 
-        var MUSIC_HEIGHT = 0
-        val LANG = Locale.getDefault().language!!
+        var fullyLoaded = false
+        var musicHeight = 0
+        val lang = Locale.getDefault().language!!
     }
 }

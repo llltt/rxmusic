@@ -2,6 +2,7 @@ package rx.music.ui.audio
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import rx.music.net.BaseFields
 import rx.music.net.BaseFields.Companion.PAGINATION_COUNT
 
 /** Created by Maksim Sukhotski on 4/9/2017. */
@@ -20,7 +21,7 @@ class PaginationScrollListener(
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
 
-        if (dy > 0) {
+        if (!BaseFields.fullyLoaded && dy > 0) {
             visibleItemCount = recyclerView.childCount
             totalItemCount = layoutManager.itemCount
             firstVisibleItem = layoutManager.findFirstVisibleItemPosition()

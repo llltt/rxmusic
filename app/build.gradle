@@ -121,7 +121,6 @@ android {
 dependencies {
     compile(
             rootProject.kotlin,
-            rootProject.rxJava1,
             rootProject.rxJava2,
             rootProject.rxJavaAdapter,
             rootProject.rxAndroid,

@@ -7,12 +7,12 @@ import rx.music.BuildConfig.VK_CLIENT_SECRET
 import rx.music.dagger.Dagger
 import rx.music.net.BaseFields.Companion.GRANT_TYPE
 import rx.music.net.BaseFields.Companion.HTTPS
-import rx.music.net.BaseFields.Companion.LANG
 import rx.music.net.BaseFields.Companion.LIBVERIFY_SUPPORT
 import rx.music.net.BaseFields.Companion.SCOPE
 import rx.music.net.BaseFields.Companion.TWO_FA_SUPPORTED
 import rx.music.net.BaseFields.Companion.V
 import rx.music.net.BaseFields.Companion.VK_VALIDATION_API
+import rx.music.net.BaseFields.Companion.lang
 import rx.music.net.apis.AuthApi
 import rx.music.net.models.auth.Credentials
 import javax.inject.Inject
@@ -29,11 +29,11 @@ class AuthRepoImpl : AuthRepo {
     override fun getCredentials(username: String, password: String, captchaSid: String?,
                                 captchaKey: String?, code: String?): Single<Credentials> {
         return authApi.getCredentials(VK_VALIDATION_API, SCOPE, VK_CLIENT_ID, VK_CLIENT_SECRET,
-                TWO_FA_SUPPORTED, LANG, GRANT_TYPE, LIBVERIFY_SUPPORT,
+                TWO_FA_SUPPORTED, lang, GRANT_TYPE, LIBVERIFY_SUPPORT,
                 username, password, captchaSid, captchaKey, code)
     }
 
     override fun validatePhone(sid: String): Completable {
-        return authApi.validatePhone(V, LANG, HTTPS, sid, VK_CLIENT_ID)
+        return authApi.validatePhone(V, lang, HTTPS, sid, VK_CLIENT_ID)
     }
 }

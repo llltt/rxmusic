@@ -2,14 +2,15 @@ package rx.music.data.realm
 
 import io.reactivex.Completable
 import io.reactivex.CompletableEmitter
-import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.realm.Realm
 import me.extensions.*
 import rx.music.dagger.Dagger
 import rx.music.data.preferences.PreferencesRepo
-import rx.music.net.models.base.Items
+import rx.music.net.BaseFields
+import rx.music.net.BaseFields.Companion.MAX_PAGINATION_COUNT
+import rx.music.net.BaseFields.Companion.PAGINATION_COUNT
 import rx.music.net.models.base.Response
 import rx.music.net.models.google.CustomSearch
 import rx.music.net.models.vk.*
@@ -26,24 +27,6 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
         Dagger.instance.userComponent?.inject(this)
     }
 
-    override fun putAudio(ownerId: Long?, audioResponse: Response<Items<MutableList<Audio>>>,
-                          count: Int, offset: Int): Completable =
-            with(preferencesRepo.credentials) {
-                Completable.fromCallable {
-                    realmProvider.get().executeTransactionAsync {
-                        it.insertOrUpdate(audioResponse.response?.items)
-                    }
-                }.subscribeOn(AndroidSchedulers.mainThread())
-            }
-
-    override fun getAudio(ownerId: Long?): Observable<Response<Items<MutableList<Audio>>>> =
-            with(realmProvider.get()) {
-                Observable.fromCallable {
-                    where(Audio::class.java)
-                            .findAll()?.toAudioResponse() ?: Response<Items<MutableList<Audio>>>()
-                }.subscribeOn(AndroidSchedulers.mainThread())
-            }
-
     override fun getUsers(userIds: String?): Single<Response<List<User>>> =
             with(preferencesRepo.credentials) {
                 Single.fromCallable {
@@ -53,11 +36,10 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
                 }.subscribeOn(AndroidSchedulers.mainThread())
             }
 
-
     override fun putUsers(users: Response<List<User>>): Single<Response<List<User>>> =
             with(preferencesRepo.credentials) {
                 Single.fromCallable {
-                    realmProvider.get().executeTransaction { it.insertOrUpdate(users.response) }
+                    realmProvider.get().executeTransactionAsync { it.insertOrUpdate(users.response) }
                     realmProvider.get().where(User::class.java)
                             .inQuery(User::id.name, users.toStringArray() ?: longArrayOf(userId))
                             .findAll().toUsersResponse() ?: Response<List<User>>()
@@ -97,6 +79,7 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
                                     realmAudios.items.addAll(audios.items)
                                     break
                                 }
+                                realmAudios.realmCount = realmAudios.items.size
                             }
                         } else {
                             audios.userId = owner.id
@@ -115,10 +98,26 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
                         audio.googlePhoto.id = audio.id
                         audio.googlePhoto.photo = cs.items?.get(0)?.link
                         it.insertOrUpdate(audio)
-//                        it.insertOrUpdate(audio.googlePhoto)
                     }
                 }.subscribeOn(AndroidSchedulers.mainThread())
             }
+
+    override fun getAudioCountForRequest(ownerId: Long?, audioOffset: Int?): Single<Int> =
+            Single.fromCallable({
+                val list = realmProvider.get()
+                        .where(Audios::class.java)
+                        .equalTo(Audios::userId.name, ownerId ?: preferencesRepo.credentials.userId)
+                        .findFirst()
+
+                if (list != null && (list.apiCount - list.realmCount) in 0..PAGINATION_COUNT) {
+                    if (list.apiCount <= MAX_PAGINATION_COUNT) {
+                        BaseFields.fullyLoaded = true
+                        return@fromCallable list.apiCount - (audioOffset ?: 0)
+                    } else return@fromCallable MAX_PAGINATION_COUNT
+                }
+
+                return@fromCallable PAGINATION_COUNT
+            }).subscribeOn(AndroidSchedulers.mainThread())
 }
 
 

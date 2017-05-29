@@ -50,7 +50,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        BaseFields.MUSIC_HEIGHT = (50).toPx(resources).closestFrom(mutableListOf(34, 68, 135, 270, 300, 600))
+        BaseFields.musicHeight = (50).toPx(resources).closestFrom(mutableListOf(34, 68, 135, 270, 300, 600))
         artistTextView; titleTextView
         slidingLayout.addPanelSlideListener(this)
         moreImageView.setOnClickListener { _ -> showMoreMenu() }
