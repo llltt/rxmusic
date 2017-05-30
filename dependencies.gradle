@@ -1,7 +1,7 @@
 ext {
     minSdkV = 19
     compileSdkV = 25
-    targetSdkV = 23
+    targetSdkV = 19
     buildToolsV = "25.0.2"
     kotlin_V = "1.1.2-4"
     supportV = "25.3.1"
