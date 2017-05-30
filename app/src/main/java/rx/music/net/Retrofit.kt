@@ -7,7 +7,6 @@ import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
 import rx.music.BuildConfig
 import rx.music.net.BaseFields.Companion.VK_API
 import rx.music.net.deserializers.MusicPageDeserializer
@@ -27,7 +26,6 @@ object Retrofit {
             Retrofit.Builder()
                     .baseUrl(VK_API)
                     .addConverterFactory(createGsonConverter())
-                    .addConverterFactory(ScalarsConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(createClient(credentials))
                     .build()
