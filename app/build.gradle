@@ -153,6 +153,7 @@ dependencies {
             rootProject.moxyCompiler,
             rootProject.daggerCompiler
     )
+    compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.1.1'
 }
 
 kapt {

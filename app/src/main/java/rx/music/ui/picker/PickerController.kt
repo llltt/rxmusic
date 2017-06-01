@@ -11,7 +11,8 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.controller_auth.view.*
 import kotlinx.android.synthetic.main.controller_picker.view.*
 import me.base.MoxyController
-import me.extensions.toMain
+import me.extensions.main
+import me.extensions.playerController
 import rx.music.R
 import rx.music.dagger.Dagger
 import rx.music.net.models.vk.Audio
@@ -46,7 +47,9 @@ class PickerController : MoxyController(), AudioView {
         view!!.pickerRecycler.adapter = audioAdapter
     }
 
-    override fun showPlayer(audio: Audio) = activity!!.toMain().mainPresenter.updatePlayer(audio)
+    override fun showPlayer(audio: Audio) =
+            activity.main.playerController.playerPresenter.updatePlayer(audio)
+
 
     override fun showSelectedPos(position: Int) = pickerAdapter.selectAndNotify(position)
 
@@ -57,14 +60,10 @@ class PickerController : MoxyController(), AudioView {
     }
 
     override fun handleBack(): Boolean {
-        if (!activity!!.toMain().isAnimate) {
-            activity!!.toMain().isAnimate = true
-            view?.postDelayed({
-                activity!!.toMain().resetSlidingPanel()
-            }, 200)
-            return super.handleBack()
-        }
-        return false
+        view?.postDelayed({
+            activity.main.resetSlidingPanel()
+        }, 200)
+        return super.handleBack()
     }
 
     override fun showSnackbar(text: String) = with(view!!) {

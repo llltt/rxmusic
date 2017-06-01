@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="66dp"
+    android:layout_height="64dp"
     android:orientation="vertical">
 
 
@@ -10,18 +10,7 @@
         android:id="@+id/audioImageView"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:scaleType="fitCenter"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/visualizerImageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="14dp"
         android:scaleType="fitCenter"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,23 +18,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/visualizerImageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="14dp"
+        android:scaleType="fitCenter"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/durationTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="38dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="14dp"
+        android:gravity="center"
         android:text="0:00"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/isLoadedImageView"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginEnd="6dp"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginEnd="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/durationTextView"
         app:layout_constraintRight_toLeftOf="@+id/durationTextView"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/loaded" />
@@ -55,12 +57,14 @@
         style="@style/TextPrimary"
         android:layout_width="0dp"
         android:layout_height="25dp"
+        android:layout_marginEnd="14dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="0dp"
-        android:gravity="start|center_vertical"
+        android:layout_marginStart="14dp"
+        android:gravity="bottom|start"
+        android:text="ewefdfse"
+        app:layout_constraintEnd_toStartOf="@+id/isLoadedImageView"
         app:layout_constraintLeft_toRightOf="@+id/audioImageView"
-        app:layout_constraintRight_toLeftOf="@+id/isLoadedImageView"
+        app:layout_constraintStart_toEndOf="@+id/visualizerImageView"
         app:layout_constraintTop_toTopOf="@+id/audioImageView" />
 
     <TextView
@@ -68,11 +72,13 @@
         style="@style/TextPrimaryGray"
         android:layout_width="0dp"
         android:layout_height="25dp"
-        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="14dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:gravity="start|center_vertical"
+        android:layout_marginStart="14dp"
+        android:gravity="top|start"
+        android:text="esfrg"
         app:layout_constraintBottom_toBottomOf="@+id/audioImageView"
+        app:layout_constraintEnd_toStartOf="@+id/isLoadedImageView"
         app:layout_constraintLeft_toRightOf="@+id/audioImageView"
-        app:layout_constraintRight_toLeftOf="@+id/isLoadedImageView" />
+        app:layout_constraintStart_toEndOf="@+id/visualizerImageView" />
 </android.support.constraint.ConstraintLayout>

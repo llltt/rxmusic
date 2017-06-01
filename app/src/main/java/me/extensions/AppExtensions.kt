@@ -13,6 +13,7 @@ import rx.music.net.models.vk.Photo
 import rx.music.net.models.vk.User
 import rx.music.ui.audio.AudioController
 import rx.music.ui.main.MainActivity
+import rx.music.ui.player.PlayerController
 
 /** Created by Maksim Sukhotski on 5/15/2017. */
 
@@ -57,3 +58,9 @@ fun <E : RealmObject> RealmList<E>.removeFirst(): E = this.removeAt(0)
 fun Photo.isNotEmpty(): Boolean {
     return this.photo34?.isNotEmpty() ?: false
 }
+
+val Activity?.main: MainActivity
+    get() = this as MainActivity
+
+val MainActivity.playerController: PlayerController
+    get() = this.playerRouter!!.getControllerWithTag(PlayerController::class.simpleName!!) as PlayerController

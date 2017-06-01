@@ -9,7 +9,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.controller_audio.view.*
 import me.base.MoxyController
-import me.extensions.toMain
+import me.extensions.main
+import me.extensions.playerController
 import rx.music.R
 import rx.music.dagger.Dagger
 import rx.music.net.models.vk.Audio
@@ -39,7 +40,8 @@ class AudioController : MoxyController(), AudioView {
         view!!.audioRecycler.adapter = audioAdapter
     }
 
-    override fun showPlayer(audio: Audio) = activity!!.toMain().mainPresenter.updatePlayer(audio)
+    override fun showPlayer(audio: Audio) =
+            activity.main.playerController.playerPresenter.updatePlayer(audio)
 
     override fun showSelectedPos(position: Int) = audioAdapter.selectAndNotify(position)
 
@@ -52,3 +54,4 @@ class AudioController : MoxyController(), AudioView {
         view.audioRecycler.adapter = null
     }
 }
+

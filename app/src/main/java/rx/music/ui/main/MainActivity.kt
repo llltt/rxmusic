@@ -1,6 +1,5 @@
 package rx.music.ui.main
 
-import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -14,21 +13,22 @@ import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
-import com.bumptech.glide.Glide
 import com.kennyc.bottomsheet.BottomSheet
 import com.kennyc.bottomsheet.BottomSheetListener
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_player.*
-import kotlinx.android.synthetic.main.part_containers.*
-import kotlinx.android.synthetic.main.part_player_preview.*
+import kotlinx.android.synthetic.main.part_main_containers.*
+import kotlinx.android.synthetic.main.part_player_container.*
 import me.extensions.closestFrom
+import me.extensions.main
+import me.extensions.playerController
 import me.extensions.toPx
 import rx.music.R
 import rx.music.net.BaseFields
-import rx.music.net.models.vk.Audio
 import rx.music.ui.audio.AudioController
 import rx.music.ui.auth.AuthController
+import rx.music.ui.player.PlayerController
 import rx.music.ui.popular.PopularController
 import rx.music.ui.popular.RoomController
 
@@ -44,20 +44,22 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     private var audioRouter: Router? = null
     private var popularRouter: Router? = null
     private var roomRouter: Router? = null
+    var playerRouter: Router? = null
     private var isRoom: Boolean = false
-    var isAnimate: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        BaseFields.musicHeight = (50).toPx(resources).closestFrom(mutableListOf(34, 68, 135, 270, 300, 600))
+        BaseFields.musicHeight = (50)
+                .toPx(resources)
+                .closestFrom(mutableListOf(34, 68, 135, 270, 300, 600))
         artistTextView; titleTextView
         slidingLayout.addPanelSlideListener(this)
-        moreImageView.setOnClickListener { _ -> showMoreMenu() }
         bottomNavigation.setOnNavigationItemSelectedListener(navigationListener)
         audioRouter = Conductor.attachRouter(this, audioContainer, savedInstanceState)
         popularRouter = Conductor.attachRouter(this, popularContainer, savedInstanceState)
         roomRouter = Conductor.attachRouter(this, roomContainer, savedInstanceState)
+        playerRouter = Conductor.attachRouter(this, playerContainer, savedInstanceState)
     }
 
     override fun showOnAuthorized(isAfterAuth: Boolean) {
@@ -72,42 +74,12 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
             popularRouter!!.setRoot(RouterTransaction.with(PopularController()))
         if (!roomRouter!!.hasRootController())
             roomRouter!!.setRoot(RouterTransaction.with(RoomController()))
+        if (!playerRouter!!.hasRootController())
+            playerRouter!!.setRoot(RouterTransaction
+                    .with(PlayerController())
+                    .tag(PlayerController::class.simpleName))
     }
 
-//    override fun showOnUserReceived(users: Response<List<User>>) {
-//        audioRouter!!.audioController.audioPresenter.setRecycler(users)
-//    }
-
-    private fun showMoreMenu() {
-        BottomSheet.Builder(this)
-                .setSheet(R.menu.more)
-                .setListener(this)
-                .show()
-    }
-
-    override fun showPlayer(audio: Audio) {
-        playerArtistTextView.text = audio.artist
-        playerTitleTextView.text = audio.title
-        artistTextView.text = audio.artist
-        titleTextView.text = audio.title
-        Glide.with(this)
-                .load(if (audio.album.thumb.photo600!!.isNotBlank())
-                    audio.album.thumb.getSuitablePhoto() else audio.googlePhoto.photo)
-                .error(R.drawable.audio_row_placeholder_2x)
-                .centerCrop()
-                .into(playerPreviewImageView)
-        Glide.with(this)
-                .load(if (audio.album.thumb.photo600!!.isNotBlank())
-                    audio.album.thumb.getSuitablePhoto() else audio.googlePhoto.photo)
-                .error(R.drawable.audio_row_placeholder_2x)
-                .centerCrop()
-                .into(playerImageView)
-    }
-
-    override fun showSeekBar(mp: MediaPlayer) {
-        seekBar.max = mp.duration
-        seekBar.progress = mp.currentPosition
-    }
 
     override fun onSheetDismissed(p0: BottomSheet, p1: Int) {}
     override fun onSheetShown(p0: BottomSheet) {}
@@ -116,16 +88,14 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     }
 
     override fun onBackPressed() {
-        if (!isAnimate) {
-            if (slidingLayout.panelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
-                slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
-                return
-            }
-            val visibleRouter = getVisibleRouter()
-            if (!visibleRouter?.handleBack()!!)
-                if (visibleRouter !== audioRouter) bottomNavigation.selectedItemId = R.id.music
-                else super.onBackPressed()
+        if (slidingLayout.panelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+            slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+            return
         }
+        val visibleRouter = getVisibleRouter()
+        if (!visibleRouter?.handleBack()!!)
+            if (visibleRouter !== audioRouter) bottomNavigation.selectedItemId = R.id.music
+            else super.onBackPressed()
     }
 
     private fun getVisibleRouter(): Router? {
@@ -137,17 +107,13 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     }
 
     private val navigationListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        if (isAnimate) {
-            false
-        } else {
-            val isReselected = bottomNavigation.selectedItemId == item.itemId
-            when (item.itemId) {
-                R.id.music -> mainPresenter.showContainer(audioContainer, isReselected)
-                R.id.popular -> mainPresenter.showContainer(popularContainer, isReselected)
-                R.id.room -> mainPresenter.showContainer(roomContainer, isReselected)
-            }
-            true
+        val isReselected = bottomNavigation.selectedItemId == item.itemId
+        when (item.itemId) {
+            R.id.music -> mainPresenter.showContainer(audioContainer, isReselected)
+            R.id.popular -> mainPresenter.showContainer(popularContainer, isReselected)
+            R.id.room -> mainPresenter.showContainer(roomContainer, isReselected)
         }
+        true
     }
 
     override fun showContainer(container: ChangeHandlerFrameLayout?, isReselected: Boolean) {
@@ -189,34 +155,11 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
 
     override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?,
                                      newState: SlidingUpPanelLayout.PanelState?) {
-        when (newState?.ordinal) {
-            0 -> mainPresenter.viewState.showAlpha(if (isRoom) roomPreviewInclude else playerPreviewInclude)
-            1 -> mainPresenter.viewState.showAlpha(playerButtonsInclude)
-        }
+        main.playerController.onPanelStateChanged(newState, isRoom)
     }
 
     override fun onPanelSlide(panel: View?, slideOffset: Float) {
-        if (playerPreviewInclude.visibility == View.VISIBLE) playerPreviewInclude?.alpha = 1 - slideOffset * 2
-        else roomPreviewInclude?.alpha = 1 - slideOffset * 2
-        val fl = slideOffset * 2 - 1
-        playerButtonsInclude?.alpha = fl
-        seekBar?.alpha = fl
-        previousImageView?.alpha = fl
-        nextImageView?.alpha = fl
-        nextImageView?.alpha = fl
-        playImageView?.alpha = fl
-    }
-
-    override fun showAlpha(view: View?) {
-        if (view == null || view.id == R.id.playerButtonsInclude) {
-            playerButtonsInclude.alpha = 0f
-            playerPreviewInclude.alpha = 1f
-            roomPreviewInclude.alpha = 1f
-        } else {
-            playerPreviewInclude.alpha = 0f
-            roomPreviewInclude.alpha = 0f
-            playerButtonsInclude.alpha = 1f
-        }
+        main.playerController.onPanelSlide(slideOffset)
     }
 
     fun resetSlidingPanel() = Handler().postDelayed({
@@ -224,17 +167,8 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
             roomContainer.elevation = 0f
         }
         slidingLayout.panelHeight = resources!!.getDimension(R.dimen.navigation).toInt()
-        resetParallax()
     }, 200)
 
-    fun resetParallax() = Handler().postDelayed({
-        slidingLayout.setParallaxOffset(resources!!.getDimension(R.dimen.navigation).toInt())
-        resetAnimationMode()
-    }, 100)
-
-    fun resetAnimationMode() = Handler().postDelayed({
-        isAnimate = false; bottomNavigation.isClickable = true
-    }, 100)
 }
 
 

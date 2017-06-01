@@ -4,17 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/playerPreviewContainer"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/navigation"
+    android:layout_height="56dp"
     android:background="@android:color/white"
+    android:clickable="true"
+    android:focusable="true"
     android:orientation="vertical">
 
 
     <ImageView
         android:id="@+id/playerPreviewImageView"
-        android:layout_width="@dimen/navigation"
-        android:layout_height="@dimen/navigation"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/audio_row_placeholder_2x" />
@@ -23,7 +30,7 @@
         android:id="@+id/playerArtistTextView"
         style="@style/TextPrimary"
         android:layout_width="0dp"
-        android:layout_height="@dimen/navigation_half"
+        android:layout_height="28dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="0dp"
@@ -39,7 +46,7 @@
         android:id="@+id/playerTitleTextView"
         style="@style/TextPrimaryGray"
         android:layout_width="0dp"
-        android:layout_height="@dimen/navigation_half"
+        android:layout_height="28dp"
         android:layout_marginBottom="0dp"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
@@ -54,8 +61,8 @@
 
     <ImageView
         android:id="@+id/playerPlayImageView"
-        android:layout_width="@dimen/navigation"
-        android:layout_height="@dimen/navigation"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:clickable="true"
         android:foreground="?android:selectableItemBackgroundBorderless"
         android:padding="15dp"

@@ -10,10 +10,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_auth.view.*
 import kotlinx.android.synthetic.main.part_auth.view.*
 import kotlinx.android.synthetic.main.part_captcha.view.*
-import kotlinx.android.synthetic.main.part_containers.*
+import kotlinx.android.synthetic.main.part_main_containers.*
 import kotlinx.android.synthetic.main.part_validation.view.*
 import me.base.MoxyController
 import me.extensions.hideKeyboard
+import me.extensions.main
 import me.extensions.onClick
 import me.extensions.toMain
 import rx.music.R
@@ -74,7 +75,7 @@ class AuthController : MoxyController(), AuthView {
         activity?.toMain()?.showOnAuthorized(true)
     }
 
-    fun showNavigation(): Unit = with(activity!!.toMain()) {
+    fun showNavigation(): Unit = with(activity.main) {
         bottomNavigation.animate().translationY(0f)
                 .withStartAction { bottomNavigation.visibility = View.VISIBLE }
                 .withEndAction {
@@ -83,7 +84,7 @@ class AuthController : MoxyController(), AuthView {
                 }.startDelay = 300
     }
 
-    override fun hideNavigation(): Unit = with(activity!!.toMain()) {
+    override fun hideNavigation(): Unit = with(activity.main) {
         slidingLayout.panelHeight = 0
         bottomNavigation.animate()
                 .translationY(resources.getDimension(R.dimen.navigation))
