@@ -1,7 +1,6 @@
 package rx.music.ui.player
 
 import android.media.MediaPlayer
-import android.view.View
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import rx.music.business.audio.AudioInteractor
@@ -29,7 +28,7 @@ class PlayerPresenter : MvpPresenter<PlayerView>() {
         timer = kotlin.concurrent.timer(initialDelay = 0, period = 100) { viewState.showSeekBar(mediaPlayer) }
     }
 
-    fun makeAlpha(i: View) {
+    fun makeInvisible(i: Int?) {
         viewState.showAlpha(i)
     }
 }

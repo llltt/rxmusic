@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.bumptech.glide.Glide
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.COLLAPSED
+import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.EXPANDED
 import kotlinx.android.synthetic.main.controller_player.view.*
 import kotlinx.android.synthetic.main.part_player_preview.view.*
 import me.base.MoxyController
@@ -53,7 +55,8 @@ class PlayerController : MoxyController(), PlayerView {
     }
 
     override fun onPanelSlide(slideOffset: Float) = with(view!!) {
-        if (playerPreviewInclude.visibility == View.VISIBLE) playerPreviewInclude?.alpha = 1 - slideOffset * 2
+        if (playerPreviewInclude.visibility == View.VISIBLE)
+            playerPreviewInclude?.alpha = 1 - slideOffset * 2
         else roomPreviewInclude?.alpha = 1 - slideOffset * 2
         val fl = slideOffset * 2 - 1
         playerButtonsInclude?.alpha = fl
@@ -64,22 +67,24 @@ class PlayerController : MoxyController(), PlayerView {
         playImageView?.alpha = fl
     }
 
-    override fun onPanelStateChanged(newState: SlidingUpPanelLayout.PanelState?, isRoom: Boolean) = with(view!!) {
-        when (newState?.ordinal) {
-            0 -> playerPresenter.makeAlpha(if (isRoom) roomPreviewInclude else playerPreviewInclude)
-            1 -> playerPresenter.makeAlpha(playerButtonsInclude)
-        }
-    }
+    override fun onPanelStateChanged(newState: SlidingUpPanelLayout.PanelState?, isRoom: Boolean) =
+            with(view!!) {
+                when (newState) {
+                    EXPANDED -> playerPresenter.makeInvisible(
+                            if (isRoom) roomPreviewInclude.id else playerPreviewInclude.id)
+                    COLLAPSED -> playerPresenter.makeInvisible(playerButtonsInclude.id)
+                }
+            }
 
-    override fun showAlpha(view: View?) {
-        if (view == null || view.id == R.id.playerButtonsInclude) {
-            view?.playerButtonsInclude?.alpha = 0f
-            view?.playerPreviewInclude?.alpha = 1f
-            view?.roomPreviewInclude?.alpha = 1f
+    override fun showAlpha(view: Int?) = with(getView()) {
+        if (view == null || view == R.id.playerButtonsInclude) {
+            getView()?.playerButtonsInclude?.alpha = 0f
+            getView()?.playerPreviewInclude?.alpha = 1f
+            getView()?.roomPreviewInclude?.alpha = 1f
         } else {
-            view.playerPreviewInclude?.alpha = 0f
-            view.roomPreviewInclude?.alpha = 0f
-            view.playerButtonsInclude?.alpha = 1f
+            getView()?.playerPreviewInclude?.alpha = 0f
+            getView()?.roomPreviewInclude?.alpha = 0f
+            getView()?.playerButtonsInclude?.alpha = 1f
         }
     }
 }

@@ -48,14 +48,14 @@ class AudioAdapter(data: OrderedRealmCollection<Audio>?,
         titleTextView.text = audio.title
         artistTextView.text = audio.artist
         durationTextView.text = audio.duration.toTime()
-//        if (position == selectedPos) {
-//            vizualizerImageView.visibility = View.VISIBLE
-////            Glide.with(context)
-////                    .load(R.drawable.dance)
-////                    .asGif()
-////                    .animate { it.animate().alpha(1F) }
-////                    .into(vizualizerImageView)
-//        } else vizualizerImageView.visibility = View.INVISIBLE
+        if (position == selectedPos) {
+            vizualizerImageView.visibility = View.VISIBLE
+            Glide.with(context)
+                    .load(R.drawable.audio_visualizer)
+                    .asGif()
+                    .animate { it.animate().alpha(1F) }
+                    .into(vizualizerImageView)
+        } else vizualizerImageView.visibility = View.INVISIBLE
         Glide.with(context)
                 .load(if (audio.album.thumb.getSuitablePhoto().isNotBlank())
                     audio.album.thumb.getSuitablePhoto() else audio.googlePhoto.photo)

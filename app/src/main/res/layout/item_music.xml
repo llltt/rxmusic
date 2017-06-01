@@ -20,14 +20,18 @@
 
     <ImageView
         android:id="@+id/visualizerImageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="14dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
         android:scaleType="fitCenter"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/audioImageView"
+        app:layout_constraintEnd_toEndOf="@+id/audioImageView"
+        app:layout_constraintStart_toStartOf="@+id/audioImageView"
+        app:layout_constraintTop_toTopOf="@+id/audioImageView" />
 
     <TextView
         android:id="@+id/durationTextView"
@@ -64,7 +68,7 @@
         android:text="ewefdfse"
         app:layout_constraintEnd_toStartOf="@+id/isLoadedImageView"
         app:layout_constraintLeft_toRightOf="@+id/audioImageView"
-        app:layout_constraintStart_toEndOf="@+id/visualizerImageView"
+        app:layout_constraintStart_toEndOf="@+id/audioImageView"
         app:layout_constraintTop_toTopOf="@+id/audioImageView" />
 
     <TextView
@@ -80,5 +84,5 @@
         app:layout_constraintBottom_toBottomOf="@+id/audioImageView"
         app:layout_constraintEnd_toStartOf="@+id/isLoadedImageView"
         app:layout_constraintLeft_toRightOf="@+id/audioImageView"
-        app:layout_constraintStart_toEndOf="@+id/visualizerImageView" />
+        app:layout_constraintStart_toEndOf="@+id/audioImageView" />
 </android.support.constraint.ConstraintLayout>
