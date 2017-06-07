@@ -63,4 +63,4 @@ val Activity?.main: MainActivity
     get() = this as MainActivity
 
 val MainActivity.playerController: PlayerController
-    get() = this.playerRouter!!.getControllerWithTag(PlayerController::class.simpleName!!) as PlayerController
+    get() = this.playerRouter!!.getControllerWithTag(PlayerController::javaClass.name) as PlayerController

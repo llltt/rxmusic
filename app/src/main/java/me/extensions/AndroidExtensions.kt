@@ -25,7 +25,7 @@ fun <E : RealmModel> RealmQuery<E>.inQuery(fieldName: String, values: LongArray?
 fun runAfter(func: () -> Unit) {
     Handler().postDelayed({
         func()
-    }, 5)
+    }, 300)
 }
 
 fun tryCatchAsync(func: () -> Unit) {

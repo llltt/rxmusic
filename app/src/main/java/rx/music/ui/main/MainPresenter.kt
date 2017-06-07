@@ -31,4 +31,8 @@ class MainPresenter : MvpPresenter<MainView>() {
         viewState.showContainer(isReselected = true)
         viewState.showAuthController()
     }
+
+    fun close() {
+        viewState.showPlayListScreen()
+    }
 }

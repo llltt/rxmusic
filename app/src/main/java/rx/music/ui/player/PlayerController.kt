@@ -2,21 +2,26 @@ package rx.music.ui.player
 
 import android.media.MediaPlayer
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.bumptech.glide.Glide
+import com.kennyc.bottomsheet.BottomSheet
+import com.kennyc.bottomsheet.BottomSheetListener
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.COLLAPSED
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.EXPANDED
 import kotlinx.android.synthetic.main.controller_player.view.*
+import kotlinx.android.synthetic.main.part_player_buttons.view.*
 import kotlinx.android.synthetic.main.part_player_preview.view.*
 import me.base.MoxyController
+import me.extensions.main
 import rx.music.R
 import rx.music.net.models.vk.Audio
 
 /** Created by Maksim Sukhotski on 5/2/2017. */
-class PlayerController : MoxyController(), PlayerView {
+class PlayerController : MoxyController(), PlayerView, BottomSheetListener {
 
     @InjectPresenter
     lateinit var playerPresenter: PlayerPresenter
@@ -27,6 +32,12 @@ class PlayerController : MoxyController(), PlayerView {
 
     override fun onViewBound(view: View) {
         with(view) {
+            moreImageView.setOnClickListener { _ ->
+                BottomSheet.Builder(activity)
+                        .setSheet(R.menu.more)
+                        .setListener(this@PlayerController)
+                        .show()
+            }
         }
     }
 
@@ -47,6 +58,7 @@ class PlayerController : MoxyController(), PlayerView {
                 .error(R.drawable.audio_row_placeholder_2x)
                 .centerCrop()
                 .into(playerImageView)
+
     }
 
     override fun showSeekBar(mp: MediaPlayer) = with(view!!) {
@@ -85,6 +97,16 @@ class PlayerController : MoxyController(), PlayerView {
             getView()?.playerPreviewInclude?.alpha = 0f
             getView()?.roomPreviewInclude?.alpha = 0f
             getView()?.playerButtonsInclude?.alpha = 1f
+        }
+    }
+
+
+    override fun onSheetDismissed(p0: BottomSheet, p1: Int) {}
+    override fun onSheetShown(p0: BottomSheet) {}
+    override fun onSheetItemSelected(p0: BottomSheet, p1: MenuItem?) {
+        if (p1?.itemId == R.id.share) {
+            activity.main.mainPresenter.close()
+            activity.main.mainPresenter.logout()
         }
     }
 }

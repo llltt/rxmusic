@@ -11,4 +11,5 @@ interface MainView : MvpView {
     fun showContainer(container: ChangeHandlerFrameLayout? = null, isReselected: Boolean)
     fun showAuthController()
     fun showOnAuthorized(isAfterAuth: Boolean)
+    fun showPlayListScreen()
 }

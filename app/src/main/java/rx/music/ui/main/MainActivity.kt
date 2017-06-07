@@ -1,11 +1,11 @@
 package rx.music.ui.main
 
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.BottomNavigationView
 import android.view.MenuItem
 import android.view.View
+import android.view.View.VISIBLE
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.bluelinelabs.conductor.ChangeHandlerFrameLayout
@@ -77,9 +77,12 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
         if (!playerRouter!!.hasRootController())
             playerRouter!!.setRoot(RouterTransaction
                     .with(PlayerController())
-                    .tag(PlayerController::class.simpleName))
+                    .tag(PlayerController::javaClass.name))
     }
 
+    override fun showPlayListScreen() {
+        slidingLayout.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
+    }
 
     override fun onSheetDismissed(p0: BottomSheet, p1: Int) {}
     override fun onSheetShown(p0: BottomSheet) {}
@@ -106,14 +109,48 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
         return audioRouter
     }
 
+    private var isAfterPopular: Boolean = false
+    @Suppress("DEPRECATION")
     private val navigationListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         val isReselected = bottomNavigation.selectedItemId == item.itemId
         when (item.itemId) {
-            R.id.music -> mainPresenter.showContainer(audioContainer, isReselected)
-            R.id.popular -> mainPresenter.showContainer(popularContainer, isReselected)
-            R.id.room -> mainPresenter.showContainer(roomContainer, isReselected)
+            R.id.music -> {
+                mainPresenter.showContainer(audioContainer, isReselected)
+                if (isAfterPopular) {
+                    changeIcon()
+                    isAfterPopular = false
+                }
+            }
+            R.id.popular -> {
+                if (!isAfterPopular) {
+                    changeIcon()
+                }
+                isAfterPopular = true
+                mainPresenter.showContainer(popularContainer, isReselected)
+            }
+            R.id.room -> {
+                mainPresenter.showContainer(roomContainer, isReselected)
+                if (isAfterPopular) {
+                    changeIcon()
+                    isAfterPopular = false
+                }
+            }
         }
         true
+    }
+
+    private fun changeIcon() {
+        val delay: Long = 150
+        val view = findViewById(R.id.popular)
+        view.animate()?.scaleY(0f)?.duration = delay
+        view.animate().scaleX(0f).withEndAction {
+            bottomNavigation.menu.findItem(R.id.popular).icon = resources.getDrawable(
+                    if (isAfterPopular) R.drawable.search else R.drawable.fire)
+            bottomNavigation.menu.findItem(R.id.popular).title =
+                    if (isAfterPopular) "Найти" else "Популярное"
+            view.animate()?.scaleX(1f)?.duration = delay
+            view.animate()?.scaleY(1f)?.duration = delay
+        }?.duration = delay
     }
 
     override fun showContainer(container: ChangeHandlerFrameLayout?, isReselected: Boolean) {
@@ -163,9 +200,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     }
 
     fun resetSlidingPanel() = Handler().postDelayed({
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            roomContainer.elevation = 0f
-        }
+        bottomNavigation.visibility = VISIBLE
         slidingLayout.panelHeight = resources!!.getDimension(R.dimen.navigation).toInt()
     }, 200)
 

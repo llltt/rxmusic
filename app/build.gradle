@@ -121,12 +121,10 @@ android {
 dependencies {
     compile(
             rootProject.kotlin,
-            rootProject.rxJava2,
             rootProject.rxJavaAdapter,
             rootProject.rxAndroid,
             rootProject.rxPermissions,
             rootProject.retrofit,
-            rootProject.retrofitScalars,
             rootProject.gsonConverter,
             rootProject.dagger,
             rootProject.moxy,
@@ -153,7 +151,6 @@ dependencies {
             rootProject.moxyCompiler,
             rootProject.daggerCompiler
     )
-    compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.1.1'
 }
 
 kapt {

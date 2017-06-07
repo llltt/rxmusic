@@ -15,7 +15,6 @@ import me.base.MoxyController
 import me.changehandlers.FabToDialogTransitionChangeHandler
 import me.extensions.main
 import me.extensions.onClick
-import me.extensions.toDp
 import rx.music.R
 import rx.music.ui.picker.PickerController
 import rx.music.ui.room.RoomPresenter
@@ -26,7 +25,7 @@ class RoomController : MoxyController(), RoomView {
     @InjectPresenter lateinit var roomPresenter: RoomPresenter
 
     private val KEY_FAB_VISIBILITY = "RoomController.fabVisibility"
-    private val KEY_PICKER_ELEVATION = "RoomController.pickerElevation"
+    private val KEY_NAV_VISIBILITY = "RoomController.navVisibility"
     private val KEY_PLAYER_HEIGHT = "RoomController.playerHeight"
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View {
@@ -35,7 +34,7 @@ class RoomController : MoxyController(), RoomView {
 
     override fun onViewBound(view: View) = with(view) {
         floatingActionButton.onClick {
-            activity.main.roomContainer.elevation = (9).toDp(resources)
+            activity.main.bottomNavigation.visibility = View.GONE
                 router.pushController(RouterTransaction.with(PickerController())
                         .pushChangeHandler(TransitionChangeHandlerCompat(FabToDialogTransitionChangeHandler(), FadeChangeHandler(false)))
                         .popChangeHandler(TransitionChangeHandlerCompat(FabToDialogTransitionChangeHandler(), FadeChangeHandler())))
@@ -45,14 +44,14 @@ class RoomController : MoxyController(), RoomView {
     override fun onRestoreViewState(view: View, savedViewState: Bundle) = with(view) {
         super.onRestoreViewState(view, savedViewState)
         floatingActionButton.visibility = savedViewState.getInt(KEY_FAB_VISIBILITY)
-        activity.main.roomContainer.elevation = savedViewState.getFloat(KEY_PICKER_ELEVATION)
+        activity.main.bottomNavigation.visibility = savedViewState.getInt(KEY_NAV_VISIBILITY)
         activity.main.slidingLayout.panelHeight = savedViewState.getInt(KEY_PLAYER_HEIGHT)
     }
 
     override fun onSaveViewState(view: View, outState: Bundle) = with(view) {
         super.onSaveViewState(view, outState)
         outState.putInt(KEY_FAB_VISIBILITY, floatingActionButton.visibility)
-        outState.putFloat(KEY_PICKER_ELEVATION, activity.main.roomContainer.elevation)
+        outState.putInt(KEY_NAV_VISIBILITY, activity.main.bottomNavigation.visibility)
         outState.putInt(KEY_PLAYER_HEIGHT, activity.main.slidingLayout.panelHeight)
     }
 }
