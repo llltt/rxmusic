@@ -39,7 +39,7 @@
         android:textAlignment="center"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/playerPreviewImageView"
-        app:layout_constraintRight_toLeftOf="@+id/playerPlayImageView"
+        app:layout_constraintRight_toLeftOf="@+id/searchMore"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -57,10 +57,10 @@
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/playerPreviewImageView"
-        app:layout_constraintRight_toLeftOf="@+id/playerPlayImageView" />
+        app:layout_constraintRight_toLeftOf="@+id/searchMore" />
 
     <ImageView
-        android:id="@+id/playerPlayImageView"
+        android:id="@+id/searchMore"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:clickable="true"

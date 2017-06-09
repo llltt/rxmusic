@@ -5,6 +5,7 @@ import android.os.Handler
 import android.support.design.widget.BottomNavigationView
 import android.view.MenuItem
 import android.view.View
+import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -20,10 +21,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.controller_player.*
 import kotlinx.android.synthetic.main.part_main_containers.*
 import kotlinx.android.synthetic.main.part_player_container.*
-import me.extensions.closestFrom
-import me.extensions.main
-import me.extensions.playerController
-import me.extensions.toPx
+import kotlinx.android.synthetic.main.part_search_preview.*
+import me.extensions.*
 import rx.music.R
 import rx.music.net.BaseFields
 import rx.music.ui.audio.AudioController
@@ -46,6 +45,9 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     private var roomRouter: Router? = null
     var playerRouter: Router? = null
     private var isRoom: Boolean = false
+    private var isSearch: Boolean = false
+    val delay: Long = 150
+    private val keyboardDelay = 75L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +62,28 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
         popularRouter = Conductor.attachRouter(this, popularContainer, savedInstanceState)
         roomRouter = Conductor.attachRouter(this, roomContainer, savedInstanceState)
         playerRouter = Conductor.attachRouter(this, playerContainer, savedInstanceState)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        searchEditText.setKeyboardVisibilityListener({}, {
+            if (isSearch) {
+                isSearch = false
+                playerPreviewInclude.visibility = VISIBLE
+                searchPreviewInclude.animate()
+                        .translationY(-playerPreviewInclude.height.toFloat())
+                        .startDelay = keyboardDelay
+                playerPreviewInclude.animate()
+                        .alpha(1f)
+                        .startDelay = keyboardDelay
+                playerPreviewInclude.animate()
+                        .translationY(0f)
+                        .withEndAction({ searchPreviewInclude.visibility = INVISIBLE })
+                        .startDelay = keyboardDelay
+            }
+            bottomNavigation.visibility = VISIBLE
+        })
     }
 
     override fun showOnAuthorized(isAfterAuth: Boolean) {
@@ -96,9 +120,10 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
             return
         }
         val visibleRouter = getVisibleRouter()
-        if (!visibleRouter?.handleBack()!!)
-            if (visibleRouter !== audioRouter) bottomNavigation.selectedItemId = R.id.music
-            else super.onBackPressed()
+        if (!visibleRouter?.handleBack()!!) {
+        }
+        if (visibleRouter !== audioRouter) bottomNavigation.selectedItemId = R.id.music
+        else super.onBackPressed()
     }
 
     private fun getVisibleRouter(): Router? {
@@ -140,47 +165,67 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     }
 
     private fun changeIcon() {
-        val delay: Long = 150
         val view = findViewById(R.id.popular)
-        view.animate()?.scaleY(0f)?.duration = delay
-        view.animate().scaleX(0f).withEndAction {
+        view.animate()?.alpha(0f)?.duration = delay
+        view.animate().alpha(0f).withEndAction {
             bottomNavigation.menu.findItem(R.id.popular).icon = resources.getDrawable(
                     if (isAfterPopular) R.drawable.search else R.drawable.fire)
             bottomNavigation.menu.findItem(R.id.popular).title =
-                    if (isAfterPopular) "Найти" else "Популярное"
-            view.animate()?.scaleX(1f)?.duration = delay
-            view.animate()?.scaleY(1f)?.duration = delay
+                    if (isAfterPopular) "Поиск" else "Популярное"
+            view.animate()?.alpha(1f)?.duration = delay
+            view.animate()?.alpha(1f)?.duration = delay
         }?.duration = delay
     }
 
     override fun showContainer(container: ChangeHandlerFrameLayout?, isReselected: Boolean) {
         audioContainer.visibility = if (container == null || container.id == R.id.audioContainer)
-            View.VISIBLE else View.GONE
+            View.VISIBLE else View.INVISIBLE
         popularContainer.visibility = if (container?.id == R.id.popularContainer)
-            View.VISIBLE else View.GONE
+            View.VISIBLE else View.INVISIBLE
         roomContainer.visibility = if (container?.id == R.id.roomContainer)
-            View.VISIBLE else View.GONE
+            View.VISIBLE else View.INVISIBLE
 
         if (!isReselected) {
             container?.alpha = 0F
             container?.animate()?.alpha(1F)
             if (container?.id == R.id.roomContainer) {
                 isRoom = true
-                playerPreviewInclude.animate()
-                        .translationX(-playerPreviewInclude.width.toFloat())
-                        .withEndAction { playerPreviewInclude.visibility = View.GONE }
-                roomPreviewInclude.translationX = playerPreviewInclude.width.toFloat()
-                roomPreviewInclude.animate().translationX(0f)
-                        .withStartAction { roomPreviewInclude.visibility = View.VISIBLE }
+                roomPreviewInclude.visibility = View.INVISIBLE
+                playerPreviewInclude.animate().alpha(0.5f)
+                        .withEndAction({
+                            roomPreviewInclude.alpha = 0.5f
+                            playerPreviewInclude.visibility = INVISIBLE
+                            roomPreviewInclude.visibility = View.VISIBLE
+                            roomPreviewInclude.animate().scaleX(1f).duration = delay
+                            roomPreviewInclude.animate().scaleY(1f).duration = delay
+                            roomPreviewInclude.animate().alpha(1f).duration = delay
+                        }).duration = delay
             } else if (isRoom) {
                 isRoom = false
-                roomPreviewInclude.animate()
-                        .translationX(roomPreviewInclude.width.toFloat())
-                        .withEndAction { roomPreviewInclude.visibility = View.GONE }
-                playerPreviewInclude.translationX = -playerPreviewInclude.width.toFloat()
-                playerPreviewInclude.animate().translationX(0f)
-                        .withStartAction { playerPreviewInclude.visibility = View.VISIBLE }
+                playerPreviewInclude.visibility = View.INVISIBLE
+                roomPreviewInclude.animate().alpha(0.5f)
+                        .withEndAction({
+                            playerPreviewInclude.alpha = 0.5f
+                            roomPreviewInclude.visibility = INVISIBLE
+                            playerPreviewInclude.visibility = View.VISIBLE
+                            playerPreviewInclude.animate().scaleX(1f).duration = delay
+                            playerPreviewInclude.animate().scaleY(1f).duration = delay
+                            playerPreviewInclude.animate().alpha(1f).duration = delay
+                        }).duration = delay
             }
+        } else if (container?.id == R.id.popularContainer && !isSearch) {
+            isSearch = true
+            searchPreviewInclude.visibility = VISIBLE
+            searchEditText.showKeyboard()
+            searchPreviewInclude.alpha = 0f
+            searchPreviewInclude.translationY = -searchPreviewInclude.height.toFloat()
+            searchPreviewInclude.animate().translationY(0f).startDelay = keyboardDelay
+            searchPreviewInclude.animate().alpha(1f).startDelay = keyboardDelay
+            playerPreviewInclude.animate()
+                    .translationY(searchPreviewInclude.height.toFloat())
+                    .withEndAction({ playerPreviewInclude.visibility = INVISIBLE })
+                    .startDelay = keyboardDelay
+            bottomNavigation.visibility = INVISIBLE
         }
     }
 
@@ -205,5 +250,4 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     }, 200)
 
 }
-
 

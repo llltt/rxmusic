@@ -2,11 +2,13 @@ package me.extensions
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Rect
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import me.base.MoxyController
 
 @Suppress("UNCHECKED_CAST")
@@ -55,6 +57,18 @@ fun View.hideKeyboard() {
 fun View.showKeyboard() {
     val im = this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     im.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+}
+
+fun EditText.setKeyboardVisibilityListener(onShowKeyboard: () -> Unit, onHideKeyboard: () -> Unit) {
+    this.viewTreeObserver.addOnGlobalLayoutListener({
+        val r = Rect()
+        this.rootView.getWindowVisibleDisplayFrame(r)
+        if (this.rootView.bottom - r.bottom > 100 * this.rootView.resources.displayMetrics.density) {
+            onShowKeyboard.invoke()
+        } else {
+            onHideKeyboard.invoke()
+        }
+    })
 }
 
 
