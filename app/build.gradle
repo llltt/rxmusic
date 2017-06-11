@@ -130,6 +130,7 @@ dependencies {
             rootProject.moxy,
             rootProject.moxyAppcompat,
             rootProject.conductor,
+            rootProject.conductorSupport,
             rootProject.glide,
             rootProject.design,
             rootProject.constraint,

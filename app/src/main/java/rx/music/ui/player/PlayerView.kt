@@ -5,6 +5,7 @@ import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
+import com.bluelinelabs.conductor.support.RouterPagerAdapter
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import rx.music.net.models.vk.Audio
 
@@ -17,4 +18,6 @@ interface PlayerView : MvpView {
     fun showPlayer(audio: Audio)
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun showAlpha(view: Int?)
+
+    fun showPager(routerPagerAdapter: RouterPagerAdapter)
 }

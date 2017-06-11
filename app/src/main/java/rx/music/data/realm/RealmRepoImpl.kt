@@ -57,7 +57,7 @@ class RealmRepoImpl @Inject constructor(private var realmProvider: Provider<Real
                     }
                     if (audios != null && audios.items.size > 0) {
                         audios.items.forEach {
-                            it.album.thumb.id = it.id
+                            it.album.photo.id = it.id
                             realm.insertOrUpdate(it.album)
                         }
                         val realmAudios = realm.where(Audios::class.java)

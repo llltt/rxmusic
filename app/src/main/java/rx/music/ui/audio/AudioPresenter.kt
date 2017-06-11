@@ -57,10 +57,11 @@ class AudioPresenter(val realm: Realm) : MvpPresenter<AudioView>() {
     fun setRecycler(): Disposable = with(preferencesRepo.credentials) {
         Single
                 .fromCallable {
-                    val t = realm.where(Audios::class.java)
+                    val audios = realm.where(Audios::class.java)
                             .equalTo(Audios::userId.name, userId)
                             .findFirst()?.items
-                    if (t != null) return@fromCallable t else return@fromCallable RealmList<Audio>()
+                    if (audios != null) return@fromCallable audios
+                    else return@fromCallable RealmList<Audio>()
                 }
                 .filter({
                     it?.isValid ?: false

@@ -57,8 +57,7 @@ class AudioAdapter(data: OrderedRealmCollection<Audio>?,
                     .into(vizualizerImageView)
         } else vizualizerImageView.visibility = View.INVISIBLE
         Glide.with(context)
-                .load(if (audio.album.thumb.getSuitablePhoto().isNotBlank())
-                    audio.album.thumb.getSuitablePhoto() else audio.googlePhoto.photo)
+                .load(audio.albumPreviewPhoto)
                 .error(R.drawable.audio_row_placeholder_2x)
                 .into(audioImageView)
         itemView.onClick {

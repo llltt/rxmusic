@@ -48,7 +48,7 @@ class AudioInteractorImpl : AudioInteractor {
     override fun handleAudio(audio: Audio): Single<Audio> =
             mediaPlayerRepo.play(audio)
                     .andThen(
-                            if (audio.album.thumb.isNotEmpty()
+                            if (audio.album.photo.isNotEmpty()
                                     || audio.googlePhoto.photo?.isNotBlank() ?: false)
                                 Single.fromCallable { audio }
                             else googleRepo.getPicture(audio.artist, 1, IMG_SIZE)

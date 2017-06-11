@@ -47,15 +47,16 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
     private var isRoom: Boolean = false
     private var isSearch: Boolean = false
     val delay: Long = 150
-    private val keyboardDelay = 75L
+    private val keyboardDelay = 110L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        BaseFields.musicHeight = (50)
+        BaseFields.albumPreviewSize = resources.getDimensionPixelSize(R.dimen.album_preview_size)
+                .closestFrom(mutableListOf(34, 68, 135, 270, 300, 600))
+        BaseFields.albumSize = resources.getDimensionPixelSize(R.dimen.album_size)
                 .toPx(resources)
                 .closestFrom(mutableListOf(34, 68, 135, 270, 300, 600))
-        artistTextView; titleTextView
         slidingLayout.addPanelSlideListener(this)
         bottomNavigation.setOnNavigationItemSelectedListener(navigationListener)
         audioRouter = Conductor.attachRouter(this, audioContainer, savedInstanceState)
@@ -67,7 +68,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, BottomSheetListener,
 
     override fun onResume() {
         super.onResume()
-        searchEditText.setKeyboardVisibilityListener({}, {
+        searchEditText?.setKeyboardVisibilityListener({}, {
             if (isSearch) {
                 isSearch = false
                 playerPreviewInclude.visibility = VISIBLE

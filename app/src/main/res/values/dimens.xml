@@ -5,4 +5,6 @@
     <dimen name="navigation_half">28dp</dimen>
     <dimen name="touch_raise">6dp</dimen>
     <dimen name="padding_normal">16dp</dimen>
+    <dimen name="album_preview_size">50dp</dimen>
+    <dimen name="album_size">16dp</dimen>
 </resources>

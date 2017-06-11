@@ -24,7 +24,8 @@ class BaseFields {
         const val MAX_PAGINATION_COUNT = 500
 
         var fullyLoaded = false
-        var musicHeight = 0
+        var albumPreviewSize = 0
+        var albumSize = 0
         val lang = Locale.getDefault().language!!
     }
 }

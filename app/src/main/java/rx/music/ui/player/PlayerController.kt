@@ -6,6 +6,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.bluelinelabs.conductor.support.RouterPagerAdapter
 import com.bumptech.glide.Glide
 import com.kennyc.bottomsheet.BottomSheet
 import com.kennyc.bottomsheet.BottomSheetListener
@@ -20,11 +22,14 @@ import me.extensions.main
 import rx.music.R
 import rx.music.net.models.vk.Audio
 
+
 /** Created by Maksim Sukhotski on 5/2/2017. */
 class PlayerController : MoxyController(), PlayerView, BottomSheetListener {
 
-    @InjectPresenter
-    lateinit var playerPresenter: PlayerPresenter
+    @ProvidePresenter fun providePresenter() = PlayerPresenter(realm, this)
+    @InjectPresenter lateinit var playerPresenter: PlayerPresenter
+
+    private var pagerAdapter: RouterPagerAdapter? = null
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View {
         return inflater.inflate(R.layout.controller_player, container, false)
@@ -41,23 +46,25 @@ class PlayerController : MoxyController(), PlayerView, BottomSheetListener {
         }
     }
 
+    override fun showPager(routerPagerAdapter: RouterPagerAdapter) = with(view) {
+        view!!.viewPager.adapter = routerPagerAdapter
+    }
     override fun showPlayer(audio: Audio): Unit = with(view!!) {
         playerArtistTextView.text = audio.artist
         playerTitleTextView.text = audio.title
         artistTextView.text = audio.artist
         titleTextView.text = audio.title
         Glide.with(activity)
-                .load(if (audio.album.thumb.photo600!!.isNotBlank())
-                    audio.album.thumb.getSuitablePhoto() else audio.googlePhoto.photo)
+                .load(audio.albumPreviewPhoto)
                 .error(R.drawable.audio_row_placeholder_2x)
                 .centerCrop()
                 .into(playerPreviewImageView)
-        Glide.with(activity)
-                .load(if (audio.album.thumb.photo600!!.isNotBlank())
-                    audio.album.thumb.getSuitablePhoto() else audio.googlePhoto.photo)
-                .error(R.drawable.audio_row_placeholder_2x)
-                .centerCrop()
-                .into(playerImageView)
+//        Glide.with(activity)
+//                .load(if (audio.album.photo.photo600!!.isNotBlank())
+//                    audio.album.photo.getSuitablePhoto() else audio.googlePhoto.photo)
+//                .error(R.drawable.audio_row_placeholder_2x)
+//                .centerCrop()
+//                .into(playerImageView)
 
     }
 

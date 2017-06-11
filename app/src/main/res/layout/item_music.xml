@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/audioImageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/album_preview_size"
+        android:layout_height="@dimen/album_preview_size"
         android:layout_marginStart="14dp"
         android:scaleType="fitCenter"
         android:visibility="visible"

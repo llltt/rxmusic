@@ -19,10 +19,19 @@ open class Audio(@PrimaryKey var id: Long = 0,
                  var duration: Int = 0,
                  var date: Int = 0,
                  var url: String = "",
-                 var pos: Int = 0) : RealmObject()
+                 var pos: Int = 0) : RealmObject() {
+
+    var albumPreviewPhoto: String? = null
+        get() = if (album.photo.getSuitablePhoto().isNotBlank()) album.photo.getSuitablePhoto()
+        else googlePhoto.photo
+
+    var albumPhoto: String? = null
+        get() = if (album.photo.photo600?.isNotBlank() ?: false) album.photo.photo600
+        else googlePhoto.photo
+}
 
 @RealmClass
 open class Album(@PrimaryKey var id: Long = 0,
                  @SerializedName("owner_id") var ownerId: Long = 0,
-                 var thumb: Photo = Photo(),
+                 @SerializedName("thumb") var photo: Photo = Photo(),
                  var title: String = "") : RealmObject()
